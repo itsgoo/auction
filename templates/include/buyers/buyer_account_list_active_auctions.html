@@ -12,46 +12,46 @@
   </thead>
   <tbody>
       
-          
-  {% for obj in buyer_winner_auctions %}
-          
-      {% for auction, bid in obj.items %}
- 
-          {% if auction.status == 2%}
-
+    {% for prices_info in user_auctions_short_from_prices_actual %}
+            
           <tr>
               <th scope="row">
                   <ul class="nav flex-column">
                       <li class="nav-item">
-                      <p class="nav-p active" >{{auction.title}}</p>
+                      <p class="nav-p active" >{{prices_info.auction.title}}</p>
                       </li>
                       <li class="nav-item">
-                      <p class="nav-p active" >{{auction.id}}</p>
+                      <p class="nav-p active" >{{prices_info.auction.id}}</p>
                       </li>
                       <li class="nav-item">
-                      <p class="nav-p active" >{{auction.start_auction}}</p>
+                      <p class="nav-p active" >{{prices_info.auction.start_auction}}</p>
                       </li>
                   </ul>
               </th>
-              <td> <img class="table_img" src="{{ MEDIA_URL }}{{auction.main_img}}" alt=""> </td>
+              <td> <img class="table_img" src="{{ MEDIA_URL }}{{prices_info.auction.main_img}}" alt=""> </td>
               <td>{{auction.start_price}}</td>
               
-              <td>{{bid}}</td>
+              <td>
+
+                {{prices_info.new_price}}
+                {{prices_info.status}}
+
+
+
+              </td>
                            
               <td>
               <ul class="nav flex-column">
                   <li class="nav-item">
-                  <p class="nav-p active" >Name: {{auction.seller}}</p>
+                  <p class="nav-p active" >Name: {{prices_info.auction.seller}}</p>
                   </li>
                   <li class="nav-item">
-                  <p class="nav-p active" >Email: {{auction.seller.email}}</p>
+                  <p class="nav-p active" >Email: {{prices_info.auction.seller.email}}</p>
                   </li>
               </ul>
               </td>            
           </tr>
 
-          {% endif %}
-      {% endfor %}
       {% endfor %}
 
       </div>

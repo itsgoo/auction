@@ -60,10 +60,10 @@ welcome
             {% endif %}
         {% endfor %}
 
+        
 
-        {% for i in groups_user_buyers %}
+        {% for i in buyers_into_group %}
             {% if i.id == user.id%}
-
                 {% include 'include/buyers/buyer_account_list_active_auctions.html' %}
 
             {% endif %}
@@ -72,14 +72,17 @@ welcome
     </div>
     <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
 
-        {% for i in groups_user_buyers %}
+        
+    
+    
+
+        {% for i in buyers_into_group %}
             {% if i.id == user.id%}
 
                 {% include 'include/buyers/buyer_account_list_recent_auctions.html' %}
 
             {% endif %}
         {% endfor %}
-
 
         {% for i in groups_user_sellers %}    
             {% if i.id == user.id%}

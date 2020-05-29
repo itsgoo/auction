@@ -30,7 +30,17 @@ import datetime
 
 
 
-class Account_page(View):
+
+class userGroups:
+    def sellers(self):
+        return User.objects.filter(groups = 1)
+
+    def buyers(self):
+        return User.objects.filter(groups = 2)
+
+
+
+class Account_page(userGroups, View):
 
     def post(self, request):
         form = ChangeUserData(request.POST)
@@ -56,20 +66,14 @@ class Account_page(View):
         form = ChangeUserData(instance = user_data_form)
         
 
-        # get it for menu link
-        groups_user_sellers = User.objects.filter(groups = 1)
-
-        # get it for menu link
-        groups_user_buyers = User.objects.filter(groups = 2)
 
 
 
 
-
-
+        sellers_into_group = userGroups.sellers(self)
 
         # render for Sellers
-        for i in groups_user_sellers:
+        for i in sellers_into_group:
             if self.request.user.id == i.id:
                 print('account seller')
 
@@ -103,7 +107,7 @@ class Account_page(View):
                         })
                 ctx = {
                     'form': form,
-                    'groups_user_sellers': groups_user_sellers,
+                    'groups_user_sellers': sellers_into_group,
 
                     'bids': bids,
                     'winners': winners,
@@ -113,32 +117,32 @@ class Account_page(View):
                 }
 
         # render for Buyers
-        for i in groups_user_buyers:
+
+        buyers_into_group = userGroups.buyers(self)
+
+        for i in buyers_into_group:
             if self.request.user.id == i.id:
                 print('account buyer')
         
-                user_buyer_win_auctions_id = Prices.objects.filter(buyer_id = self.request.user).filter(winner = 1)
+                
 
-                user_buyer_auctions_id = Prices.objects.filter(buyer_id = self.request.user)
+                user_auctions_short_from_prices = Prices.objects.filter(buyer_id = self.request.user.id, winner= 1, auction__status = 3).select_related('auction').prefetch_related('auction__seller')
 
-                buyer_winner_auctions = []
-                for i in user_buyer_win_auctions_id:
-                    auctions_winner_id = i.auction_id
-                    auctions_winner_bid = i.new_price
+                
+                user_auctions_short_from_prices_actual = Prices.objects.filter(buyer_id = self.request.user.id, auction__status = 2).select_related('auction').prefetch_related('auction__seller')
 
-                    auctions_winner_obj = Auctions.objects.get(id = auctions_winner_id)
-                    if auctions_winner_obj.status:
-                        buyer_winner_auctions.append({auctions_winner_obj: auctions_winner_bid})
+                
+
+                print('user_auctions_short_from_prices', user_auctions_short_from_prices)
 
 
                 
                 ctx = {
                     'form': form,
-                    'groups_user_sellers': groups_user_sellers,
-                    'groups_user_buyers': groups_user_buyers,
+                    'buyers_into_group': buyers_into_group,
 
-                    'user_buyer_win_auctions_id': user_buyer_win_auctions_id,
-                    'buyer_winner_auctions': buyer_winner_auctions,
+                    'user_auctions_short_from_prices_actual': user_auctions_short_from_prices_actual,
+                    'user_auctions_short_from_prices': user_auctions_short_from_prices,
                 }
         return render (request, 'account_page.html', ctx)
 
