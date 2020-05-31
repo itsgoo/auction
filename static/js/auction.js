@@ -4,18 +4,92 @@
 
 
 
-
  
+function btnBidEvent(event){
 
-$('.main_cards').on('click', '.btn', function() {
-	var elementId = $(this).data('id');
-	console.log(elementId)
+	const bidBtnId = event.target.id
 
-	var serializedData = $("#add_form_" + elementId).serialize();
+	bidId = bidBtnId.replace('add_form_btn_','');
+	const bidValueDirty = 'id_bid_' + bidId
+	console.log('bidValueDirty ' + bidValueDirty)
+
+	const bidValue = document.getElementById(bidValueDirty).value
+	console.log('bidValue ' + bidValue)
+	
+
+
+	const confirmBid = 'form_send_bid_' + bidId
+	const confirmBidInput = 'id_send_bid_' + bidId
+	const confirmBidBtn = 'id_send_btn_' + bidId
+
+	return new Promise((resolve, reject) =>{
+		const confirmationPopUp = document.getElementById('exampleModal')
+		console.log('confirmationPopUp'+confirmationPopUp)
+		
+		const formPopUp = confirmationPopUp.getElementsByTagName('form')[0].setAttribute('id', confirmBid)
+
+
+		const ok = confirmationPopUp.getElementsByTagName('button')[1].setAttribute('id', confirmBidBtn)
+		console.log('ok' + ok )
+
+
+		console.log('formPopUp'+formPopUp)
+
+
+		resolve(bidId)
+
+
+		confirmationPopUp.getElementsByTagName('input')[1].setAttribute('id', confirmBidInput)
+
+		confirmationPopUp.getElementsByTagName('option')[0].value = bidId
+		
+
+
+		document.getElementById(confirmBidInput).value= bidValue
+
+		
+
+
+		
+	})
+	.then((event) =>{
+
+		addToBd(event)
+		
+	})
+	.then(() => {
+
+
+		const confirmationPopUp2 = document.getElementById('exampleModal')
+		console.log('confirmationPopUp2' + confirmationPopUp2)
+		confirmationPopUp2.classList.remove('show')
+		confirmationPopUp2.style.display = "none"
+
+	})
+}
+
+// function confirmation(event){
+// 	closeBtnToPopUp(event){
+		
+// 	}
+// }
+
+function addToBd (event){
+
+console.log('hi' + event)
+
+$('.modal').on('click', '#id_send_btn_' + event, function() {
+
+
+
+	var elementId = event
+	console.log('elementId ' + event)
+
+	var serializedData = $("#form_send_bid_" + elementId).serialize();
 	console.log(serializedData)
 
 	$.ajax({
-		url: $("#add_form_" + elementId).data('url'),
+		url: $("#form_send_bid_" + elementId).data('url'),
 		data: serializedData,
 		type: 'post',
 		success: function(response){
@@ -29,9 +103,98 @@ $('.main_cards').on('click', '.btn', function() {
 		}
 	})
 
+	$('#form_send_bid_' + elementId)[0].reset();
 	$('#add_form_' + elementId)[0].reset();
+
+
+	const confirmationPopUp2 = document.getElementById('exampleModal')
+	const confirmationPopUp3 = document.getElementsByClassName('modal-backdrop')[0]
+	console.log('confirmationPopUp2' + confirmationPopUp2)
+	confirmationPopUp2.classList.remove('show')
+	confirmationPopUp3.classList.remove('show')
+	confirmationPopUp2.style.display = "none"
+	confirmationPopUp3.style.display = "none"
 	
+
+
+	document.getElementsByTagName('body')[0].classList.remove('modal-open')
+
+
 });
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// $('.main_cards').on('click', '.btn_confirm', function() {
+
+
+
+// 	var elementId = $(this).data('id');
+// 	console.log(elementId)
+
+// 	var serializedData = $("#add_form_" + elementId).serialize();
+// 	console.log(serializedData)
+
+// 	$.ajax({
+// 		url: $("#add_form_" + elementId).data('url'),
+// 		data: serializedData,
+// 		type: 'post',
+// 		success: function(response){
+// 			console.log(response.bid_data.new_bid)
+// 			$('#bid_list_'  + elementId).append('<small>bid: ' + response.bid_data.bid + ' | </small>');
+// 			if (response.bid_data.new_bid != undefined) {
+// 				console.log($(this))
+// 				$('#actual_price_val_'  + elementId).replaceWith($('#actual_price_val_'  + elementId).text('actual price: ' + response.bid_data.new_bid))
+// 			};
+
+// 		}
+// 	})
+
+// 	$('#add_form_' + elementId)[0].reset();
+	
+// });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

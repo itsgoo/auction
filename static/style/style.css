@@ -35,6 +35,8 @@
     padding: 45px 0;
     display: block;
     max-height: 70%;
+    position: relative;
+    z-index: 11;
 }
 
 
@@ -52,9 +54,20 @@
     width: 100px;
 }
 
+.item {
+    cursor: pointer;
+}
 
-
-
+#bg_on_popup {
+    position: fixed;
+    overflow: auto;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+}
 
 
 

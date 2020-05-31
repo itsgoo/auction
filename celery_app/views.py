@@ -84,18 +84,6 @@ class Account_page(userGroups, View):
 
                 
 
-
-
-
-
-
-
-
-
-
-
-                
-
                 user_seller_auctions = Auctions.objects.filter(seller = self.request.user).order_by('-start_auction')
         
 
@@ -140,31 +128,24 @@ class Account_page(userGroups, View):
         
                 
 
-                user_auctions_short_from_prices = Prices.objects.filter(buyer_id = self.request.user.id, winner= 1, auction__status = 3).select_related('auction').prefetch_related('auction__seller')
+                user_auctions_short_from_prices = Prices.objects.filter(buyer_id = self.request.user.id, winner= 1, auction__status = 3).select_related('auction').prefetch_related('auction__seller').order_by('-auction__start_auction')
 
                 
                 user_auctions_short_from_prices_actual = Prices.objects.select_related('auction').filter(buyer_id = self.request.user.id, auction__status = 2).prefetch_related('auction__seller').order_by('-new_price_time')
                 
-                list_id = [0]
+
+                checked = []
                 unique_actual_auctions_for_buyer = []
-                for auctions in  user_auctions_short_from_prices_actual:
-                    print('auctions.auction.id', auctions.auction.id)
-                    for i in list_id:
-                        print('i ', i, ' and auctions.auction.id ', auctions.auction.id)
-                        if auctions.auction.id != i:
+                # order preserving
+                    
+                for auctions in user_auctions_short_from_prices_actual:
+                    if auctions.auction.id not in checked:
+                        checked.append(auctions.auction.id)
+                        unique_actual_auctions_for_buyer.append(auctions)
 
-                            print('i into if', i)
-                            unique_actual_auctions_for_buyer.append(auctions)
-                            print('unique_actual_auctions_for_buyer', unique_actual_auctions_for_buyer)
+                
 
-                            list_id = []
-                            list_id.append(auctions.auction.id)
-                            
-
-                    auctions_id = auctions.auction.id
-                    list_id.append(auctions_id)
-
-                print('unique_actual_auctions_for_buyer ', unique_actual_auctions_for_buyer)
+                print('f2', unique_actual_auctions_for_buyer)
 
 
                 

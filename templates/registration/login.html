@@ -15,24 +15,53 @@
   {% endif %}
 {% endif %}
 
-<form method="post" action="{% url 'login' %}">
-{% csrf_token %}
-<table>
 
-<tr>
-  <td>{{ form.username.label_tag }}</td>
-  <td>{{ form.username }}</td>
-</tr>
 
-<tr>
-  <td>{{ form.password.label_tag }}</td>
-  <td>{{ form.password }}</td>
-</tr>
-</table>
+<div class=" col-md-6" >
 
-<input type="submit" value="login" />
-<input type="hidden" name="next" value="{{ next }}" />
-</form>
+<form method="post" class="form-group" id="login_form" action="{% url 'login' %}">
+  {% csrf_token %}
+
+  
+
+ <label for="id_username">Username:</label>
+<input type="text" name="username" class="form-control" autofocus="" autocapitalize="none" autocomplete="username" maxlength="150" required="" id="id_username">
+
+
+<label for="id_password">Password:</label>
+<input type="password"  class="form-control"  name="password" autocomplete="current-password" required="" id="id_password">
+
+<button form="login_form" type="submit" class="btn btn-primary mt-4">log in</button>
+
+  </form>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 {# Assumes you setup the password_reset view in your URLconf #}
 <p><a href="{% url 'password_reset' %}">Lost password?</a></p>

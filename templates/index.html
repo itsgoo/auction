@@ -19,16 +19,70 @@ index
 
 {% block content %}
 
-<p>user.id: {{current_user}}</p>
-
-
-<p>groups_user_buyers: {{groups_user_buyers}}</p>
-<p>groups_user_sellers: {{groups_user_sellers}}</p>
 
 <div id="pop_up">
 
   <span id="close_popup">close</span>
 </div>
+
+<!-- Button trigger modal -->
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+
+
+
+
+        <form class="form-group" method="POST" data-url="{% url 'index' %}">
+          {% csrf_token %}
+          {{form.bid.label}}
+          
+
+          <input type="number" name="bid" >
+
+
+          <select name="auction" required="" id="id_auction" hidden>
+              <option  value="" selected=""></option>
+          </select>
+
+          <select name="buyer_id" required="" id="id_buyer_id" hidden>
+              <option value="{{user.id}}" selected=""></option>
+          </select>
+          <button form="add_form_{{i.id}}" data-id="{{i.id}}"  type="button" class="btn btn-primary btn_confirm" >bid</button>
+
+      </form>
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
 
 <div id="main_cards" >
 {% for i in auctions_today %}
@@ -72,18 +126,27 @@ index
           <small class="text-muted mr-3">Bid up: {{i.bid_up}}</small>
         </p>
         <p class="card-text">
-            <form id="add_form_{{i.id}}" class="form-group" method="POST" data-url="{% url 'index' %}">
-                {% csrf_token %}
+            <form id="add_form_{{i.id}}" class="form-group" method="POST" >
+                
                 {{form.bid.label}}
-                {{form.bid}}
-                <select name="auction" required="" id="id_auction" hidden>
+                
+
+                <input type="number" name="bid" id="id_bid_{{i.id}}">
+
+
+
+                  <select name="auction" required="" id="id_auction" hidden>
                     <option value="{{i.id}}" selected=""></option>
                 </select>
 
                 <select name="buyer_id" required="" id="id_buyer_id" hidden>
                     <option value="{{user.id}}" selected=""></option>
                 </select>
-                <button form="add_form_{{i.id}}" data-id="{{i.id}}" id="add_form_btn_{{i.id}}" type="button" class="btn btn-primary" >bid</button>
+
+
+
+
+                <button form="add_form_btn_{{i.id}}" data-id="{{i.id}}" id="add_form_btn_{{i.id}}" type="button" class="btn btn-primary" onclick="btnBidEvent(event)"  data-toggle="modal" data-target="#exampleModal">bid</button>
 
             </form>
 
