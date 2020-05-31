@@ -17,3 +17,4 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     path('silk/', include('silk.urls', namespace='silk')),
 ] + static(MEDIA_URL, document_root=MEDIA_ROOT)
+

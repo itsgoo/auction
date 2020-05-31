@@ -1,4 +1,5 @@
-{% load static %}
+{% load static i18n %}
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -29,7 +30,7 @@
 </head>
 <body>
 	
-	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark ">
 		<a class="navbar-brand" href="{% url 'index' %}">Auctions</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
@@ -37,51 +38,96 @@
 
 		<div class="collapse navbar-collapse" id="navbarTogglerDemo02">
 
-
+		<ul class="navbar-nav  mt-2 mt-lg-0 mr-auto">
 			{% if user.is_authenticated %}
 				{% for i in groups_user_sellers %}
 
 					{% if i.id == user.id%}
-					<ul class="navbar-nav  mt-2 mt-lg-0">
+					
 						<li class="nav-item">
 							<a class="nav-link" href="{% url 'create_auction' %}">Create Auction<span class="sr-only">(current)</span></a>
 						</li>
 
-					</ul>
+					
 					{% endif %}
 				{% endfor %}
 			{% endif %}
 
-			<ul class="navbar-nav  mt-2 mt-lg-0">
-				<li class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						{% if user.is_authenticated %} {{ user.username }} {% else %} Sign in {% endif %}
-					</a>
+			<li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					{% if user.is_authenticated %} {{ user.username }} {% else %} Sign in {% endif %}
+				</a>
 
 
-					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+				<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 
 
-					{% if user.is_authenticated %}
+				{% if user.is_authenticated %}
 
-						<a class="dropdown-item" href="{% url 'account_page' %}">Account</a>
+					<a class="dropdown-item" href="{% url 'account_page' %}">Account</a>
 
-						<div class="dropdown-divider"></div>
-						<a class="dropdown-item" href="{% url 'logout' %}">LogOut</a>
-					{% else %}
+					<div class="dropdown-divider"></div>
+					<a class="dropdown-item" href="{% url 'logout' %}">LogOut</a>
+				{% else %}
 
-						<a class="dropdown-item" href="{% url 'login' %}">LogIn</a>
-						<div class="dropdown-divider"></div>
-						<a class="dropdown-item" href="{% url 'register_page' %}">Registration</a>
-					{% endif %}
-
-
+					<a class="dropdown-item" href="{% url 'login' %}">LogIn</a>
+					<div class="dropdown-divider"></div>
+					<a class="dropdown-item" href="{% url 'register_page' %}">Registration</a>
+				{% endif %}
 
 
-					</div>
-				</li>
+
+
+				</div>
+			</li>
 
 			</ul>
+
+
+
+
+
+
+
+
+
+					
+
+
+
+
+			<form class="form-inline" action="{% url 'set_language' %}" method="post">
+				{% csrf_token %}
+
+				<input name="next" type="hidden" value="{{ redirect_to }}">
+				<select class="form-control form-control-sm mr-2" name="language" id="">
+
+					{% get_current_language as LANGUAGE_CODE %}
+
+					{% get_available_languages as LANGUAGES %}
+					{% get_language_info_list for LANGUAGES as languages %}
+					{% for language in languages %}
+
+					<option class="dropdown-item" value="{{ language.code }}" {% if language.code == LANGUAGE_CODE %} selected {% endif %}>
+
+							{{language.name_local}} ({{language.code}})
+						</option>
+
+					{% endfor %}
+
+				</select>
+				<button type="submit" class="btn btn-primary btn-sm">{% trans 'Change' %}</button>
+			</form>
+
+
+
+
+
+
+
+
+
+
 
 
 
