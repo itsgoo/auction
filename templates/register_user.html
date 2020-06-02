@@ -18,30 +18,66 @@ New User registration
 
 {% block content %}
 
+
+
+
+
+
 <div class=" col-md-6">
+
+        {% if form.errors %}
+        <div class="alert alert-danger" role="alert">
+            {{form.errors}}
+        </div>
+      {% endif %}
+      
+
+
+
+
 
     <form id="add_form" method="POST">
         {% csrf_token %}
         <!-- {{form}} -->
 
+        <div class="input-group mb-3 mt-3">
+            <div class="input-group-prepend">
+                <label class="input-group-text" for="username">{{form.username.label}}</label>
+            </div>
+            {{form.username}}
+        </div>
 
+        <div class="input-group mb-3 mt-3">
+            <div class="input-group-prepend">
+                <label class="input-group-text" for="email">{{form.email.label}}</label>
+            </div>
+            {{form.email}}
+        </div>
 
-        {{form.username.label}}
-        {{form.username}}
-        {{form.email.label}}
-        {{form.email}}
-        <label for="id_groups">Groups:</label>
-        <select name="groups" class="form-control" ="" id="id_groups">
-            <option value="1">sellers</option>
-            <option value="2">buyers</option>
-          
-          </select>
+        <div class="input-group mb-3 mt-3">
+            <div class="input-group-prepend">
+                <label class="input-group-text" for="groups">Groups</label>
+            </div>
+            <select name="groups" class="custom-select" id="id_groups">
+                <option selected>Choose group ...</option>
+                <option value="1">sellers</option>
+                <option value="2">buyers</option>
+            </select>
+        </div>
 
-        {{form.password1.label}}
-        {{form.password1}}
-        {{form.password2.label}}
-        {{form.password2}}
+        <div class="input-group mb-3 mt-3">
+            <div class="input-group-prepend">
+                <label class="input-group-text" for="password1">{{form.password1.label}}</label>
+            </div>
+            {{form.password1}}
+        </div>
 
+        <div class="input-group mb-3 mt-3">
+            <div class="input-group-prepend">
+                <label class="input-group-text" for="password2">{{form.password2.label}}</label>
+            </div>
+            {{form.password2}}
+        </div>
 
         <button form="add_form" type="submit" class="btn btn-primary mt-4" >Create New User</button>
     </form>

@@ -1,6 +1,4 @@
 
-
-
 const popUp = document.getElementById('pop_up')
 
 
@@ -11,11 +9,56 @@ function imgSliderEvent(event){
 
 
         const id = event.target.id
+        const cleatId = id.replace('img_','');
+        const divSlider = document.getElementById('owl-carousel_' + cleatId)
+        let srcImgs = divSlider.getElementsByTagName('img')
+
+
         const divImg = event.target
         console.log('hi'+ id)
+        console.log('divSlider'+ divSlider.innerHTML)
+
+        // const srcImgsAll = srcImgs.map((img) => {
+        //     return console.log(img)
+
+        // })
+        // let numbers = [1, 4, 9];
+        // srcImgs.map(function(img) { 
+        //     return img
+        //   }); 
+
+        for (i = 0; i < srcImgs.length; i++) {
+            let imgDiv = srcImgs[i]
+
+            console.log('<div class="item" >' + imgDiv + '</div>')
+            console.log(imgDiv)
+          }
+
+        
+        console.log('srcImgs'+ srcImgs.length)
         console.log('divImg'+ divImg.src)
+
+
+        
+        // popUp.innerHTML = popUp.innerHTML + `<div id="owl-carousel_`  + cleatId + `" class="owl-carousel owl-theme owl-loaded">` + divSlider.innerHTML + `</div>`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         popUp.innerHTML = popUp.innerHTML + `<img class="img_on_popup" class="id_img_on_popup" src="${divImg.src}" alt=""><div id="bg_on_popup"></div>
         `
+
+
         popUp.classList.add('show')
         resolve('yeah')
 

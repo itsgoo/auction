@@ -64,6 +64,7 @@ function btnBidEvent(event){
 		console.log('confirmationPopUp2' + confirmationPopUp2)
 		confirmationPopUp2.classList.remove('show')
 		confirmationPopUp2.style.display = "none"
+		
 
 	})
 }
@@ -118,12 +119,23 @@ $('.modal').on('click', '#id_send_btn_' + event, function() {
 
 
 	document.getElementsByTagName('body')[0].classList.remove('modal-open')
-
+	showNotification(event)
 
 });
 
 }
 
+
+function showNotification(event){
+	console.log('event ' + event)
+	const toastEl = document.getElementById('toast-notification')
+	console.log('toastEl' + toastEl)
+	toastEl.classList.add('show')
+
+	const toastElClose = document.getElementById('close-notification').addEventListener('click', () => {
+		toastEl.classList.remove('show')
+	})
+}
 
 
 

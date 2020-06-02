@@ -71,3 +71,8 @@
 
 
 
+.errorlist {
+    display: inline-block;
+    list-style: none;
+    margin: 6px auto;
+}
