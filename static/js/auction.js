@@ -1,10 +1,5 @@
 
 
-
-
-
-
- 
 function btnBidEvent(event){
 
 	const bidBtnId = event.target.id

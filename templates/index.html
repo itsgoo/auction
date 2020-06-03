@@ -20,6 +20,9 @@
 
 {% block content %}
 
+
+
+
   <!-- Position it -->
   <div style="position: fixed; top: 18%; right: 3%; overflow: hidden;
   z-index: 15;">
@@ -73,6 +76,10 @@ Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, ve
 
 
 
+
+
+
+
         <form class="form-group" method="POST" data-url="{% url 'index' %}">
           {% csrf_token %}
           {{form.bid.label}}
@@ -118,8 +125,8 @@ Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, ve
 
 <div class="card mb-3 p-3 col-md-10 main_cards" >
   <div class="row no-gutters">
-    <div class="col-md-4">
-
+    <div class="col-md-4" id="main_carousel_{{i.id}}">
+  
       <div id="owl-carousel_{{i.id}}" class="owl-carousel owl-theme">
 
         <div class="item" onclick="imgSliderEvent(event)" > <img id="img_{{i.id}}" src="{{ MEDIA_URL }}{{ i.main_img }}" class="card-img" alt="..."> </div>
@@ -153,34 +160,46 @@ Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, ve
           <small class="text-muted mr-3">Start price: {{i.start_price}}</small>
           <small class="text-muted mr-3">Bid up: {{i.bid_up}}</small>
         </p>
+
+
+
+        {% if user.is_authenticated %}
+
+        
         <p class="card-text">
-            <form id="add_form_{{i.id}}" class="form-group" method="POST" >
-                
-                {{form.bid.label}}
-                
+          <form id="add_form_{{i.id}}" class="form-group" method="POST" >
+              
+              {{form.bid.label}}
+              
 
-                <input type="number" name="bid" id="id_bid_{{i.id}}">
-
-
-
-                  <select name="auction" required="" id="id_auction" hidden>
-                    <option value="{{i.id}}" selected=""></option>
-                </select>
-
-                <select name="buyer_id" required="" id="id_buyer_id" hidden>
-                    <option value="{{user.id}}" selected=""></option>
-                </select>
+              <input type="number" name="bid" id="id_bid_{{i.id}}">
 
 
 
+                <select name="auction" required="" id="id_auction" hidden>
+                  <option value="{{i.id}}" selected=""></option>
+              </select>
 
-                <button form="add_form_btn_{{i.id}}" data-id="{{i.id}}" id="add_form_btn_{{i.id}}" type="button" class="btn btn-primary" onclick="btnBidEvent(event)"  data-toggle="modal" data-target="#exampleModal">bid</button>
+              <select name="buyer_id" required="" id="id_buyer_id" hidden>
+                  <option value="{{user.id}}" selected=""></option>
+              </select>
 
-            </form>
 
 
-        </p>
 
+              <button form="add_form_btn_{{i.id}}" data-id="{{i.id}}" id="add_form_btn_{{i.id}}" type="button" class="btn btn-primary" onclick="btnBidEvent(event)"  data-toggle="modal" data-target="#exampleModal">bid</button>
+
+          </form>
+
+
+      </p>
+
+        
+        {% else %}
+        <p class="card-text">To bid, please <a href="{% url 'login' %}">log in</a>, or <a href="{% url 'register_page'%}">register</a></p>
+        
+        
+        {% endif %}
 
 
         <p class="card-text bid_class" id="bid_list_{{i.id}}">
@@ -204,6 +223,13 @@ Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, ve
 
 
         </h5>
+
+<!-- 
+        <span class="popover-dismiss d-inline-block" data-toggle="popover" data-content="Disabled popover">
+          <button class="btn btn-primary" style="pointer-events: none;" type="button" disabled>Disabled button</button>
+        </span> -->
+
+
       </div>
     </div>
   </div>
@@ -224,7 +250,10 @@ Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, ve
    <div class="col-md-4">
      <img src="{{ MEDIA_URL }}{{ i.main_img }}" class="card-img" alt="...">
    </div>
-   <div class="col-md-8">
+   <div class="col-md-8 relative ">
+     <div class="get_notif">
+      <img class="noti-icon" src="{{ MEDIA_URL }}/file/notification.png" title="get notification about this lot" alt="">
+     </div>
      <div class="card-body">
        <h5 class="card-title">Next Auctions: {{i.start_auction}}</h5>
        <h5 class="card-title">{{i.title}} <small class="text-muted mr-3">Status: {{i.status}}</small><small class="text-muted mr-3">ID: {{i.id}}</small></h5>
@@ -233,7 +262,7 @@ Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, ve
          <small class="text-muted mr-3">Start price: {{i.start_price}}</small>
           <small class="text-muted mr-3">Bid up: {{i.bid_up}}</small>
         </p>
-      
+
      </div>
    </div>
 </div>

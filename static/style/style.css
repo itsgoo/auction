@@ -76,3 +76,16 @@
     list-style: none;
     margin: 6px auto;
 }
+
+.get_notif{
+    position: absolute;
+    right: 3%;
+    top: 5%;
+}
+
+
+.noti-icon {
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+}
