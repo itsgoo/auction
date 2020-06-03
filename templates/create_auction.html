@@ -20,8 +20,7 @@
 
 {% block content %}
 
-
-
+<p>post_time {{post_time}}</p>
 <div class=" col-md-6">
 
     <form id="add_form" class="form-group" method="POST"  enctype="multipart/form-data">
@@ -47,7 +46,7 @@
           <option value="{{user.id}}" selected=""></option>
         </select>
         <input type="number" name="status" class="form-control" id="id_status" value="1" hidden>
-        <input type="number" name="sort_auction" class="form-control" id="id_sort_auction" value="{{user.id}}" hidden>
+        <input type="number" name="sort_auction" class="form-control" id="id_sort_auction" value="{{post_time}}" hidden>
 
         <button form="add_form" type="submit" class="btn btn-primary mt-4" >Create New Auction</button>
     </form>

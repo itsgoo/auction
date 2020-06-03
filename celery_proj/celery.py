@@ -26,10 +26,14 @@ app.autodiscover_tasks()
 
 
 app.conf.beat_schedule = {
-    'update_post_status': {
-    'task': 'celery_app.tasks.update_post_status',
-    'schedule': crontab(minute='*/1'),
+    'test_task': {
+    'task': 'celery_app.tasks.test_task',
+    'schedule': crontab(hour="*", minute=1),
     },
+    # 'update_post_status': {
+    # 'task': 'celery_app.tasks.update_post_status',
+    # 'schedule': crontab(minute='*/1'),
+    # },
 }
 # crontab(minute=0, hour=0)
 @app.task(bind=True)

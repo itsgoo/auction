@@ -175,7 +175,22 @@ class CreateAuction(LoginRequiredMixin, CreateView):
         # Call the base implementation first to get a context
         context = super(CreateAuction, self).get_context_data(**kwargs)
         # Add in a QuerySet of all the posts
+
+
         context['groups_user_sellers'] = User.objects.filter(groups=1)
+        
+        sort_query = Auctions.objects.only('sort_auction').order_by('-sort_auction')
+
+        post_time = 1
+        for i in sort_query:
+            print('i.sort_auction', i.sort_auction)
+            if i.sort_auction >= post_time:
+                post_time = i.sort_auction
+                
+        
+
+        context['post_time'] = post_time+1
+        
         return context
 
     def form_valid(self, form):

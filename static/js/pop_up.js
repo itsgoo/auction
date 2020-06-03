@@ -40,7 +40,7 @@ function imgSliderEvent(event){
 
 
         
-        popUp.innerHTML = popUp.innerHTML + `<div id="owl-carousel_`  + cleatId + `" class="owl-carousel owl-theme owl-loaded">` + divSlider.innerHTML + `</div>`
+        // popUp.innerHTML = popUp.innerHTML + `<div id="owl-carousel_`  + cleatId + `" class="owl-carousel owl-theme owl-loaded">` + divSlider.innerHTML + `</div>`
 
 
 
@@ -55,8 +55,8 @@ function imgSliderEvent(event){
 
 
 
-        // popUp.innerHTML = popUp.innerHTML + `<img class="img_on_popup" class="id_img_on_popup" src="${divImg.src}" alt=""><div id="bg_on_popup"></div>
-        // `
+        popUp.innerHTML = popUp.innerHTML + `<img class="img_on_popup" class="id_img_on_popup" src="${divImg.src}" alt=""><div id="bg_on_popup"></div>
+        `
 
 
         popUp.classList.add('show')
