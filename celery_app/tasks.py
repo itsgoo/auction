@@ -9,8 +9,13 @@ from datetime import datetime, timedelta, time, date
 
 from django.utils import timezone
 from django.utils.timezone import pytz
+from pytz import timezone as tze
+
 
 from django.db.models import Q
+
+from dateutil.tz import tzutc, tzlocal
+
 
 # from .settings import TIME_ZONE
 # from demoapp.models import Widget
@@ -26,10 +31,6 @@ def everyDaySchedule():
 
 
 
-    date = datetime.now()   
-    dateyear = int(date.year)
-    datemonth = date.month
-    dateday = date.day
 
     last_hour = 23
 
@@ -41,50 +42,101 @@ def everyDaySchedule():
     # time_actual = time(0, 00)
     # local_dt = timezone.localtime(datetime.now(), pytz.timezone('Asia/Tel_Aviv'))
     
-    print('timezone.localtime(timezone.now())', timezone.localtime(timezone.now()))
+    # print('timezone.localtime(timezone.now())', timezone.localtime(datetime(2003, 9, 27, 12, 40, 12, 156379)))
+
+    # tzutc = datetime(2003, 9, 27, 12, 40, 12, 156379, tzinfo=tzutc())
+    # print('tzutc', tzutc)
+    # tzlocal = tzlokal
+    # print('tzlocal', tzlocal)
+
+
+
+
+
+
+
+
+
+
+
 
 
     schedule_max_hour = ScheduleAuction.objects.all().only('active_time').order_by('-active_time')[0]
-    print('schedule_max_hour', schedule_max_hour)
 
     last_auction_time = schedule_max_hour.active_time.time()
+
+    last_auction_date = schedule_max_hour.active_time.date()
+
     hour = int(str(last_auction_time).split(':')[0])
-    actual_hour = hour + 1
+    actual_day = int(last_auction_date.day)
+    actual_month = int(last_auction_date.month)
+    actual_year = int(last_auction_date.year)
 
     # schedule_up_hour = schedule_max_hour.active_time + timedelta(minutes=60)
 
 
-    active_time_auction = datetime(dateyear, datemonth, dateday, hour= actual_hour, tzinfo=timezone.utc)
 
-    print('active_time_auction', active_time_auction)
+
+
+
+
+
+
+
+
+
 
     for i in auctions_meta:
 
+        print('i.id', i.id)
+        print('i.sort_auction before', i.sort_auction)
+        print('hour', hour)
+
         if hour < last_hour:
             
-            print('i.id', i.id)
-            print('i.sort_auction before', i.sort_auction)
+            active_time_auction = datetime(actual_year, actual_month, actual_day, hour= hour+1)
+            
+            # utc translate time
+            u = active_time_auction.replace(tzinfo=pytz.utc)
+            aware_time_utc_helper = u.astimezone(pytz.timezone('Asia/Tel_Aviv'))
 
-            
-            active_time_auction = datetime(dateyear, datemonth, dateday, hour= actual_hour, tzinfo=timezone.utc)
-            
-        
             print('active_time_auction', active_time_auction)
-            
-            s = ScheduleAuction(active_time = active_time_auction, auction = i)
-            # s.save()
+            print('aware_time_utc_helper', aware_time_utc_helper)
+
+
+            s = ScheduleAuction(active_time = aware_time_utc_helper, auction = i)
+            s.save()
 
             i.sort_auction = 0
-            # i.save()
+            i.save()
             print('i save sort_auction after ', i.sort_auction)
         
-            actual_hour += 1
+            hour += 1
 
-        elif  hour >= last_hour:
+        elif hour >= last_hour:
             hour = 0
-            dateday += 1
+            print('hour = 0 elif', hour)
+            
+            actual_day += 1
+            print('actual_day next elif', actual_day)
         
+            active_time_auction = datetime(actual_year, actual_month, actual_day, hour= hour)
+            
+            # utc translate time
+            u = active_time_auction.replace(tzinfo=pytz.utc)
+            aware_time_utc_helper = u.astimezone(pytz.timezone('Asia/Tel_Aviv'))
 
+            print('active_time_auction', active_time_auction)
+            print('aware_time_utc_helper', aware_time_utc_helper)
+
+
+            s = ScheduleAuction(active_time = aware_time_utc_helper, auction = i)
+            s.save()
+
+            i.sort_auction = 0
+            i.save()
+            print('i save sort_auction after ', i.sort_auction)
+        
 
 
 
