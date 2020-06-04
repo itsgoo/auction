@@ -25,8 +25,7 @@ from io import BytesIO
 from django.shortcuts import get_object_or_404
 
 import ast
-import datetime
-
+from datetime import datetime, timedelta, time, date
 
 
 
@@ -181,15 +180,41 @@ class CreateAuction(LoginRequiredMixin, CreateView):
         
         sort_query = Auctions.objects.only('sort_auction').order_by('-sort_auction')
 
-        post_time = 1
+
+        post_time = 0
         for i in sort_query:
-            print('i.sort_auction', i.sort_auction)
-            if i.sort_auction >= post_time:
+            
+            if i.sort_auction < post_time:
+                pass
+            elif i.sort_auction >= post_time:
                 post_time = i.sort_auction
+
+
+
+
+
+
+        # print('actual time format', datetime.now().time())
+        # if datetime.now().time() > time(6, 43):
+        #     print('time string')
+        # post_time = time(0, 0)
+        # for i in sort_query:
+        #     if type(i.sort_auction) is int:
+        #         i.sort_auction = time(i.sort_auction, 0)
+        #         print('i.sort_auction', i.sort_auction)
+            
+        #     if i.sort_auction < post_time:
+        #         pass
+        #     elif i.sort_auction >= post_time:
+        #         post_time = i.sort_auction
                 
         
 
-        context['post_time'] = post_time+1
+        # post_time = datetime.combine(date.today(), post_time) + timedelta(minutes=60)
+        # print (post_time.time())
+
+
+        context['post_time'] = post_time + 1
         
         return context
 

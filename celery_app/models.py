@@ -30,3 +30,10 @@ class Prices(models.Model):
     new_price_time = models.DateTimeField(auto_now=True)
     buyer_id = models.ForeignKey(User, on_delete=models.CASCADE)
     winner = models.IntegerField(blank = True)
+
+
+
+# schedule
+class ScheduleAuction(models.Model):
+    active_time = models.DateTimeField(auto_now = False)
+    auction = models.ForeignKey(Auctions, on_delete = models.CASCADE)
