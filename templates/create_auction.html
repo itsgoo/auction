@@ -23,7 +23,7 @@
 <p>post_time {{post_time}}</p>
 <div class=" col-md-6">
 
-    <form id="add_form" class="form-group" method="POST"  enctype="multipart/form-data">
+    <form id="add_form" class="form-group" method="POST"  enctype="multipart/form-data" name="createAuctionForm">
         {% csrf_token %}
 
 
@@ -35,8 +35,27 @@
         {{form.start_price}}
         {{form.bid_up.label}}
         {{form.bid_up}}
+
+
         {{form.start_auction.label}}
         {{form.start_auction}}
+
+        <div class="mt-3 mb-3">
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="myRadios" id="inlineRadio1" value="option1" checked>
+                <label class="form-check-label" for="inlineRadio1">Automatic</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="myRadios" id="inlineRadio2" value="option2">
+                <label class="form-check-label" for="inlineRadio2">Manual</label>
+            </div>
+        </div>
+
+
+        <div class="mt-3 mb-3 field_start_auction">
+            <input type="date" name="start_auction" class="form-control" required="" id="id_start_auction">
+        </div>
+
 
         {{form.main_img.label}}
         {{form.main_img}}

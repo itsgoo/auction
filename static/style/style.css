@@ -89,3 +89,11 @@
     height: 25px;
     cursor: pointer;
 }
+
+
+.field_start_auction{
+    display:none;
+}
+.show_start_auction{
+    display:block !important;
+}

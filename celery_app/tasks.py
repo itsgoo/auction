@@ -105,10 +105,10 @@ def everyDaySchedule():
 
 
             s = ScheduleAuction(active_time = aware_time_utc_helper, auction = i)
-            s.save()
+            # s.save()
 
             i.sort_auction = 0
-            i.save()
+            # i.save()
             print('i save sort_auction after ', i.sort_auction)
         
             hour += 1
@@ -131,10 +131,10 @@ def everyDaySchedule():
 
 
             s = ScheduleAuction(active_time = aware_time_utc_helper, auction = i)
-            s.save()
+            # s.save()
 
             i.sort_auction = 0
-            i.save()
+            # i.save()
             print('i save sort_auction after ', i.sort_auction)
         
 

@@ -44,17 +44,6 @@ function imgSliderEvent(event){
 
 
 
-
-
-
-
-
-
-
-
-
-
-
         popUp.innerHTML = popUp.innerHTML + `<img class="img_on_popup" class="id_img_on_popup" src="${divImg.src}" alt=""><div id="bg_on_popup"></div>
         `
 
