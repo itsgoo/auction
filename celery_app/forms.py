@@ -49,6 +49,7 @@ class AuctionsForm(forms.ModelForm):
                   'start_price',
                   'bid_up',
                   'start_auction',
+                  'start_auction_time',
                   'sort_auction',
                   'main_img',
                   )

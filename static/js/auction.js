@@ -140,11 +140,6 @@ function showNotification(event){
 
 
 
-
-
-
-
-
 // $('.main_cards').on('click', '.btn_confirm', function() {
 
 

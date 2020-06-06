@@ -27,7 +27,7 @@ def everyDaySchedule():
     # open 24 hours tasks
     # activate hour auction: status 2
     # deactivate previos auction: status 3
-    auctions_meta = Auctions.objects.filter(start_auction = datetime.now(), sort_auction__gt = 0 ).only('id', 'sort_auction')
+    auctions_meta = Auctions.objects.filter(start_auction = '0001-01-01', sort_auction__gt = 0 ).only('id', 'sort_auction')
 
 
 
@@ -61,30 +61,62 @@ def everyDaySchedule():
 
 
 
-    schedule_max_hour = ScheduleAuction.objects.all().only('active_time').order_by('-active_time')[0]
+    schedule_max_hour = ScheduleAuction.objects.all().only('active_time', 'active_date_time').order_by('-id')[0]
 
-    last_auction_time = schedule_max_hour.active_time.time()
+    last_auction_time = schedule_max_hour.active_date_time
 
     last_auction_date = schedule_max_hour.active_time.date()
 
-    hour = int(str(last_auction_time).split(':')[0])
+    hour = int(last_auction_time)
     actual_day = int(last_auction_date.day)
     actual_month = int(last_auction_date.month)
     actual_year = int(last_auction_date.year)
 
-    # schedule_up_hour = schedule_max_hour.active_time + timedelta(minutes=60)
+
+    schedule_test = ScheduleAuction.objects.filter(active_time__contains = date(2020, 6, 1))
 
 
 
 
+                    
+
+
+    busy_times = []
+    list_for_free_num = []
+    # order preserving
+        
+    for i in schedule_test:
+        print('i.active_date_time in for', i)
+        if i.active_date_time not in busy_times:
+            print('i.active_date_time in if', i.active_date_time)
+            busy_times.append(int(i.active_date_time))
+
+
+    print('busy_times', busy_times)
+
+
+    for i in range(0, 24):
+
+        if i not in busy_times:
+            print('i in if', i)
+            list_for_free_num.append(i)
 
 
 
 
+    # for i in range(0, 24):
+    #     list_for_free_num.append(i)
+
+    # for i in busy_times:
+    #     try:
+    #         list_for_free_num.remove(i)
+    #     except:
+    #         print("An exception occurred")
 
 
 
 
+    print('list_for_free_num', list_for_free_num)
 
     for i in auctions_meta:
 
@@ -94,7 +126,7 @@ def everyDaySchedule():
 
         if hour < last_hour:
             
-            active_time_auction = datetime(actual_year, actual_month, actual_day, hour= hour+1)
+            active_time_auction = datetime(actual_year, actual_month, actual_day)
             
             # utc translate time
             u = active_time_auction.replace(tzinfo=pytz.utc)
@@ -104,7 +136,7 @@ def everyDaySchedule():
             print('aware_time_utc_helper', aware_time_utc_helper)
 
 
-            s = ScheduleAuction(active_time = aware_time_utc_helper, auction = i)
+            s = ScheduleAuction(active_time = aware_time_utc_helper, auction = i, active_date_time = hour)
             # s.save()
 
             i.sort_auction = 0
@@ -120,7 +152,7 @@ def everyDaySchedule():
             actual_day += 1
             print('actual_day next elif', actual_day)
         
-            active_time_auction = datetime(actual_year, actual_month, actual_day, hour= hour)
+            active_time_auction = datetime(actual_year, actual_month, actual_day)
             
             # utc translate time
             u = active_time_auction.replace(tzinfo=pytz.utc)
@@ -141,6 +173,15 @@ def everyDaySchedule():
 
 
     return print('cron it works! 2')
+
+
+
+
+
+
+
+
+
 
 @shared_task
 def update_post_status():

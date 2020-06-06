@@ -8,13 +8,16 @@ from django.urls import reverse_lazy
 
 
 from django.contrib.auth.models import User, Group
-from .models import Auctions, Bids, Prices, ImgForAuction
+from .models import Auctions, Bids, Prices, ImgForAuction, ScheduleAuction
 
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from django.http import JsonResponse
 from django.forms.models import model_to_dict
+import json
+from django.core import serializers
+
 
 from django.views.decorators.csrf import csrf_exempt
 
@@ -28,6 +31,8 @@ import ast
 from datetime import datetime, timedelta, time, date
 
 
+from django.utils.timezone import pytz
+from pytz import timezone as tze
 
 class userGroups:
     def sellers(self):
@@ -161,22 +166,76 @@ class Account_page(userGroups, View):
 
 
 
+class CreateAuction(View):
 
-class CreateAuction(LoginRequiredMixin, CreateView):
-    model = Auctions
-    template_name = 'create_auction.html'
-    form_class = AuctionsForm
-    success_url = reverse_lazy('index')
-    success_msg = 'Auction was created'
+    def post(self, request):
 
+        form = AuctionsForm(request.POST, request.FILES)
+        
 
-    def get_context_data(self, **kwargs):
-        # Call the base implementation first to get a context
-        context = super(CreateAuction, self).get_context_data(**kwargs)
-        # Add in a QuerySet of all the posts
+        if form.is_valid():
+
+            user_data_form = form.save(commit=True)
 
 
-        context['groups_user_sellers'] = User.objects.filter(groups=1)
+            title = form.cleaned_data['title']
+            description = form.cleaned_data['description']
+            seller = form.cleaned_data['seller']
+            status = form.cleaned_data['status']
+            start_price = form.cleaned_data['start_price']
+            bid_up = form.cleaned_data['bid_up']
+            start_auction = form.cleaned_data['start_auction']
+            start_auction_time = form.cleaned_data['start_auction_time']
+            sort_auction = form.cleaned_data['sort_auction']
+            main_img = form.cleaned_data['main_img']
+
+
+            user_data_form.title = title
+            user_data_form.description = description
+            user_data_form.seller = seller
+            user_data_form.status = status
+            user_data_form.start_price = start_price
+            user_data_form.bid_up = bid_up
+            user_data_form.start_auction = start_auction
+            user_data_form.start_auction_time = start_auction_time
+            user_data_form.sort_auction = sort_auction
+            user_data_form.main_img = main_img
+
+
+
+            user_data_form.save()
+
+
+
+            # Get and Save additional images
+            id_auction = user_data_form.pk
+            auction = Auctions.objects.get(pk=id_auction)
+            files = self.request.FILES.getlist('files')
+            if files:
+                for file in files:
+                    fl = ImgForAuction(auction=auction, img = file)
+                    print('fl', fl)
+                    fl.save()
+            return redirect ('index')
+
+        
+        else:
+            print('form is invalid')
+        
+        return redirect('index')
+
+
+
+
+
+    def get(self, request):
+        
+        form = AuctionsForm
+        ok = 'ok'
+
+
+
+        groups_user_sellers = User.objects.filter(groups=1)
         
         sort_query = Auctions.objects.only('sort_auction').order_by('-sort_auction')
 
@@ -190,50 +249,103 @@ class CreateAuction(LoginRequiredMixin, CreateView):
                 post_time = i.sort_auction
 
 
+        post_time_ok = post_time + 1
 
 
 
 
-        # print('actual time format', datetime.now().time())
-        # if datetime.now().time() > time(6, 43):
-        #     print('time string')
-        # post_time = time(0, 0)
-        # for i in sort_query:
-        #     if type(i.sort_auction) is int:
-        #         i.sort_auction = time(i.sort_auction, 0)
-        #         print('i.sort_auction', i.sort_auction)
+        if self.request.is_ajax():
+            ok = 'ok'
+            print('ok response success', ok)
+            date_dict = self.request.GET.get('start_auction', None)
+            print('ok response success self', date_dict)
+
             
-        #     if i.sort_auction < post_time:
-        #         pass
-        #     elif i.sort_auction >= post_time:
-        #         post_time = i.sort_auction
-                
+
+            leads_as_json = serializers.serialize('json', ScheduleAuction.objects.filter(active_time = date_dict))
+            
+
+
+            print('acutal_dates_auctions', leads_as_json)
+
+            return JsonResponse(dict(acutal_dates_auctions=leads_as_json), status=200)
+
+
+        ctx = {
+            'ok': ok,
+            'form': form,
+            'post_time_ok': post_time_ok,
+            'groups_user_sellers': groups_user_sellers,
+        }
+
+        return render(request, 'create_auction.html', ctx)
+
+
+
+
+
+
+
+
+
+
+
+# class CreateAuction(LoginRequiredMixin, CreateView):
+#     model = Auctions
+#     template_name = 'create_auction.html'
+#     form_class = AuctionsForm
+#     success_url = reverse_lazy('index')
+#     success_msg = 'Auction was created'
+
+
+#     def get_context_data(self, **kwargs):
+#         # Call the base implementation first to get a context
+#         context = super(CreateAuction, self).get_context_data(**kwargs)
+#         # Add in a QuerySet of all the posts
+
+
+#         context['groups_user_sellers'] = User.objects.filter(groups=1)
         
-
-        # post_time = datetime.combine(date.today(), post_time) + timedelta(minutes=60)
-        # print (post_time.time())
+#         sort_query = Auctions.objects.only('sort_auction').order_by('-sort_auction')
 
 
-        context['post_time'] = post_time + 1
+#         post_time = 0
+#         for i in sort_query:
+            
+#             if i.sort_auction < post_time:
+#                 pass
+#             elif i.sort_auction >= post_time:
+#                 post_time = i.sort_auction
+
+
+
+
+#         context['post_time_ok'] = post_time + 1
         
-        return context
+#         return context
 
-    def form_valid(self, form):
-        form_valid = super().form_valid(form)
+#     def form_valid(self, form):
+#         form_valid = super().form_valid(form)
 
-        # Get and Save additional images
-        id = form.save().pk
-        auction = Auctions.objects.get(pk=id)
-        files = self.request.FILES.getlist('files')
-        if files:
-            for file in files:
-                fl = ImgForAuction(auction=auction, img = file)
-                print('fl', fl)
-                fl.save()
+#         # Get and Save additional images
+#         id = form.save().pk
+#         auction = Auctions.objects.get(pk=id)
+#         files = self.request.FILES.getlist('files')
+#         if files:
+#             for file in files:
+#                 fl = ImgForAuction(auction=auction, img = file)
+#                 print('fl', fl)
+#                 fl.save()
 
 
         
-        return form_valid
+#         return form_valid
+
+
+
+    
+
+
 
 
 class Index(View):
@@ -266,6 +378,7 @@ class Index(View):
                     price_for_main = 'none'
 
 
+
             if winner == 1:
                 winner_price = Prices.objects.filter(winner = 1, auction_id = auction.id)
                 for win_old in winner_price:
@@ -281,6 +394,7 @@ class Index(View):
             if price_for_main != 'none':
                 dict_bid_data.update({"new_bid": price_for_main})
             print('model_to_dict(bid_data)', dict_bid_data)
+
 
         # return redirect('index')
         return JsonResponse({'bid_data': dict_bid_data}, status=200)

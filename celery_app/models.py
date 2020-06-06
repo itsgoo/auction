@@ -10,8 +10,9 @@ class Auctions(models.Model):
     start_price = models.IntegerField()
     bid_up = models.IntegerField()
     start_auction = models.DateField()
+    start_auction_time = models.CharField(max_length=6)
     sort_auction = models.IntegerField(blank = True)
-    main_img = models.ImageField(upload_to='file', blank=True)
+    main_img = models.ImageField(upload_to='file')
 
 class ImgForAuction(models.Model):
     auction = models.ForeignKey(Auctions, on_delete=models.CASCADE, blank=True)
@@ -36,4 +37,5 @@ class Prices(models.Model):
 # schedule
 class ScheduleAuction(models.Model):
     active_time = models.DateTimeField(auto_now = False)
+    active_date_time = models.CharField(max_length=6)
     auction = models.ForeignKey(Auctions, on_delete = models.CASCADE)
