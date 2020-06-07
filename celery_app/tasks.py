@@ -32,7 +32,7 @@ def everyDaySchedule():
 
 
 
-    last_hour = 23
+    # last_hour = 23
 
 
     # p_del = ScheduleAuction.objects.all()
@@ -61,113 +61,187 @@ def everyDaySchedule():
 
 
 
-    schedule_max_hour = ScheduleAuction.objects.all().only('active_time', 'active_date_time').order_by('-id')[0]
-
-    last_auction_time = schedule_max_hour.active_date_time
-
-    last_auction_date = schedule_max_hour.active_time.date()
-
-    hour = int(last_auction_time)
-    actual_day = int(last_auction_date.day)
-    actual_month = int(last_auction_date.month)
-    actual_year = int(last_auction_date.year)
-
-
-    schedule_test = ScheduleAuction.objects.filter(active_time__contains = date(2020, 6, 1))
 
 
 
+    # get max active time date
+    max_schedule_date_q = ScheduleAuction.objects.all().only('active_time').order_by('-active_time')[0]
+    max_schedule_date = max_schedule_date_q.active_time
 
-                    
+    #get today date
+    test_1 = date.today()
+    s_year = test_1.year
+    s_month = test_1.month
+    s_day = test_1.day + 1
+    s_date_next_day = date(s_year, s_month, s_day)
+    print('new format active_date_time', s_date_next_day)
 
 
-    busy_times = []
-    list_for_free_num = []
-    # order preserving
-        
+    
+    
+    # get free time for automatic auctions
+    schedule_test = ScheduleAuction.objects.filter(active_time__gte = s_date_next_day)
+
+
+
+
+    busy_times_date = []
+    busy_times_time = []
+    free_num_list_in_day = []
+
+
+    
     for i in schedule_test:
-        print('i.active_date_time in for', i)
-        if i.active_date_time not in busy_times:
-            print('i.active_date_time in if', i.active_date_time)
-            busy_times.append(int(i.active_date_time))
+        if str(i.active_time) not in busy_times_date:
+            busy_times_date.append(str(i.active_time))
+
+    busy_times_date_full = []
+    
+    for busy in busy_times_date:
+        busy_times_date_full.append([busy])
+        for i in schedule_test:
+            if busy == str(i.active_time):
+                busy_times_time.append(int(i.active_date_time))
+
+        busy_times_date_full[-1].append(busy_times_time)
+        busy_times_time = []
+
+                
+
+    print('busy_times_date_full', busy_times_date_full)
 
 
-    print('busy_times', busy_times)
+
+    positive_values = []
+    total_free_time_each_day = []
+    for busy_full in busy_times_date_full:
+        print('busy_full[0]', busy_full[0])
+
+        total_free_time_each_day.append([busy_full[0]])
+        print('busy_full[0]', busy_full[1])
+
+
+        for i in range(0, 24):
+
+            if i not in busy_full[1]:
+                positive_values.append(i)
+        
+        total_free_time_each_day[-1].append(positive_values)
+        positive_values = []
+
+    print('total_free_time_each_day', total_free_time_each_day)
+
+
+
+
+
+
+
 
 
     for i in range(0, 24):
 
-        if i not in busy_times:
-            print('i in if', i)
-            list_for_free_num.append(i)
+        if i not in busy_times_date:
+            free_num_list_in_day.append(i)
+    print('free_num_list_in_day', free_num_list_in_day)
 
 
 
-
-    # for i in range(0, 24):
-    #     list_for_free_num.append(i)
-
-    # for i in busy_times:
-    #     try:
-    #         list_for_free_num.remove(i)
-    #     except:
-    #         print("An exception occurred")
-
-
-
-
-    print('list_for_free_num', list_for_free_num)
+    # get [[2020-06-08], [1, 2, 3], [2020-06-09], [1, 2, 3]]
 
     for i in auctions_meta:
 
         print('i.id', i.id)
-        print('i.sort_auction before', i.sort_auction)
-        print('hour', hour)
+        active_time_auction = s_date_next_day
 
-        if hour < last_hour:
+        print('active_time_auction', active_time_auction)
+
+        free_hour = free_num_list_in_day[0]
+
+        print('free_hour', free_hour)
+
+
+        s = ScheduleAuction(active_time = active_time_auction, auction = i, active_date_time = free_hour)
+        # s.save()
+
+        i.sort_auction = 0
+        i.start_auction = active_time_auction
+        i.start_auction_time = free_hour
+        # i.save()
+        print('i save sort_auction after ', i.sort_auction)
+    
+        del free_num_list_in_day[0]
+
+
+
+    # s_date_next_day_next = s_date_next_day + timedelta(days=1)
+    # print('new format s_date_next_day_next', s_date_next_day_next)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        # # print('i.id', i.id)
+        # # print('i.sort_auction before', i.sort_auction)
+        # # print('hour', hour)
+
+        # if hour < last_hour:
             
-            active_time_auction = datetime(actual_year, actual_month, actual_day)
+        #     active_time_auction = datetime(actual_year, actual_month, actual_day)
             
-            # utc translate time
-            u = active_time_auction.replace(tzinfo=pytz.utc)
-            aware_time_utc_helper = u.astimezone(pytz.timezone('Asia/Tel_Aviv'))
+        #     # utc translate time
+        #     u = active_time_auction.replace(tzinfo=pytz.utc)
+        #     aware_time_utc_helper = u.astimezone(pytz.timezone('Asia/Tel_Aviv'))
 
-            print('active_time_auction', active_time_auction)
-            print('aware_time_utc_helper', aware_time_utc_helper)
+        #     # print('active_time_auction', active_time_auction)
+        #     # print('aware_time_utc_helper', aware_time_utc_helper)
 
 
-            s = ScheduleAuction(active_time = aware_time_utc_helper, auction = i, active_date_time = hour)
-            # s.save()
+        #     s = ScheduleAuction(active_time = aware_time_utc_helper, auction = i, active_date_time = hour)
+        #     # s.save()
 
-            i.sort_auction = 0
-            # i.save()
-            print('i save sort_auction after ', i.sort_auction)
+        #     i.sort_auction = 0
+        #     # i.save()
+        #     # print('i save sort_auction after ', i.sort_auction)
         
-            hour += 1
+        #     hour += 1
 
-        elif hour >= last_hour:
-            hour = 0
-            print('hour = 0 elif', hour)
+        # elif hour >= last_hour:
+        #     hour = 0
+        #     # print('hour = 0 elif', hour)
             
-            actual_day += 1
-            print('actual_day next elif', actual_day)
+        #     actual_day += 1
+        #     # print('actual_day next elif', actual_day)
         
-            active_time_auction = datetime(actual_year, actual_month, actual_day)
+        #     active_time_auction = datetime(actual_year, actual_month, actual_day)
             
-            # utc translate time
-            u = active_time_auction.replace(tzinfo=pytz.utc)
-            aware_time_utc_helper = u.astimezone(pytz.timezone('Asia/Tel_Aviv'))
+        #     # utc translate time
+        #     u = active_time_auction.replace(tzinfo=pytz.utc)
+        #     aware_time_utc_helper = u.astimezone(pytz.timezone('Asia/Tel_Aviv'))
 
-            print('active_time_auction', active_time_auction)
-            print('aware_time_utc_helper', aware_time_utc_helper)
+        #     # print('active_time_auction', active_time_auction)
+        #     # print('aware_time_utc_helper', aware_time_utc_helper)
 
 
-            s = ScheduleAuction(active_time = aware_time_utc_helper, auction = i)
-            # s.save()
+        #     s = ScheduleAuction(active_time = aware_time_utc_helper, auction = i)
+        #     # s.save()
 
-            i.sort_auction = 0
-            # i.save()
-            print('i save sort_auction after ', i.sort_auction)
+        #     i.sort_auction = 0
+        #     # i.save()
+        #     # print('i save sort_auction after ', i.sort_auction)
         
 
 

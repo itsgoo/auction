@@ -31,7 +31,7 @@ for( i = 0; i < rad.length; i++) {
             console.log('prev == manual ' + prev)
             formStartAuction.classList.add('show_start_auction')
             document.getElementById('id_start_auction').value =  nextDate
-            // document.getElementById('id_start_auction').min = nextDate
+            document.getElementById('id_start_auction').min = nextDate
         }
 
 

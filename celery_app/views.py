@@ -216,9 +216,23 @@ class CreateAuction(View):
                     fl = ImgForAuction(auction=auction, img = file)
                     print('fl', fl)
                     fl.save()
+
+
+
+
+            s = ScheduleAuction(active_time = start_auction, auction = user_data_form, active_date_time = start_auction_time)
+            
+            s.save()
+            print('schedule', s)
+
+
             return redirect ('index')
 
         
+
+
+
+
         else:
             print('form is invalid')
         
