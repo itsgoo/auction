@@ -27,11 +27,19 @@ for( i = 0; i < rad.length; i++) {
             console.log('prev == automatic ' + prev)
             formStartAuction.classList.remove('show_start_auction')
             document.getElementById('id_start_auction').value = '0001-01-01'
+
         }else if(prev == 'manual'){
             console.log('prev == manual ' + prev)
             formStartAuction.classList.add('show_start_auction')
             document.getElementById('id_start_auction').value =  nextDate
             document.getElementById('id_start_auction').min = nextDate
+
+
+            const selectDivErase = document.getElementById('id_start_auction_time')
+
+            selectDivErase.innerHTML = ``
+
+
         }
 
 
@@ -49,9 +57,6 @@ const btnDateField = document.getElementById('choose_free_time')
 
 btnDateField.addEventListener('click', (event) => {
 
-
-
-
     var serializedData = $("#id_start_auction").serialize();
 	console.log(serializedData)
 
@@ -60,7 +65,78 @@ btnDateField.addEventListener('click', (event) => {
 		data: serializedData,
 		type: 'get',
 		success: function(response){
-			console.log('responce success' + response.acutal_dates_auctions)
+
+
+
+            const fieldTime = document.getElementById('field_shoise_time_id')
+            fieldTime.classList.add('show_start_auction')
+
+
+            const responseData = response.acutal_dates_auctions
+			console.log('response success' + responseData)
+            const selectDiv = document.getElementById('id_start_auction_time')
+
+            selectDiv.innerHTML = ``
+            const obj = JSON.parse(responseData)
+
+
+
+
+
+
+            let busyDates = new Array
+            let currentFreeDates = new Array
+
+            obj.forEach(element => {
+                console.log('obj success element ' + element.fields.active_date_time)
+                const valueTime = element.fields.active_date_time
+
+                busyDates.push(valueTime)
+
+            })
+
+
+
+
+
+
+            Array.from(new Array(24), (x,i) => {
+
+                currentFreeDates.push(i)
+
+            })
+
+            
+            busyDates.forEach(busyElement => {
+                // console.log('busyElement ' + busyElement)
+                
+                currentFreeDates.forEach(freeElement => {
+
+                    if(freeElement == busyElement ){
+
+                        delete currentFreeDates[busyElement]
+                    }
+
+                })
+            })
+
+
+
+
+            currentFreeDates.forEach(freeElement => {
+
+                    
+            selectDiv.innerHTML = selectDiv.innerHTML + `<option value="` + freeElement + `" >` + freeElement + `</option>`
+
+
+            })
+
+
+
+
+
+
+
 
 		}
 	})

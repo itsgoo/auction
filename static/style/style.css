@@ -94,6 +94,12 @@
 .field_start_auction{
     display:none;
 }
+
 .show_start_auction{
     display:block !important;
+}
+
+
+.field_shoise_time{
+    display:none;
 }

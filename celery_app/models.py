@@ -10,7 +10,7 @@ class Auctions(models.Model):
     start_price = models.IntegerField()
     bid_up = models.IntegerField()
     start_auction = models.DateField()
-    start_auction_time = models.CharField(max_length=6)
+    start_auction_time = models.CharField(max_length=6, blank=False)
     sort_auction = models.IntegerField(blank = True)
     main_img = models.ImageField(upload_to='file')
 

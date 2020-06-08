@@ -82,12 +82,6 @@ class Account_page(userGroups, View):
                 print('account seller')
 
 
-
-
-
-
-                
-
                 user_seller_auctions = Auctions.objects.filter(seller = self.request.user).order_by('-start_auction')
         
 
@@ -219,19 +213,15 @@ class CreateAuction(View):
 
 
 
-
-            s = ScheduleAuction(active_time = start_auction, auction = user_data_form, active_date_time = start_auction_time)
-            
-            s.save()
-            print('schedule', s)
+            if start_auction !=  date(1,1,1):
+                s = ScheduleAuction(active_time = start_auction, auction = user_data_form, active_date_time = start_auction_time)
+                
+                s.save()
+                print('schedule', s)
+                
 
 
             return redirect ('index')
-
-        
-
-
-
 
         else:
             print('form is invalid')
@@ -245,9 +235,6 @@ class CreateAuction(View):
     def get(self, request):
         
         form = AuctionsForm
-        ok = 'ok'
-
-
 
         groups_user_sellers = User.objects.filter(groups=1)
         
@@ -269,15 +256,15 @@ class CreateAuction(View):
 
 
         if self.request.is_ajax():
-            ok = 'ok'
-            print('ok response success', ok)
             date_dict = self.request.GET.get('start_auction', None)
             print('ok response success self', date_dict)
-
+            
+            leads_as_json = serializers.serialize('json', ScheduleAuction.objects.filter(active_time = date_dict).only('active_date_time').order_by('active_date_time'))
             
 
-            leads_as_json = serializers.serialize('json', ScheduleAuction.objects.filter(active_time = date_dict))
-            
+
+
+
 
 
             print('acutal_dates_auctions', leads_as_json)
@@ -286,7 +273,6 @@ class CreateAuction(View):
 
 
         ctx = {
-            'ok': ok,
             'form': form,
             'post_time_ok': post_time_ok,
             'groups_user_sellers': groups_user_sellers,
@@ -416,6 +402,22 @@ class Index(View):
 
     def get(self, request):
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         winners = Prices.objects.filter(winner=1)
         additional_img = ImgForAuction.objects.all() 
         groups_user_buyers = User.objects.filter(groups = 2)
@@ -430,6 +432,10 @@ class Index(View):
 
         current_user = request.user
         auction_bids = Bids.objects.all()
+
+        # for i in auctions_today:
+        #     i.id 
+
 
         ctx ={
             'form': form,

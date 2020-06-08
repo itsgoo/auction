@@ -36,23 +36,19 @@ def everyDaySchedule():
 
 
     # p_del = ScheduleAuction.objects.all()
-    # p_del.delete()
+    # a_del = Auctions.objects.all()
+    # # p_del.delete()
 
 
-    # time_actual = time(0, 00)
-    # local_dt = timezone.localtime(datetime.now(), pytz.timezone('Asia/Tel_Aviv'))
-    
-    # print('timezone.localtime(timezone.now())', timezone.localtime(datetime(2003, 9, 27, 12, 40, 12, 156379)))
+    # for d in p_del:
+    #     if d.id == 119:
+    #         d.active_date_time = 19
+    #         d.save()
 
-    # tzutc = datetime(2003, 9, 27, 12, 40, 12, 156379, tzinfo=tzutc())
-    # print('tzutc', tzutc)
-    # tzlocal = tzlokal
-    # print('tzlocal', tzlocal)
-
-
-
-
-
+    # for a in a_del:
+    #     if a.id == 90 or a.id == 91 or a.id == 93:
+    #         a.start_auction_time = 0
+    #         a.save()
 
 
 
@@ -80,21 +76,21 @@ def everyDaySchedule():
     
     
     # get free time for automatic auctions
-    schedule_test = ScheduleAuction.objects.filter(active_time__gte = s_date_next_day)
+    schedule_test = ScheduleAuction.objects.filter(active_time__gte = s_date_next_day).order_by('active_time')
 
 
 
 
     busy_times_date = []
     busy_times_time = []
-    free_num_list_in_day = []
 
 
-    
+    # get busy time
     for i in schedule_test:
         if str(i.active_time) not in busy_times_date:
             busy_times_date.append(str(i.active_time))
 
+    print('busy_times_date', busy_times_date)
     busy_times_date_full = []
     
     for busy in busy_times_date:
@@ -106,12 +102,12 @@ def everyDaySchedule():
         busy_times_date_full[-1].append(busy_times_time)
         busy_times_time = []
 
-                
-
     print('busy_times_date_full', busy_times_date_full)
 
 
 
+
+    # get free schedule time [[[2020-06-08], [1, 2, 3]], [[2020-06-09], [1, 2, 3]]]
     positive_values = []
     total_free_time_each_day = []
     for busy_full in busy_times_date_full:
@@ -129,53 +125,52 @@ def everyDaySchedule():
         total_free_time_each_day[-1].append(positive_values)
         positive_values = []
 
-    print('total_free_time_each_day', total_free_time_each_day)
 
 
 
 
 
+        print('total_free_time_each_day', total_free_time_each_day)
 
 
 
-
-    for i in range(0, 24):
-
-        if i not in busy_times_date:
-            free_num_list_in_day.append(i)
-    print('free_num_list_in_day', free_num_list_in_day)
-
-
-
-    # get [[2020-06-08], [1, 2, 3], [2020-06-09], [1, 2, 3]]
+    
 
     for i in auctions_meta:
 
+
+        if total_free_time_each_day[0][1] == []:
+            del total_free_time_each_day[0]
+
         print('i.id', i.id)
-        active_time_auction = s_date_next_day
+        active_time_auction = total_free_time_each_day[0][0]
 
         print('active_time_auction', active_time_auction)
 
-        free_hour = free_num_list_in_day[0]
+        free_hour = total_free_time_each_day[0][1][0]
 
         print('free_hour', free_hour)
 
 
         s = ScheduleAuction(active_time = active_time_auction, auction = i, active_date_time = free_hour)
-        # s.save()
+        s.save()
 
         i.sort_auction = 0
         i.start_auction = active_time_auction
         i.start_auction_time = free_hour
-        # i.save()
+        i.save()
         print('i save sort_auction after ', i.sort_auction)
     
-        del free_num_list_in_day[0]
+
+
+        del total_free_time_each_day[0][1][0]
 
 
 
-    # s_date_next_day_next = s_date_next_day + timedelta(days=1)
-    # print('new format s_date_next_day_next', s_date_next_day_next)
+        if total_free_time_each_day[0][1] == []:
+            del total_free_time_each_day[0]
+
+        print('total_free_time_each_day ', total_free_time_each_day)
 
 
 
@@ -246,7 +241,7 @@ def everyDaySchedule():
 
 
 
-    return print('cron it works! 2')
+    return print('made schedule')
 
 
 
@@ -259,34 +254,95 @@ def everyDaySchedule():
 
 @shared_task
 def update_post_status():
-    date = datetime.datetime.now()
-    dateyear = int(date.year)
-    datemonth = date.month
-    dateday = date.day - 1
-    yesterday = datetime.date(dateyear, datemonth, dateday)
+
     
-    today_auctions = Auctions.objects.filter(start_auction=date)
 
-    yesterday_auctions = Auctions.objects.filter(start_auction=yesterday)
+    
 
-    print('yesterday date', yesterday)
-    for ya in yesterday_auctions:
-        print('yesterday_auctions before', ya.id, ' ', ya.status)
-        ya.status = 3
-        print('yesterday_auctions after', ya.status)
-        ya.save()
 
-    for i in today_auctions:
-        if i.status != 2:
-            print('today_auctions before', i.id, ' ', i.status)
-            i.status = 2
-            print('today_auctions after', i.status)
-            i.save()
 
-            p = Prices(new_price = i.start_price, auction=i, buyer_id=i.seller, winner=1)
-            p.save()
-    # p_del = Prices.objects.get(id=159)
-    # p_del.delete()
+    #get today date
+    test_1 = date.today()
+    s_year = test_1.year
+    s_month = test_1.month
+    s_day = test_1.day + 1
+    s_date_next_day = date(s_year, s_month, s_day)
+    print('new format active_date_time', s_date_next_day)
+
+
+    time_now = datetime.now() 
+    actual_hour = time_now.hour
+    
+    print('s_hour', actual_hour)
+    
+    # get free time for automatic auctions
+    schedule_test = ScheduleAuction.objects.filter(active_time = s_date_next_day)
+
+
+    for actual_auction in schedule_test:
+
+        # print('actual_auction.active_date_time', actual_auction.active_date_time)
+        
+        if actual_hour == int(actual_auction.active_date_time):
+            current_auction_id = actual_auction.auction_id
+            print('actual_auction', actual_auction.auction_id)
+
+
+
+    current_auctions = Auctions.objects.all().only('id', 'status')
+
+    for current_auction in current_auctions:
+        if current_auction.status == 2:
+            current_auction.status = 3
+            current_auction.save()
+            print('current_auction.id status 3', current_auction.id)
+
+        if current_auction.id == current_auction_id:
+            if current_auction.status != 2:
+                current_auction.status = 2
+                print('current_auction.id status 2', current_auction.id)
+                current_auction.save()
+
+
+
+
+
+
+
+
+
+
+
+
+
+    # date = datetime.datetime.now()
+    # dateyear = int(date.year)
+    # datemonth = date.month
+    # dateday = date.day - 1
+    # yesterday = datetime.date(dateyear, datemonth, dateday)
+    
+    # today_auctions = Auctions.objects.filter(start_auction=date)
+
+    # yesterday_auctions = Auctions.objects.filter(start_auction=yesterday)
+
+    # print('yesterday date', yesterday)
+    # for ya in yesterday_auctions:
+    #     print('yesterday_auctions before', ya.id, ' ', ya.status)
+    #     # ya.status = 3
+    #     print('yesterday_auctions after', ya.status)
+    #     # ya.save()
+
+    # for i in today_auctions:
+    #     if i.status != 2:
+    #         print('today_auctions before', i.id, ' ', i.status)
+    #         i.status = 2
+    #         print('today_auctions after', i.status)
+    #         # i.save()
+
+    #         p = Prices(new_price = i.start_price, auction=i, buyer_id=i.seller, winner=1)
+    #         # p.save()
+    # # p_del = Prices.objects.get(id=159)
+    # # p_del.delete()
 
     return print('status of yesterday auctions was update')
 
