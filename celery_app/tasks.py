@@ -303,7 +303,8 @@ def update_post_status():
                 print('current_auction.id status 2', current_auction.id)
                 current_auction.save()
 
-
+                p = Prices(new_price = current_auction.start_price, auction=current_auction, buyer_id=current_auction.seller, winner=1)
+                p.save()
 
 
 
@@ -345,6 +346,29 @@ def update_post_status():
     # # p_del.delete()
 
     return print('status of yesterday auctions was update')
+
+
+
+
+@shared_task
+def update_auctions_with_no_bids_status():
+    
+
+    auctions_width_no_bids = Prices.objects.all().select_related('auction').prefetch_related('auction__seller')
+
+    for auction in auctions_width_no_bids:
+        if auction.winner == 1:
+            if auction.buyer_id.id == auction.auction.seller.id:
+
+                print('there is auction without bid', auction.auction.id) 
+                auction.auction.start_auction = '0001-01-01'
+                auction.auction.save()
+            
+
+
+
+    return print('auctions who had no bids was moved to the end of the schedule list')
+    
 
 
 

@@ -34,6 +34,10 @@ app.conf.beat_schedule = {
     'task': 'celery_app.tasks.update_post_status',
     'schedule': crontab(hour="*", minute="0"),
     },
+    'update_auctions_with_no_bids_status': {
+    'task': 'celery_app.tasks.update_auctions_with_no_bids_status',
+    'schedule': crontab(hour="*", minute="0"),
+    },
 }
 # crontab(minute=0, hour=0)
 @app.task(bind=True)
