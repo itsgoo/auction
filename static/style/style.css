@@ -103,3 +103,7 @@
 .field_shoise_time{
     display:none;
 }
+
+.inline{
+    display: inline !important;
+}

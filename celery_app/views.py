@@ -41,6 +41,81 @@ class userGroups:
     def buyers(self):
         return User.objects.filter(groups = 2)
 
+    def admins(self):
+        return User.objects.filter(groups = 3)
+
+
+
+class Reports(View):
+
+    
+    def get(self, request):
+
+
+        user_data_form = get_object_or_404(User, id =request.user.id)
+        form = ChangeUserData(instance = user_data_form)
+        
+
+
+        # render for Buyers
+        buyers_into_group = userGroups.admins(self)
+
+        for i in buyers_into_group:
+            if self.request.user.id == i.id:
+                print('account buyer')
+        
+                
+
+                user_auctions_short_from_prices = Prices.objects.filter(buyer_id = self.request.user.id, winner= 1, auction__status = 3).select_related('auction').prefetch_related('auction__seller').order_by('-auction__start_auction')
+
+                
+                user_auctions_short_from_prices_actual = Prices.objects.select_related('auction').filter(buyer_id = self.request.user.id, auction__status = 2).prefetch_related('auction__seller').order_by('-new_price_time')
+                
+
+                checked = []
+                unique_actual_auctions_for_buyer = []
+                # order preserving
+                    
+                for auctions in user_auctions_short_from_prices_actual:
+                    if auctions.auction.id not in checked:
+                        checked.append(auctions.auction.id)
+                        unique_actual_auctions_for_buyer.append(auctions)
+
+                
+
+                print('f2', unique_actual_auctions_for_buyer)
+
+
+                
+                ctx = {
+                    'form': form,
+                    'buyers_into_group': buyers_into_group,
+                    'unique_actual_auctions_for_buyer': unique_actual_auctions_for_buyer,
+
+                    'user_auctions_short_from_prices_actual': user_auctions_short_from_prices_actual,
+                    'user_auctions_short_from_prices': user_auctions_short_from_prices,
+                }
+        return render (request, 'account_page.html', ctx)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 class Account_page(userGroups, View):
@@ -413,6 +488,15 @@ class Index(View):
 
 
 
+        #get today date
+        test_1 = date.today()
+        s_year = test_1.year
+        s_month = test_1.month
+        s_day_today = test_1.day
+        s_day = test_1.day + 1
+        s_date_day_today = date(s_year, s_month, s_day_today)
+        s_date_next_day = date(s_year, s_month, s_day)
+        print('new format active_date_time', s_date_next_day)
 
 
 
@@ -424,7 +508,7 @@ class Index(View):
         form = BidUpForm
         groups_user_sellers = User.objects.filter(groups = 1)
 
-        auctions_tomorrow = Auctions.objects.filter(status=1).order_by('-start_auction')
+        auctions_tomorrow = Auctions.objects.filter(status=1, start_auction__range= (s_date_day_today, s_date_next_day)).order_by('start_auction')
         auctions_today = Auctions.objects.filter(status=2).order_by('-start_auction')
         auctions_yesterday = Auctions.objects.filter(status=3).order_by('-start_auction')
 
@@ -433,8 +517,8 @@ class Index(View):
         current_user = request.user
         auction_bids = Bids.objects.all()
 
-        # for i in auctions_today:
-        #     i.id 
+
+
 
 
         ctx ={

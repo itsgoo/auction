@@ -171,9 +171,15 @@ Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, ve
               
               {{form.bid.label}}
               
+              <div class="btn-toolbar mb-3 inline" role="toolbar" aria-label="Toolbar with button groups">
+                <div class="btn-group mr-2" role="group" aria-label="First group" id ="bids_thing_{{i.id}}">
+                  <button type="button" class="btn btn-secondary" id="bidminus" value="{{i.bid_up}}" >-</button>
 
-              <input type="number" name="bid" id="id_bid_{{i.id}}">
+              <input type="number" size=7 name="bid" id="id_bid_{{i.id}}" value="{{i.bid_up}}">
 
+                  <button type="button" class="btn btn-secondary" id="bidplus" value="">+</button>
+                </div>
+              </div>
 
 
                 <select name="auction" required="" id="id_auction" hidden>
@@ -183,6 +189,9 @@ Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, ve
               <select name="buyer_id" required="" id="id_buyer_id" hidden>
                   <option value="{{user.id}}" selected=""></option>
               </select>
+
+
+
 
 
 
@@ -216,7 +225,7 @@ Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, ve
           {% for p in prices %}
             {% if p.auction_id == i.id and p.winner == 1%}
             
-            <p id="actual_price_val_{{i.id}}">actual price: {{p.new_price}}</p>
+            <p >actual price: <span id="actual_price_val_{{i.id}}">{{p.new_price}}</span></p>
             {% endif %}
           {% endfor %}
 
@@ -241,7 +250,7 @@ Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, ve
 {% endfor %}
 
 </div>
-
+<h3>auctions_tomorrow</h3>
 {% for i in auctions_tomorrow %}
 
 
@@ -273,42 +282,6 @@ Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, ve
 {% endfor %}
 
 
-
-{% for i in auctions_yesterday %}
-
-
-<div class="card mb-3 col-md-10">
- <div class="row no-gutters">
-   <div class="col-md-4">
-     <img src="{{ MEDIA_URL }}{{ i.main_img }}" class="card-img" alt="...">
-   </div>
-   <div class="col-md-8">
-     <div class="card-body">
-       <h5 class="card-title"> 
-         {% for w in winners %}
-         
-            {% if w.auction_id == i.id %}
-                Closed. Winner: {{w.buyer_id}}
-            
-                
-            {% endif %}
-         {% endfor %}
-        </h5>
-       <h5 class="card-title">{{i.title}} <small class="text-muted mr-3">Status: {{i.status}}</small><small class="text-muted mr-3">ID: {{i.id}}</small></h5>
-       <p class="card-text">{{i.description}}</p>
-        <p class="card-text"><small class="text-muted mr-3">Start auction: {{i.start_auction}}</small>
-         <small class="text-muted mr-3">Start price: {{i.start_price}}</small>
-          <small class="text-muted mr-3">Bid up: {{i.bid_up}}</small>
-        </p>
-      
-     </div>
-   </div>
-</div>
-</div>
-
-
-
-{% endfor %}
 
 
 

@@ -1,7 +1,13 @@
-console.log('hi main.js')
+
+
+const queryString = window.location
+if(queryString == 'http://127.0.0.1:8000/create'){
+
+
 
 
 const rad = document.createAuctionForm.myRadios
+
 let prev = null
 for( i = 0; i < rad.length; i++) {
     rad[i].addEventListener('change', function() {
@@ -121,8 +127,6 @@ btnDateField.addEventListener('click', (event) => {
             })
 
 
-
-
             currentFreeDates.forEach(freeElement => {
 
                     
@@ -131,28 +135,46 @@ btnDateField.addEventListener('click', (event) => {
 
             })
 
-
-
-
-
-
-
-
 		}
 	})
 
+})
+
+}
+
+
+
+const bidMinusVal = document.getElementById('bidminus')
+const bidPlusVal = document.getElementById('bidplus')
+
+
+
+const bidPlusValVal = document.getElementById('bidminus')
+
+const inputIdMain = bidPlusValVal.parentNode.id.replace('bids_thing_', '')
+
+const inputBidMain = document.getElementById('id_bid_' + inputIdMain)
+
+const actualPriceVal = document.getElementById('actual_price_val_' + inputIdMain).textContent
+
+inputBidMain.value = actualPriceVal
+
+
+
+
+
+
+bidMinusVal.addEventListener('click', (event) => {
+    console.log(event.target.value)
+    
+
+    const inputId = event.target.parentNode.id.replace('bids_thing_', '')
+    console.log(inputId)
+
+    const inputBid = document.getElementById('id_bid_' + inputId)
 
 
 })
-
-
-
-
-
-
-
-
-
 
 
 

@@ -363,6 +363,8 @@ def update_auctions_with_no_bids_status():
                 print('there is auction without bid', auction.auction.id) 
                 auction.auction.start_auction = '0001-01-01'
                 auction.auction.save()
+
+                
             
 
 

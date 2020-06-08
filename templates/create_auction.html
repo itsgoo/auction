@@ -39,14 +39,27 @@
 
 
         <div class="mt-3 mb-3">
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="myRadios" id="RadioAutomatic" value="automatic" checked>
-                <label class="form-check-label" for="inlineRadio1">Automatic</label>
+
+
+            <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" id="customRadioInline1" name="myRadios" class="custom-control-input" value="automatic" checked>
+                <label class="custom-control-label" for="customRadioInline1">Automatic</label>
             </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="myRadios" id="RadioManual" value="manual">
-                <label class="form-check-label" for="inlineRadio2">Manual</label>
+
+            <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" id="customRadioInline2" name="myRadios" class="custom-control-input" value="manual">
+                <label class="custom-control-label" for="customRadioInline2">Manual</label>
             </div>
+
+
+
+
+
+
+
+
+
+
         </div>
 
 <div  class="mt-3 mb-3 field_start_auction" id="idStartAuction" >
@@ -67,8 +80,8 @@
 
     <div class="mt-3 mb-3 field_shoise_time"  id="field_shoise_time_id">
         Start auction time 
-        <select name="start_auction_time" class="form-control field_start_auction" id="id_start_auction_time" >
-            <option value="0" selected="">Choice</option>
+        <select name="start_auction_time" class="form-control field_start_auction" id="id_start_auction_time" size="3" >
+            <option value="0"  selected="">Choice</option>
         </select>
 
     </div>

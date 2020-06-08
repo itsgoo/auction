@@ -28,7 +28,7 @@ app.autodiscover_tasks()
 app.conf.beat_schedule = {
     'everyDaySchedule': {
     'task': 'celery_app.tasks.everyDaySchedule',
-    'schedule': crontab(hour="*", minute="1"),
+    'schedule': crontab(hour="*", minute="2"),
     },
     'update_post_status': {
     'task': 'celery_app.tasks.update_post_status',
@@ -36,7 +36,7 @@ app.conf.beat_schedule = {
     },
     'update_auctions_with_no_bids_status': {
     'task': 'celery_app.tasks.update_auctions_with_no_bids_status',
-    'schedule': crontab(hour="*", minute="0"),
+    'schedule': crontab(hour="*", minute="1"),
     },
 }
 # crontab(minute=0, hour=0)
