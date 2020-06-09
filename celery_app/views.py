@@ -7,7 +7,7 @@ from django.views.generic import CreateView
 from django.urls import reverse_lazy
 
 
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import User, Group, GroupManager
 from .models import Auctions, Bids, Prices, ImgForAuction, ScheduleAuction
 
 from django.contrib.auth import authenticate, login
@@ -41,8 +41,22 @@ class userGroups:
     def buyers(self):
         return User.objects.filter(groups = 2)
 
-    def admins(self):
-        return User.objects.filter(groups = 3)
+    def true_admin(self):
+
+        # render for admins
+        admins_into_group = User.objects.filter(groups = 3)
+
+        true_admin = 0
+
+        for i in admins_into_group:
+            if self.request.user.id == i.id:
+                true_admin = 1
+                print('true_admin', true_admin)
+
+
+
+        return true_admin
+
 
 
 
@@ -57,45 +71,65 @@ class Reports(View):
         
 
 
-        # render for Buyers
-        buyers_into_group = userGroups.admins(self)
 
-        for i in buyers_into_group:
-            if self.request.user.id == i.id:
-                print('account buyer')
+            
+
+        user_seller_auctions = Auctions.objects.all().order_by('-start_auction')
+
+
+        # count the bids at auction
+        bids = []
+        winners = []
+        count_bid = 0
+        for auction in user_seller_auctions:
+            number_of_bids = Bids.objects.filter(auction = auction)
+            winner_buyer = Prices.objects.filter(auction = auction).filter(winner = 1)
+            for bid in number_of_bids:
+                # print('bid', bid.bid, bid.auction.id )
+                count_bid +=1
+
         
-                
+            bids.append({auction.id: count_bid})
+            count_bid =0
 
-                user_auctions_short_from_prices = Prices.objects.filter(buyer_id = self.request.user.id, winner= 1, auction__status = 3).select_related('auction').prefetch_related('auction__seller').order_by('-auction__start_auction')
 
+            for winner in winner_buyer:
                 
-                user_auctions_short_from_prices_actual = Prices.objects.select_related('auction').filter(buyer_id = self.request.user.id, auction__status = 2).prefetch_related('auction__seller').order_by('-new_price_time')
-                
+                winners.append({winner.auction_id : 
+                    {winner.new_price: winner.buyer_id}
+                })
+        
 
-                checked = []
-                unique_actual_auctions_for_buyer = []
-                # order preserving
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        # render for admins
+        true_admin = userGroups.true_admin(self)
+
+
+        ctx = {
+                'form': form,
+
+                'bids': bids,
+                'winners': winners,
+                'user_seller_auctions': user_seller_auctions,
+                'true_admin': true_admin,
+
                     
-                for auctions in user_auctions_short_from_prices_actual:
-                    if auctions.auction.id not in checked:
-                        checked.append(auctions.auction.id)
-                        unique_actual_auctions_for_buyer.append(auctions)
-
-                
-
-                print('f2', unique_actual_auctions_for_buyer)
-
-
-                
-                ctx = {
-                    'form': form,
-                    'buyers_into_group': buyers_into_group,
-                    'unique_actual_auctions_for_buyer': unique_actual_auctions_for_buyer,
-
-                    'user_auctions_short_from_prices_actual': user_auctions_short_from_prices_actual,
-                    'user_auctions_short_from_prices': user_auctions_short_from_prices,
                 }
-        return render (request, 'account_page.html', ctx)
+
+        return render (request, 'report.html', ctx)
 
 
 
@@ -146,6 +180,9 @@ class Account_page(userGroups, View):
 
 
 
+        # render for admins
+        true_admin = userGroups.true_admin(self)
+
 
 
         sellers_into_group = userGroups.sellers(self)
@@ -188,6 +225,7 @@ class Account_page(userGroups, View):
                     'bids': bids,
                     'winners': winners,
                     'user_seller_auctions': user_seller_auctions,
+                    'true_admin': true_admin,
 
                     
                 }
@@ -229,6 +267,7 @@ class Account_page(userGroups, View):
 
                     'user_auctions_short_from_prices_actual': user_auctions_short_from_prices_actual,
                     'user_auctions_short_from_prices': user_auctions_short_from_prices,
+                    'true_admin': true_admin,
                 }
         return render (request, 'account_page.html', ctx)
 
@@ -425,6 +464,10 @@ class CreateAuction(View):
 
 class Index(View):
 
+
+
+
+
     def post(self, request):
         bidup_form = BidUpForm(request.POST)
         print('bidup_form view')
@@ -485,9 +528,6 @@ class Index(View):
 
 
 
-
-
-
         #get today date
         test_1 = date.today()
         s_year = test_1.year
@@ -519,6 +559,12 @@ class Index(View):
 
 
 
+        # render for admins
+        true_admin = userGroups.true_admin(self)
+
+
+
+
 
 
         ctx ={
@@ -533,6 +579,7 @@ class Index(View):
             'auction_bids': auction_bids,
             'groups_user_buyers': groups_user_buyers,
             'groups_user_sellers': groups_user_sellers,
+            'true_admin': true_admin,
         }
         return render(request, 'index.html', ctx)
 

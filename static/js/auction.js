@@ -59,6 +59,7 @@ function btnBidEvent(event){
 		console.log('confirmationPopUp2' + confirmationPopUp2)
 		confirmationPopUp2.classList.remove('show')
 		confirmationPopUp2.style.display = "none"
+		confirmationPopUp2.style.paddingRight = 0
 		
 
 	})
@@ -89,11 +90,18 @@ $('.modal').on('click', '#id_send_btn_' + event, function() {
 		data: serializedData,
 		type: 'post',
 		success: function(response){
-			console.log(response.bid_data.new_bid)
+			console.log('response.bid_data.new_bid ' + response.bid_data.new_bid)
 			$('#bid_list_'  + elementId).append('<small>bid: ' + response.bid_data.bid + ' | </small>');
 			if (response.bid_data.new_bid != undefined) {
-				console.log($(this))
-				$('#actual_price_val_'  + elementId).replaceWith($('#actual_price_val_'  + elementId).text('actual price: ' + response.bid_data.new_bid))
+				console.log('$(this)' + $(this))
+				console.log('elementId' + elementId)
+				
+
+				$('#actual_price_val_'  + elementId).replaceWith($('#actual_price_val_'  + elementId).text(response.bid_data.new_bid))
+
+				$('#id_bid_' + elementId).val(response.bid_data.new_bid);
+
+
 			};
 
 		}
@@ -112,8 +120,9 @@ $('.modal').on('click', '#id_send_btn_' + event, function() {
 	confirmationPopUp3.style.display = "none"
 	
 
-
-	document.getElementsByTagName('body')[0].classList.remove('modal-open')
+	const bodyTag = document.getElementsByTagName('body')[0]
+	bodyTag.classList.remove('modal-open')
+	bodyTag.style.paddingRight = 0
 	showNotification(event)
 
 });

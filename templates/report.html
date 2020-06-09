@@ -3,7 +3,7 @@
 
 
 {% block title %}
-Account page
+Reports
 {% endblock %}
 
 
@@ -21,13 +21,13 @@ welcome
 
 <ul class="nav nav-tabs" id="myTab" role="tablist">
     <li class="nav-item" role="presentation">
-      <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Home</a>
+      <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="false">Home</a>
     </li>
     <li class="nav-item" role="presentation">
-      <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Active auctions</a>
+      <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="true">Items</a>
     </li>
     <li class="nav-item" role="presentation">
-      <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Past auctions
+      <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Users
       </a>
     </li>
   </ul>
@@ -53,22 +53,9 @@ welcome
     </div>
     <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
 
-        {% for i in groups_user_sellers %}
-            {% if i.id == user.id%}
-
-            {% include 'include/sellers/seller_account_list_active_auctions.html' %}
-
-            {% endif %}
-        {% endfor %}
+            {% include 'include/adminreports/adminreports_items.html' %}
 
         
-
-        {% for i in buyers_into_group %}
-            {% if i.id == user.id%}
-                {% include 'include/buyers/buyer_account_list_active_auctions.html' %}
-
-            {% endif %}
-        {% endfor %}
 
     </div>
     <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
@@ -80,22 +67,12 @@ welcome
         {% for i in buyers_into_group %}
             {% if i.id == user.id%}
 
-                {% include 'include/buyers/buyer_account_list_recent_auctions.html' %}
+                {% include 'include/adminreports/adminreports_users.html' %}
 
             {% endif %}
         {% endfor %}
 
-        {% for i in groups_user_sellers %}    
-            {% if i.id == user.id%}
 
-                {% include 'include/sellers/seller_account_list_recent_auctions.html' %}
-
-            {% endif %}
-        {% endfor %}
-
-    <div id="pop_up">
-        <span id="close_popup">close</span>
-    </div>
   
 </div>
 

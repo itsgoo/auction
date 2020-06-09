@@ -61,18 +61,30 @@
 
 				<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 
+				
+				{% if user.is_authenticated  %}
+					{% if true_admin == 0  %}
 
-				{% if user.is_authenticated %}
+						<a class="dropdown-item" href="{% url 'account_page' %}">Account</a>
 
-					<a class="dropdown-item" href="{% url 'account_page' %}">Account</a>
+						<div class="dropdown-divider"></div>
+						<a class="dropdown-item" href="{% url 'logout' %}">LogOut</a>
+					{% elif true_admin == 1 %}
 
-					<div class="dropdown-divider"></div>
-					<a class="dropdown-item" href="{% url 'logout' %}">LogOut</a>
+
+						<a class="dropdown-item" href="{% url 'reports_page' %}">Reports</a>
+
+						<div class="dropdown-divider"></div>
+						<a class="dropdown-item" href="{% url 'logout' %}">LogOut</a>
+
+					{% endif %}
+
 				{% else %}
 
-					<a class="dropdown-item" href="{% url 'login' %}">LogIn</a>
-					<div class="dropdown-divider"></div>
-					<a class="dropdown-item" href="{% url 'register_page' %}">Registration</a>
+						<a class="dropdown-item" href="{% url 'login' %}">LogIn</a>
+						<div class="dropdown-divider"></div>
+						<a class="dropdown-item" href="{% url 'register_page' %}">Registration</a>
+
 				{% endif %}
 
 
@@ -80,6 +92,9 @@
 
 				</div>
 			</li>
+
+
+
 
 			</ul>
 

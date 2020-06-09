@@ -163,7 +163,7 @@ Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, ve
 
 
 
-        {% if user.is_authenticated %}
+        {% if user.is_authenticated and user.id != i.seller_id %}
 
         
         <p class="card-text">
@@ -175,9 +175,9 @@ Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, ve
                 <div class="btn-group mr-2" role="group" aria-label="First group" id ="bids_thing_{{i.id}}">
                   <button type="button" class="btn btn-secondary" id="bidminus" value="{{i.bid_up}}" >-</button>
 
-              <input type="number" size=7 name="bid" id="id_bid_{{i.id}}" value="{{i.bid_up}}">
+              <input type="number" size=7 name="bid" id="id_bid_{{i.id}}" value="">
 
-                  <button type="button" class="btn btn-secondary" id="bidplus" value="">+</button>
+                  <button type="button" class="btn btn-secondary" id="bidplus" value="{{i.bid_up}}">+</button>
                 </div>
               </div>
 
@@ -204,6 +204,10 @@ Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, ve
       </p>
 
         
+        {% elif user.is_authenticated and user.id == i.seller_id  %}
+
+        <p class="card-text">You cannot make a bids to your auctions</p>
+
         {% else %}
         <p class="card-text">To bid, please <a href="{% url 'login' %}">log in</a>, or <a href="{% url 'register_page'%}">register</a></p>
         

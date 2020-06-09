@@ -27,7 +27,7 @@ def everyDaySchedule():
     # open 24 hours tasks
     # activate hour auction: status 2
     # deactivate previos auction: status 3
-    auctions_meta = Auctions.objects.filter(start_auction = '0001-01-01', sort_auction__gt = 0 ).only('id', 'sort_auction')
+    auctions_meta = Auctions.objects.filter(start_auction = '0001-01-01', sort_auction__gte = 0 ).only('id', 'sort_auction')
 
 
 
@@ -59,10 +59,6 @@ def everyDaySchedule():
 
 
 
-
-    # get max active time date
-    max_schedule_date_q = ScheduleAuction.objects.all().only('active_time').order_by('-active_time')[0]
-    max_schedule_date = max_schedule_date_q.active_time
 
     #get today date
     test_1 = date.today()
@@ -265,9 +261,9 @@ def update_post_status():
     test_1 = date.today()
     s_year = test_1.year
     s_month = test_1.month
-    s_day = test_1.day + 1
-    s_date_next_day = date(s_year, s_month, s_day)
-    print('new format active_date_time', s_date_next_day)
+    s_day = test_1.day 
+    s_date_this_day = date(s_year, s_month, s_day)
+    print('new format active_date_time', s_date_this_day)
 
 
     time_now = datetime.now() 
@@ -276,7 +272,7 @@ def update_post_status():
     print('s_hour', actual_hour)
     
     # get free time for automatic auctions
-    schedule_test = ScheduleAuction.objects.filter(active_time = s_date_next_day)
+    schedule_test = ScheduleAuction.objects.filter(active_time = s_date_this_day)
 
 
     for actual_auction in schedule_test:
@@ -289,22 +285,44 @@ def update_post_status():
 
 
 
-    current_auctions = Auctions.objects.all().only('id', 'status')
+    change_auctions_status = Auctions.objects.all().only('id', 'status')
 
-    for current_auction in current_auctions:
-        if current_auction.status == 2:
-            current_auction.status = 3
-            current_auction.save()
-            print('current_auction.id status 3', current_auction.id)
 
-        if current_auction.id == current_auction_id:
-            if current_auction.status != 2:
-                current_auction.status = 2
-                print('current_auction.id status 2', current_auction.id)
-                current_auction.save()
+    # change last auction status(2) to 3
+    # assign status to current auction
 
-                p = Prices(new_price = current_auction.start_price, auction=current_auction, buyer_id=current_auction.seller, winner=1)
-                p.save()
+    for change_auctions in change_auctions_status:
+
+
+        if change_auctions.status == 2 and change_auctions.id != current_auction_id:
+            change_auctions.status = 3
+            change_auctions.save()
+            print('change_auctions.id status 3', change_auctions.id)
+        elif change_auctions.id == current_auction_id:
+            change_auctions.status = 2
+            print('change_auctions.id status 2', change_auctions.id)
+            change_auctions.save()
+
+
+
+            p = Prices(new_price = change_auctions.start_price, auction=change_auctions, buyer_id=change_auctions.seller, winner=1)
+            p.save()
+
+
+
+        # if change_auctions.status == 2:
+        #     change_auctions.status = 3
+        #     change_auctions.save()
+        #     print('change_auctions.id status 3', change_auctions.id)
+
+        # if change_auctions.id == current_auction_id:
+        #     if change_auctions.status != 2:
+        #         change_auctions.status = 2
+        #         print('change_auctions.id status 2', change_auctions.id)
+        #         change_auctions.save()
+
+        #         p = Prices(new_price = change_auctions.start_price, auction=change_auctions, buyer_id=change_auctions.seller, winner=1)
+        #         p.save()
 
 
 
@@ -356,16 +374,25 @@ def update_auctions_with_no_bids_status():
 
     auctions_width_no_bids = Prices.objects.all().select_related('auction').prefetch_related('auction__seller')
 
-    for auction in auctions_width_no_bids:
-        if auction.winner == 1:
-            if auction.buyer_id.id == auction.auction.seller.id:
+    for price in auctions_width_no_bids:
+        if price.winner == 1:
+            if price.buyer_id.id == price.auction.seller.id:
 
-                print('there is auction without bid', auction.auction.id) 
-                auction.auction.start_auction = '0001-01-01'
-                auction.auction.save()
+                if price.auction.status != 2:
+                    print('there is auction without bid', price.auction.id) 
+                    price.auction.start_auction = '0001-01-01'
+                    price.auction.save()
 
+                    print('price.id delete', price.id)
+                    price.delete()
+
+                    try:
+                        sh = ScheduleAuction.objects.get(auction_id = price.auction.id)
+                        if sh:
+                            sh.delete()
+                    except:
+                        pass
                 
-            
 
 
 

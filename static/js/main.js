@@ -144,42 +144,101 @@ btnDateField.addEventListener('click', (event) => {
 
 
 
-const bidMinusVal = document.getElementById('bidminus')
-const bidPlusVal = document.getElementById('bidplus')
+// const bidMinusVal = document.getElementById('bidminus')
+// const bidPlusVal = document.getElementById('bidplus')
+
+
+
+
+
+
+
+
+// bidMinusVal.addEventListener('click', (event) => {
+
+
+
+//     const inputBidMinus = document.getElementById('id_bid_' + inputIdMain)
+
+
+//     console.log('inputBidMinus' + inputBidMinus)
+
+
+//     console.log(event.target.value)
+//     const minusNewBid = actualPriceVal - event.target.value
+
+
+//     inputBidMinus.value = minusNewBid
+
+
+//     console.log(inputBidMain.value)
+
+
+
+//     const inputId = event.target.parentNode.id.replace('bids_thing_', '')
+//     console.log(inputId)
+
+//     const inputBid = document.getElementById('id_bid_' + inputId)
+
+
+// })
 
 
 
 const bidPlusValVal = document.getElementById('bidminus')
-
 const inputIdMain = bidPlusValVal.parentNode.id.replace('bids_thing_', '')
 
+
+// // load actual price in reload moment
 const inputBidMain = document.getElementById('id_bid_' + inputIdMain)
 
 const actualPriceVal = document.getElementById('actual_price_val_' + inputIdMain).textContent
+
+
 
 inputBidMain.value = actualPriceVal
 
 
 
-
-
-
-bidMinusVal.addEventListener('click', (event) => {
-    console.log(event.target.value)
-    
-
-    const inputId = event.target.parentNode.id.replace('bids_thing_', '')
-    console.log(inputId)
-
-    const inputBid = document.getElementById('id_bid_' + inputId)
-
-
-})
+const bidUp = bidPlusValVal.value
 
 
 
 
 
+var wrapper = document.querySelector('wr');
 
+var countInput = document.getElementById('id_bid_' + inputIdMain);
+
+
+
+var butM = document.getElementById('bidminus');
+var butP = document.getElementById('bidplus');
+var units = countInput.value.replace(/\d/g, '');
+console.log('units' + units)
+// butP.onclick = function(){
+
+//     if(parseInt(countInput.value) > 1) {
+//         countInput.value = parseInt(countInput.value)+ bidUp +units;
+//     }
+// };
+
+butM.onclick = function(){
+    if(parseInt(countInput.value) > 1) {
+        if(parseInt(countInput.value) == actualPriceVal){
+            console.log('its minimum ' + actualPriceVal)
+            console.log('parseInt(countInput.value) ' + parseInt(countInput.value))
+
+        }
+        console.log('bidUp butM ' + typeof Number(bidUp))
+        countInput.value = parseInt(countInput.value)-  Number(bidUp) + units;
+    }
+};
+butP.onclick = function(){
+    if(parseInt(countInput.value) > 1) {
+        console.log('bidUp butP ' + typeof Number(bidUp))
+        countInput.value = parseInt(countInput.value)+  Number(bidUp) + units;
+    }
+};
 
 
