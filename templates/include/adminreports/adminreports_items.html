@@ -62,54 +62,53 @@
                     </ul>
                 </td>
 
-
-                {% for winner in winners %}
                 
+                    {% for winner in winners %}
+                    
+                    
+
+
+
+
                     {% for auction_id, values in winner.items %}
-                            
+                    
                         {% if auction_id == auction.id%}
-                        
+                            
 
                             {% for price, buyer in values.items %}
-                            
-                                <td>{{price}}</td>
-                             
-                                    <td>
-                                    <ul class="nav flex-column">
-                                        <li class="nav-item">
-                                        <p class="nav-p active" >Buyer: {{buyer}}</p>
-                                        </li>
-                                        <li class="nav-item">
-                                        <p class="nav-p active" >Email: {{buyer.email}}</p>
-                                        </li>
-                                    </ul>
-                                    </td>
+                            <td>{{price}}</td>
+                                
+                <td>
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                    <p class="nav-p active" >Name: {{buyer}}</p>
+                    </li>
+                    <li class="nav-item">
+                    <p class="nav-p active" >Email: {{buyer.email}}</p>
+                    </li>
+                </ul>
+                </td>
 
 
 
 
 
 
-
-                            {% empty %}
-
-                            <td>no winner price</td>
-                             
-                            <td>no winners</td>
 
                             {% endfor %}
-                        
-                        {% else %}
 
-                        <td>no winner price?</td>
+
+                        {% elif auction_id != auction.id %}
+                       
+
+
+                        
                         {% endif %}
                     {% endfor %}
                 {% endfor %}
 
 
 
-
-            
         
         </tr>
     

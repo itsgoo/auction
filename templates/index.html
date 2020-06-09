@@ -158,6 +158,7 @@ Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, ve
         <p class="card-text">{{i.description}}</p>
         <p class="card-text"><small class="text-muted mr-3">Start auction: {{i.start_auction}}</small>
           <small class="text-muted mr-3">Start price: {{i.start_price}}</small>
+          <small class="text-muted mr-3">Hour: {{i.start_auction_time}}</small>
           <small class="text-muted mr-3">Bid up: {{i.bid_up}}</small>
         </p>
 
@@ -255,25 +256,26 @@ Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, ve
 
 </div>
 <h3>auctions_tomorrow</h3>
-{% for i in auctions_tomorrow %}
+{% for schedule in auctions_tomorrow2 %}
 
 
 <div class="card mb-3 col-md-10">
  <div class="row no-gutters">
    <div class="col-md-4">
-     <img src="{{ MEDIA_URL }}{{ i.main_img }}" class="card-img" alt="...">
+     <img src="{{ MEDIA_URL }}{{ schedule.auction.main_img }}" class="card-img" alt="...">
    </div>
    <div class="col-md-8 relative ">
      <div class="get_notif">
       <img class="noti-icon" src="{{ MEDIA_URL }}/file/notification.png" title="get notification about this lot" alt="">
      </div>
      <div class="card-body">
-       <h5 class="card-title">Next Auctions: {{i.start_auction}}</h5>
-       <h5 class="card-title">{{i.title}} <small class="text-muted mr-3">Status: {{i.status}}</small><small class="text-muted mr-3">ID: {{i.id}}</small></h5>
-       <p class="card-text">{{i.description}}</p>
-        <p class="card-text"><small class="text-muted mr-3">Start auction: {{i.start_auction}}</small>
-         <small class="text-muted mr-3">Start price: {{i.start_price}}</small>
-          <small class="text-muted mr-3">Bid up: {{i.bid_up}}</small>
+       <h5 class="card-title">Next Auctions: {{schedule.auction.start_auction}}</h5>
+       <small class="text-muted mr-3">Hour: {{schedule.active_date_time}}</small>
+       <h5 class="card-title">{{schedule.auction.title}} <small class="text-muted mr-3">Status: {{schedule.auction.status}}</small><small class="text-muted mr-3">ID: {{schedule.auction.id}}</small></h5>
+       <p class="card-text">{{schedule.auction.description}}</p>
+        <p class="card-text"><small class="text-muted mr-3">Start auction: {{schedule.auction.start_auction}}</small>
+         <small class="text-muted mr-3">Start price: {{schedule.auction.start_price}}</small>
+          <small class="text-muted mr-3">Bid up: {{schedule.auction.bid_up}}</small>
         </p>
 
      </div>

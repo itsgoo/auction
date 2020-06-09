@@ -37,5 +37,5 @@ class Prices(models.Model):
 # schedule
 class ScheduleAuction(models.Model):
     active_time = models.DateField(auto_now = False)
-    active_date_time = models.CharField(max_length=6)
+    active_date_time = models.IntegerField(max_length=6)
     auction = models.ForeignKey(Auctions, on_delete = models.CASCADE)

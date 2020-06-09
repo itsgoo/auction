@@ -96,7 +96,7 @@ class Reports(View):
             for winner in winner_buyer:
                 
                 winners.append({winner.auction_id : 
-                    {winner.new_price: winner.buyer_id}
+                    {winner: winner.buyer_id}
                 })
         
 
@@ -548,7 +548,16 @@ class Index(View):
         form = BidUpForm
         groups_user_sellers = User.objects.filter(groups = 1)
 
+
+
+
         auctions_tomorrow = Auctions.objects.filter(status=1, start_auction__range= (s_date_day_today, s_date_next_day)).order_by('start_auction')
+
+        auctions_tomorrow2 = ScheduleAuction.objects.filter(auction__status = 1, active_time__range = (s_date_day_today, s_date_next_day) ).order_by('active_time' , 'active_date_time' )
+
+
+
+
         auctions_today = Auctions.objects.filter(status=2).order_by('-start_auction')
         auctions_yesterday = Auctions.objects.filter(status=3).order_by('-start_auction')
 
@@ -580,6 +589,7 @@ class Index(View):
             'groups_user_buyers': groups_user_buyers,
             'groups_user_sellers': groups_user_sellers,
             'true_admin': true_admin,
+            'auctions_tomorrow2': auctions_tomorrow2,
         }
         return render(request, 'index.html', ctx)
 
