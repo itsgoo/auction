@@ -1,5 +1,5 @@
 
-
+// create auction page
 const queryString = window.location
 if(queryString == 'http://127.0.0.1:8000/create'){
 
@@ -168,7 +168,7 @@ btnDateField.addEventListener('click', (event) => {
 
 
 
-
+// home page
 const queryStringMain = window.location
 if(queryStringMain == 'http://127.0.0.1:8000/'){
 
@@ -221,6 +221,76 @@ butP.onclick = function(){
         countInput.value = parseInt(countInput.value)+  Number(bidUp) + units;
     }
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const currentAuctionId = document.getElementById('current_auction_id').textContent
+const startTimeVal = document.getElementById('start_time_id_' + currentAuctionId).textContent
+console.log('startTimeVal' + startTimeVal)
+ 
+
+
+var remain_bv   = 3600;
+function parseTime_bv(timestamp){
+    if (timestamp < 0) timestamp = 0;
+ 
+    var day = Math.floor( (timestamp/60/60) / 24);
+    var hour = Math.floor(timestamp/60/60);
+    var mins = Math.floor((timestamp - hour*60*60)/60);
+    var secs = Math.floor(timestamp - hour*60*60 - mins*60); 
+    var left_hour = Math.floor( (timestamp - day*24*60*60) / 60 / 60 );
+ 
+    $('span.afss_day_bv').text(day);
+    $('span.afss_hours_bv').text(left_hour);
+ 
+    if(String(mins).length > 1)
+        $('span.afss_mins_bv').text(mins);
+    else
+        $('span.afss_mins_bv').text("0" + mins);
+    if(String(secs).length > 1)
+        $('span.afss_secs_bv').text(secs);
+    else
+        $('span.afss_secs_bv').text("0" + secs);
+     
+}
+ 
+$(document).ready(function(){
+    setInterval(function(){
+        remain_bv = remain_bv - 1;
+        parseTime_bv(remain_bv);
+        if(remain_bv <= 0){
+            alert('Hello');
+        }
+    }, 1000);
+});
+
+
+
+
+
+
 
 
 }

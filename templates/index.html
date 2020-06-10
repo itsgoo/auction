@@ -154,11 +154,11 @@ Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, ve
     </div>
     <div class="col-md-8">
       <div class="card-body">
-        <h5 class="card-title">{{i.title}} <small class="text-muted mr-3">Status: {{i.status}}</small><small class="text-muted mr-3">ID: {{i.id}}</small></h5>
+        <h5 class="card-title">{{i.title}} <small class="text-muted mr-3">Status: {{i.status}}</small><small class="text-muted mr-3" >ID: <span id="current_auction_id">{{i.id}}</span></small></h5>
         <p class="card-text">{{i.description}}</p>
         <p class="card-text"><small class="text-muted mr-3">Start auction: {{i.start_auction}}</small>
           <small class="text-muted mr-3">Start price: {{i.start_price}}</small>
-          <small class="text-muted mr-3">Hour: {{i.start_auction_time}}</small>
+          <small class="text-muted mr-3">Hour: <span id="start_time_id_{{i.id}}">{{i.start_auction_time}}:00</span></small>
           <small class="text-muted mr-3">Bid up: {{i.bid_up}}</small>
         </p>
 
@@ -242,6 +242,17 @@ Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, ve
         <span class="popover-dismiss d-inline-block" data-toggle="popover" data-content="Disabled popover">
           <button class="btn btn-primary" style="pointer-events: none;" type="button" disabled>Disabled button</button>
         </span> -->
+
+
+          <div>
+          <span>Осталось:&nbsp;</span><span class="afss_day_bv">0</span> д.
+          <span class="afss_hours_bv">00</span>&nbsp;час.&nbsp;
+          <span class="afss_mins_bv">00</span>&nbsp;мин.&nbsp;
+          <span class="afss_secs_bv">00&nbsp;</span>&nbsp;сек.
+          </div>
+
+
+
 
 
       </div>
