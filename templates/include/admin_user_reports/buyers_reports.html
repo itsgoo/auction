@@ -1,0 +1,85 @@
+
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+        <th scope="col">Auctions</th>
+        <th scope="col">Photo</th>
+        <th scope="col">start price</th>
+        <th scope="col">your price</th>
+        <th scope="col">Status</th>
+        </tr>
+    </thead>
+    <tbody>
+  
+ 
+  
+      {% for prices_info in unique_actual_auctions_for_buyer %}
+          
+          {% if prices_info.auction.id %}
+  
+              <tr>
+                  <th scope="row">
+                      <ul class="nav flex-column">
+                          <li class="nav-item">
+                          <p class="nav-p active" >{{prices_info.auction.title}}</p>
+                          </li>
+                          <li class="nav-item">
+                          <p class="nav-p active" >{{prices_info.auction.id}}</p>
+                          </li>
+                          <li class="nav-item">
+                          <p class="nav-p active" >{{prices_info.auction.start_auction}}</p>
+                          </li>
+                      </ul>
+                  </th>
+                  <td> <img class="table_img" src="{{ MEDIA_URL }}{{prices_info.auction.main_img}}" alt=""> </td>
+                  <td>{{prices_info.auction.start_price}}</td>
+                  
+                  <td>
+  
+                      {{prices_info.new_price}}
+  
+                  </td>
+  
+                  <td>
+  
+  
+  
+                      {% if prices_info.winner == 0 %}
+                      
+                          you are not leader
+                      {% elif prices_info.winner == 1 %}
+                          you are leader
+                      {% endif %}
+  
+                  </td>
+                              
+                          
+              </tr>
+  
+          {% endif %}
+      {% endfor %}
+  
+        </div>
+    </div>
+  
+    </tbody>
+  </table>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+                    
+                

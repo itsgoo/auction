@@ -60,7 +60,145 @@ class userGroups:
         return true_admin
 
 
+class UserReports(View):
+    def get(self, request, pk):
 
+
+
+        user_data = User.objects.get(id = pk)
+        
+        # render for admins
+        true_admin = userGroups.true_admin(self)
+
+
+        sellers_group = userGroups.sellers(self)
+        # render for Sellers
+        for i in sellers_group:
+            if user_data.id == i.id:
+                user_seller_auctions = Auctions.objects.filter(seller_id = pk).order_by('-start_auction')
+
+
+                # count the bids at auction
+                bids = []
+                winners = []
+                count_bid = 0
+                count_none = 0
+                for auction in user_seller_auctions:
+                    number_of_bids = Bids.objects.filter(auction = auction)
+                    winner_buyer = Prices.objects.filter(auction = auction).filter(winner = 1)
+                    for bid in number_of_bids:
+                        # print('bid', bid.bid, bid.auction.id )
+                        count_bid +=1
+
+                
+                    bids.append({auction.id: count_bid})
+                    count_bid =0
+
+
+                    for winner in winner_buyer:
+                        
+                        if winner.auction_id == auction.id:
+
+                            winners.append({winner.auction_id : 
+                            {winner.new_price : winner.buyer_id}}
+                            )
+
+                            count_none = 1
+
+                    if count_none == 0:
+                        winners.append({auction.id : 
+                            {0 : 'none'}}
+                            )
+
+                    count_none = 0
+
+                
+
+
+
+
+
+
+
+
+                ctx = {
+
+                        'bids': bids,
+                        'winners': winners,
+                        'user_seller_auctions': user_seller_auctions,
+                        'true_admin': true_admin,
+                        'user_data': user_data,
+                        'sellers_group': sellers_group,
+                        'user_data': user_data,
+
+                            
+                        }
+
+
+
+
+
+
+
+
+        # render for Buyers
+        buyers_group = userGroups.buyers(self)
+
+        for i in buyers_group:
+            if user_data.id == i.id:
+                print('account buyer')
+        
+                
+
+                user_auctions_short_from_prices = Prices.objects.filter(buyer_id = user_data.id, winner= 1, auction__status = 3).select_related('auction').prefetch_related('auction__seller').order_by('-auction__start_auction')
+
+                
+                user_auctions_short_from_prices_actual = Prices.objects.select_related('auction').filter(buyer_id = user_data.id, auction__status = 2).prefetch_related('auction__seller').order_by('-new_price_time')
+                
+
+                checked = []
+                unique_actual_auctions_for_buyer = []
+                # order preserving
+                    
+                for auctions in user_auctions_short_from_prices_actual:
+                    if auctions.auction.id not in checked:
+                        checked.append(auctions.auction.id)
+                        unique_actual_auctions_for_buyer.append(auctions)
+
+                
+
+                print('f2', unique_actual_auctions_for_buyer)
+
+
+                
+                ctx = {
+                    'unique_actual_auctions_for_buyer': unique_actual_auctions_for_buyer,
+                    'buyers_group': buyers_group,
+                    'user_data': user_data,
+
+                    'user_auctions_short_from_prices_actual': user_auctions_short_from_prices_actual,
+                    'user_auctions_short_from_prices': user_auctions_short_from_prices,
+                    'true_admin': true_admin,
+                }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        return render(request, 'user_report.html', ctx)
 
 class Reports(View):
 
@@ -214,9 +352,6 @@ class Account_page(userGroups, View):
                 # count the bids at auction
                 bids = []
                 winners = []
-                winners_help = []
-                auctions = []
-                auctions_status = []
                 count_bid = 0
                 count_none = 0
                 for auction in user_seller_auctions:

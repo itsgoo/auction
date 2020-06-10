@@ -1,0 +1,126 @@
+
+
+
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">Auctions title desc id</th>
+            <th scope="col">Photo</th>
+            <th scope="col">start price</th>
+            <th scope="col">number of bids</th>
+            <th scope="col">Status</th>
+            <th scope="col">winner price</th>
+            <th scope="col">winner</th>
+        </tr>
+    </thead>
+    <tbody>
+
+            
+    
+    {% for auction in user_seller_auctions %}
+        <tr>
+            <th scope="row">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                    <p class="nav-p active" >{{auction.title}}</p>
+                    </li>
+                    <li class="nav-item">
+                    <p class="nav-p active" >{{auction.id}}</p>
+                    </li>
+                    <li class="nav-item">
+                    <p class="nav-p active" >{{auction.start_auction}}</p>
+                    </li>
+                </ul>
+            </th>
+            <td> <img class="table_img" src="{{ MEDIA_URL }}{{auction.main_img}}" alt=""> </td>
+            <td>{{auction.start_price}}</td>
+        
+            
+                
+                <td>
+                    {% for bid in bids %}
+                        {% for b, val in bid.items %}
+                            {% if b == auction.id%}
+                                {{val}}
+                            {% endif %}
+                        {% endfor %}
+                    {% endfor %}
+                </td>
+                
+                
+                <td>{{auction.status}}</td>
+
+
+                
+                {% for winner in winners %}
+                    
+                    
+
+
+
+
+                {% for auction_id, values in winner.items %}
+                
+                    {% if auction_id == auction.id%}
+                        
+
+                        {% for price, buyer in values.items %}
+
+                            
+                            {% if price != 0%}
+
+                            <td>{{price}}</td>
+
+                            {% else %}
+
+                            <td>no price</td>
+                            {% endif %}
+
+                            
+                            {% if buyer != 'none' %}
+
+                            <td>
+                                <ul class="nav flex-column">
+                                    <li class="nav-item">
+                                    <p class="nav-p active" >Name: {{buyer}}</p>
+                                    </li>
+                                    <li class="nav-item">
+                                    <p class="nav-p active" >Email: {{buyer.email}}</p>
+                                    </li>
+                                </ul>
+                                </td>
+
+                            {% else %}
+
+                            <td>no buyer</td>
+                            {% endif %}
+
+
+                        {% endfor %}
+
+
+                    {% elif auction_id != auction.id %}
+                   
+
+
+                    
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+
+
+
+        
+        </tr>
+    
+{% endfor %}
+
+
+
+</div>
+</div>
+
+
+</tbody>
+</table>

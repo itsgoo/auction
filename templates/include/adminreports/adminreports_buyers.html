@@ -16,7 +16,9 @@
             <th scope="row">
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                    <p class="nav-p active" >{{user.username}}</p>
+                    <p class="nav-p active" >
+                        <a href="reports/id/{{user.id}}">{{user.username}}</a>
+                        </p>
                     </li>
                     
                     
@@ -29,77 +31,6 @@
             
                 
                 
-                
-                <td>{{auction.status}}</td>
-
-
-                <td>
-                    <ul class="nav flex-column">
-                        <li class="nav-item">
-                        <p class="nav-p active" >Seller: {{auction.seller}}</p>
-                        </li>
-                        <li class="nav-item">
-                        <p class="nav-p active" >Email: {{auction.seller.email}}</p>
-                        </li>
-                    </ul>
-                </td>
-
-                
-                    {% for winner in winners %}
-                    
-                    
-
-
-
-
-                    {% for auction_id, values in winner.items %}
-                    
-                        {% if auction_id == auction.id%}
-                            
-
-                            {% for price, buyer in values.items %}
-
-                                
-                                {% if price != 0%}
-
-                                <td>{{price}}</td>
-
-                                {% else %}
-
-                                <td>no price</td>
-                                {% endif %}
-
-                                
-                                {% if buyer != 'none' %}
-
-                                <td>
-                                    <ul class="nav flex-column">
-                                        <li class="nav-item">
-                                        <p class="nav-p active" >Name: {{buyer}}</p>
-                                        </li>
-                                        <li class="nav-item">
-                                        <p class="nav-p active" >Email: {{buyer.email}}</p>
-                                        </li>
-                                    </ul>
-                                    </td>
-
-                                {% else %}
-
-                                <td>no buyer</td>
-                                {% endif %}
-
-
-                            {% endfor %}
-
-
-                        {% elif auction_id != auction.id %}
-                       
-
-
-                        
-                        {% endif %}
-                    {% endfor %}
-                {% endfor %}
 
 
 

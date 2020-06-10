@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+
+
+{% block title %}
+User reports
+{% endblock %}
+
+
+{% block content_title %}
+ 
+{{user_data.username}} reports
+
+{% endblock %}
+
+{% block content %}
+
+
+{% for group_b in buyers_group %}
+
+    {% if user_data.id == group_b.id %}
+    
+        {% include 'include/admin_user_reports/buyers_reports.html' %}
+    {% endif %}
+
+{% endfor %}
+
+
+{% for group_s in sellers_group %}
+
+    {% if user_data.id == group_s.id %}
+    
+        {% include 'include/admin_user_reports/sellers_reports.html' %}
+    {% endif %}
+
+{% endfor %}
+
+
+
+
+{% endblock %}
+
+
