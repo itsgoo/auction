@@ -2,7 +2,6 @@
 from __future__ import absolute_import, unicode_literals
 
 from celery import shared_task
-# from quick_publisher.celery import app
 from .models import Auctions, Prices, ScheduleAuction
 from datetime import datetime, timedelta, time, date
 
@@ -17,8 +16,6 @@ from django.db.models import Q
 from dateutil.tz import tzutc, tzlocal
 
 
-# from .settings import TIME_ZONE
-# from demoapp.models import Widget
 
 
 
@@ -169,75 +166,40 @@ def everyDaySchedule():
         print('total_free_time_each_day ', total_free_time_each_day)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        # # print('i.id', i.id)
-        # # print('i.sort_auction before', i.sort_auction)
-        # # print('hour', hour)
-
-        # if hour < last_hour:
-            
-        #     active_time_auction = datetime(actual_year, actual_month, actual_day)
-            
-        #     # utc translate time
-        #     u = active_time_auction.replace(tzinfo=pytz.utc)
-        #     aware_time_utc_helper = u.astimezone(pytz.timezone('Asia/Tel_Aviv'))
-
-        #     # print('active_time_auction', active_time_auction)
-        #     # print('aware_time_utc_helper', aware_time_utc_helper)
-
-
-        #     s = ScheduleAuction(active_time = aware_time_utc_helper, auction = i, active_date_time = hour)
-        #     # s.save()
-
-        #     i.sort_auction = 0
-        #     # i.save()
-        #     # print('i save sort_auction after ', i.sort_auction)
-        
-        #     hour += 1
-
-        # elif hour >= last_hour:
-        #     hour = 0
-        #     # print('hour = 0 elif', hour)
-            
-        #     actual_day += 1
-        #     # print('actual_day next elif', actual_day)
-        
-        #     active_time_auction = datetime(actual_year, actual_month, actual_day)
-            
-        #     # utc translate time
-        #     u = active_time_auction.replace(tzinfo=pytz.utc)
-        #     aware_time_utc_helper = u.astimezone(pytz.timezone('Asia/Tel_Aviv'))
-
-        #     # print('active_time_auction', active_time_auction)
-        #     # print('aware_time_utc_helper', aware_time_utc_helper)
-
-
-        #     s = ScheduleAuction(active_time = aware_time_utc_helper, auction = i)
-        #     # s.save()
-
-        #     i.sort_auction = 0
-        #     # i.save()
-        #     # print('i save sort_auction after ', i.sort_auction)
-        
-
-
-
     return print('made schedule')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -308,62 +270,44 @@ def update_post_status():
             p = Prices(new_price = change_auctions.start_price, auction=change_auctions, buyer_id=change_auctions.seller, winner=1)
             p.save()
 
-
-
-        # if change_auctions.status == 2:
-        #     change_auctions.status = 3
-        #     change_auctions.save()
-        #     print('change_auctions.id status 3', change_auctions.id)
-
-        # if change_auctions.id == current_auction_id:
-        #     if change_auctions.status != 2:
-        #         change_auctions.status = 2
-        #         print('change_auctions.id status 2', change_auctions.id)
-        #         change_auctions.save()
-
-        #         p = Prices(new_price = change_auctions.start_price, auction=change_auctions, buyer_id=change_auctions.seller, winner=1)
-        #         p.save()
-
-
-
-
-
-
-
-
-
-
-
-    # date = datetime.datetime.now()
-    # dateyear = int(date.year)
-    # datemonth = date.month
-    # dateday = date.day - 1
-    # yesterday = datetime.date(dateyear, datemonth, dateday)
-    
-    # today_auctions = Auctions.objects.filter(start_auction=date)
-
-    # yesterday_auctions = Auctions.objects.filter(start_auction=yesterday)
-
-    # print('yesterday date', yesterday)
-    # for ya in yesterday_auctions:
-    #     print('yesterday_auctions before', ya.id, ' ', ya.status)
-    #     # ya.status = 3
-    #     print('yesterday_auctions after', ya.status)
-    #     # ya.save()
-
-    # for i in today_auctions:
-    #     if i.status != 2:
-    #         print('today_auctions before', i.id, ' ', i.status)
-    #         i.status = 2
-    #         print('today_auctions after', i.status)
-    #         # i.save()
-
-    #         p = Prices(new_price = i.start_price, auction=i, buyer_id=i.seller, winner=1)
-    #         # p.save()
-    # # p_del = Prices.objects.get(id=159)
-    # # p_del.delete()
-
     return print('status of yesterday auctions was update')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -381,10 +325,14 @@ def update_auctions_with_no_bids_status():
                 if price.auction.status != 2:
                     print('there is auction without bid', price.auction.id) 
                     price.auction.start_auction = '0001-01-01'
+                    price.auction.status = 1
                     price.auction.save()
 
                     print('price.id delete', price.id)
                     price.delete()
+
+                    
+
 
                     try:
                         sh = ScheduleAuction.objects.get(auction_id = price.auction.id)

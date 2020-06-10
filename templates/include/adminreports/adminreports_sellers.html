@@ -3,49 +3,31 @@
 <table class="table table-striped">
     <thead>
         <tr>
-            <th scope="col">Auctions title desc id</th>
-            <th scope="col">Photo</th>
-            <th scope="col">start price</th>
-            <th scope="col">number of bids</th>
-            <th scope="col">Status</th>
-            <th scope="col">seller</th>
-            <th scope="col">winner price</th>
-            <th scope="col">winner</th>
+            <th scope="col">Users name</th>
+            <th scope="col">id</th>
+            <th scope="col">email</th>
         </tr>
     </thead>
     <tbody>
 
             
-    
-    {% for auction in user_seller_auctions %}
+    {% for user in all_users_sellers %}
         <tr>
             <th scope="row">
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                    <p class="nav-p active" >{{auction.title}}</p>
+                    <p class="nav-p active" >{{user.username}}</p>
                     </li>
-                    <li class="nav-item">
-                    <p class="nav-p active" >{{auction.id}}</p>
-                    </li>
-                    <li class="nav-item">
-                    <p class="nav-p active" >{{auction.start_auction}}</p>
-                    </li>
+                    
+                    
                 </ul>
             </th>
-            <td> <img class="table_img" src="{{ MEDIA_URL }}{{auction.main_img}}" alt=""> </td>
-            <td>{{auction.start_price}}</td>
+
+            <td>{{user.id}}</td>
+            <td>{{user.email}}</td>
         
             
                 
-                <td>
-                    {% for bid in bids %}
-                        {% for b, val in bid.items %}
-                            {% if b == auction.id%}
-                                {{val}}
-                            {% endif %}
-                        {% endfor %}
-                    {% endfor %}
-                </td>
                 
                 
                 <td>{{auction.status}}</td>

@@ -49,24 +49,41 @@
                     
 
                     {% for winner in winners %}
+                    
                         {% for auction_id, values in winner.items %}
-                        
+
                             {% if auction_id == auction.id%}
                                 
-
                                 {% for price, buyer in values.items %}
+
+                                {% if price != 0%}
+
                                 <td>{{price}}</td>
+
+                                {% else %}
+
+                                <td>no price</td>
+                                {% endif %}
+
                                  
-            <td>
-            <ul class="nav flex-column">
-                <li class="nav-item">
-                <p class="nav-p active" >Name: {{buyer}}</p>
-                </li>
-                <li class="nav-item">
-                <p class="nav-p active" >Email: {{buyer.email}}</p>
-                </li>
-            </ul>
-            </td>
+                                {% if buyer != 'none' %}
+
+                                <td>
+                                    <ul class="nav flex-column">
+                                        <li class="nav-item">
+                                        <p class="nav-p active" >Name: {{buyer}}</p>
+                                        </li>
+                                        <li class="nav-item">
+                                        <p class="nav-p active" >Email: {{buyer.email}}</p>
+                                        </li>
+                                    </ul>
+                                    </td>
+
+                                {% else %}
+
+                                <td>no buyer</td>
+                                {% endif %}
+
 
 
 
@@ -75,6 +92,8 @@
 
 
                                 {% endfor %}
+
+                            
                             {% endif %}
                         {% endfor %}
                     {% endfor %}

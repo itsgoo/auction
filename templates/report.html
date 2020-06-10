@@ -27,7 +27,12 @@ welcome
       <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="true">Items</a>
     </li>
     <li class="nav-item" role="presentation">
-      <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Users
+      <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Buyers
+      </a>
+    </li>
+    </li>
+    <li class="nav-item" role="presentation">
+      <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact2" role="tab" aria-controls="contact" aria-selected="false">Sellers
       </a>
     </li>
   </ul>
@@ -64,17 +69,23 @@ welcome
     
     
 
-        {% for i in buyers_into_group %}
-            {% if i.id == user.id%}
-
-                {% include 'include/adminreports/adminreports_users.html' %}
-
-            {% endif %}
-        {% endfor %}
-
+      {% include 'include/adminreports/adminreports_buyers.html' %}
 
   
 </div>
+
+<div class="tab-pane fade" id="contact2" role="tabpanel" aria-labelledby="contact-tab">
+
+        
+    
+    
+
+  {% include 'include/adminreports/adminreports_sellers.html' %}
+
+
+</div>
+
+    </div>
 
 {% endblock %}
 

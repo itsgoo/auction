@@ -34,6 +34,8 @@ from datetime import datetime, timedelta, time, date
 from django.utils.timezone import pytz
 from pytz import timezone as tze
 
+from itertools import chain
+
 class userGroups:
     def sellers(self):
         return User.objects.filter(groups = 1)
@@ -81,6 +83,7 @@ class Reports(View):
         bids = []
         winners = []
         count_bid = 0
+        count_none = 0
         for auction in user_seller_auctions:
             number_of_bids = Bids.objects.filter(auction = auction)
             winner_buyer = Prices.objects.filter(auction = auction).filter(winner = 1)
@@ -95,15 +98,24 @@ class Reports(View):
 
             for winner in winner_buyer:
                 
-                winners.append({winner.auction_id : 
-                    {winner: winner.buyer_id}
-                })
+                if winner.auction_id == auction.id:
+
+                    winners.append({winner.auction_id : 
+                    {winner.new_price : winner.buyer_id}}
+                    )
+
+                    count_none = 1
+
+            if count_none == 0:
+                winners.append({auction.id : 
+                    {0 : 'none'}}
+                    )
+
+            count_none = 0
+
         
-
-
-
-
-
+        all_users_sellers = userGroups.sellers(self)
+        all_users_buyers = userGroups.buyers(self)
 
 
 
@@ -125,6 +137,8 @@ class Reports(View):
                 'winners': winners,
                 'user_seller_auctions': user_seller_auctions,
                 'true_admin': true_admin,
+                'all_users_buyers': all_users_buyers,
+                'all_users_sellers': all_users_sellers,
 
                     
                 }
@@ -200,7 +214,11 @@ class Account_page(userGroups, View):
                 # count the bids at auction
                 bids = []
                 winners = []
+                winners_help = []
+                auctions = []
+                auctions_status = []
                 count_bid = 0
+                count_none = 0
                 for auction in user_seller_auctions:
                     number_of_bids = Bids.objects.filter(auction = auction)
                     winner_buyer = Prices.objects.filter(auction = auction).filter(winner = 1)
@@ -213,11 +231,30 @@ class Account_page(userGroups, View):
                     count_bid =0
 
 
+
                     for winner in winner_buyer:
                         
-                        winners.append({winner.auction_id : 
-                            {winner.new_price: winner.buyer_id}
-                        })
+                        if winner.auction_id == auction.id:
+
+                            winners.append({winner.auction_id : 
+                            {winner.new_price : winner.buyer_id}}
+                            )
+
+                            count_none = 1
+
+                    if count_none == 0:
+                        winners.append({auction.id : 
+                            {0 : 'none'}}
+                            )
+
+                    count_none = 0
+
+                print('winners', winners)
+
+
+                    
+
+
                 ctx = {
                     'form': form,
                     'groups_user_sellers': sellers_into_group,
@@ -404,56 +441,14 @@ class CreateAuction(View):
 
 
 
-# class CreateAuction(LoginRequiredMixin, CreateView):
-#     model = Auctions
-#     template_name = 'create_auction.html'
-#     form_class = AuctionsForm
-#     success_url = reverse_lazy('index')
-#     success_msg = 'Auction was created'
-
-
-#     def get_context_data(self, **kwargs):
-#         # Call the base implementation first to get a context
-#         context = super(CreateAuction, self).get_context_data(**kwargs)
-#         # Add in a QuerySet of all the posts
-
-
-#         context['groups_user_sellers'] = User.objects.filter(groups=1)
-        
-#         sort_query = Auctions.objects.only('sort_auction').order_by('-sort_auction')
-
-
-#         post_time = 0
-#         for i in sort_query:
-            
-#             if i.sort_auction < post_time:
-#                 pass
-#             elif i.sort_auction >= post_time:
-#                 post_time = i.sort_auction
 
 
 
 
-#         context['post_time_ok'] = post_time + 1
-        
-#         return context
-
-#     def form_valid(self, form):
-#         form_valid = super().form_valid(form)
-
-#         # Get and Save additional images
-#         id = form.save().pk
-#         auction = Auctions.objects.get(pk=id)
-#         files = self.request.FILES.getlist('files')
-#         if files:
-#             for file in files:
-#                 fl = ImgForAuction(auction=auction, img = file)
-#                 print('fl', fl)
-#                 fl.save()
 
 
-        
-#         return form_valid
+
+
 
 
 
