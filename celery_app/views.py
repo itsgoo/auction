@@ -641,6 +641,7 @@ class Index(View):
 
             if price_for_main != 'none':
                 dict_bid_data.update({"new_bid": price_for_main})
+                dict_bid_data.update({"current_buyer": buyer.id})
             print('model_to_dict(bid_data)', dict_bid_data)
 
 
@@ -685,6 +686,19 @@ class Index(View):
 
         auctions_tomorrow2 = ScheduleAuction.objects.filter(auction__status = 1, active_time__range = (s_date_day_today, s_date_next_day) ).order_by('active_time' , 'active_date_time' )
 
+        i = 0
+
+        auctions_tommorow_list = []
+        for auciton in auctions_tomorrow2:
+
+            auctions_tommorow_list.append(auciton)
+
+            i +=1
+            if i == 22:
+                break
+
+
+            
 
 
 
@@ -713,7 +727,7 @@ class Index(View):
             'additional_img': additional_img,
             'prices': prices,
             'auctions_today': auctions_today,
-            'auctions_tomorrow': auctions_tomorrow,
+            'auctions_tommorow_list': auctions_tommorow_list,
             'auctions_yesterday': auctions_yesterday,
             'auction_bids': auction_bids,
             'groups_user_buyers': groups_user_buyers,

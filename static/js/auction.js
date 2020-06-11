@@ -92,12 +92,16 @@ $('.modal').on('click', '#id_send_btn_' + event, function() {
 		success: function(response){
 			console.log('response.bid_data.new_bid ' + response.bid_data.new_bid)
 			$('#bid_list_'  + elementId).append('<small>bid: ' + response.bid_data.bid + ' | </small>');
+			
 			if (response.bid_data.new_bid != undefined) {
 				console.log('$(this)' + $(this))
 				console.log('elementId' + elementId)
+				console.log('response.bid_data.current_buyer' + response.bid_data.current_buyer)
 				
 
 				$('#actual_price_val_'  + elementId).replaceWith($('#actual_price_val_'  + elementId).text(response.bid_data.new_bid))
+
+				$('#current_buyer_'  + elementId).replaceWith($('#current_buyer_'  + elementId).text(response.bid_data.current_buyer))
 
 				$('#id_bid_' + elementId).val(response.bid_data.new_bid);
 
@@ -131,14 +135,35 @@ $('.modal').on('click', '#id_send_btn_' + event, function() {
 
 
 function showNotification(event){
-	console.log('event ' + event)
-	const toastEl = document.getElementById('toast-notification')
-	console.log('toastEl' + toastEl)
-	toastEl.classList.add('show')
 
-	const toastElClose = document.getElementById('close-notification').addEventListener('click', () => {
-		toastEl.classList.remove('show')
+
+
+	return new Promise((resolve, reject) => {
+		console.log('event ' + event)
+		const toastEl = document.getElementById('toast-notification')
+		console.log('toastEl' + toastEl)
+		toastEl.classList.add('show')
+		
+		resolve(toastEl)
+		const toastElClose = document.getElementById('close-notification').addEventListener('click', () => {
+			toastEl.classList.remove('show')
+	
+	
+		})
+		
 	})
+	.then((elem) => {
+
+		setTimeout((elem) => {
+			const toastEl = document.getElementById('toast-notification')
+			toastEl.classList.remove('show')
+	
+		}, 5000);
+	
+	})
+
+
+
 }
 
 

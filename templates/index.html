@@ -12,7 +12,8 @@
 
 
 {% block content_title %}
-{% trans "index" %}
+{% trans "Current Auctions" %}
+
 {% endblock %}
 
 
@@ -38,7 +39,7 @@
         </button>
       </div>
       <div class="toast-body">
-        COngratulations! Your bid is accepted!
+        Congratulations! Your bid is accepted!
       </div>
     </div>
 
@@ -121,6 +122,31 @@ Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, ve
 
 <div id="main_cards" >
 {% for i in auctions_today %}
+
+
+
+
+
+{% if user.is_authenticated %}
+
+  {% if user.id == i.seller_id%}
+
+  <span id="not_auth">sellerin</span>
+  {% elif user.id != i.seller_id%}
+
+  <span id="not_auth">someoneelse</span>
+  {% endif %}
+
+{% else %}
+<span id="not_auth">not_auth</span>
+{% endif %}
+
+
+
+
+
+
+
 
 
 <div class="card mb-3 p-3 col-md-10 main_cards" >
@@ -209,6 +235,20 @@ Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, ve
 
         <p class="card-text">You cannot make a bids to your auctions</p>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         {% else %}
         <p class="card-text">To bid, please <a href="{% url 'login' %}">log in</a>, or <a href="{% url 'register_page'%}">register</a></p>
         
@@ -231,6 +271,40 @@ Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, ve
             {% if p.auction_id == i.id and p.winner == 1%}
             
             <p >actual price: <span id="actual_price_val_{{i.id}}">{{p.new_price}}</span></p>
+            
+
+            <p id="current_buyer_div_{{i.id}">
+              current buyer: 
+
+            
+            {% if user.is_authenticated and user.id != i.seller_id %}
+  
+
+              {% if i.seller_id ==  p.buyer_id.id %}
+                
+                <span id="current_buyer_{{i.id}}">your bid will be first</span>
+
+
+
+
+              {% else %}
+                
+
+
+                <span id="current_buyer_{{i.id}}">{{p.buyer_id.id}}</span>
+
+              {% endif %}
+            
+              {% else %}
+
+                <span id="current_buyer_{{i.id}}">you need to wait until someone to bid</span>
+
+
+
+            {% endif %}
+
+          </p>
+
             {% endif %}
           {% endfor %}
 
@@ -244,11 +318,9 @@ Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, ve
         </span> -->
 
 
-          <div>
-          <span>Осталось:&nbsp;</span><span class="afss_day_bv">0</span> д.
-          <span class="afss_hours_bv">00</span>&nbsp;час.&nbsp;
-          <span class="afss_mins_bv">00</span>&nbsp;мин.&nbsp;
-          <span class="afss_secs_bv">00&nbsp;</span>&nbsp;сек.
+          <div id="timer_{{i.id}}">
+            <span id="timer_min_{{i.id}}"></span>
+            <span id="timer_sec_{{i.id}}"></span>
           </div>
 
 
@@ -266,8 +338,8 @@ Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, ve
 {% endfor %}
 
 </div>
-<h3>auctions_tomorrow</h3>
-{% for schedule in auctions_tomorrow2 %}
+<h3>Next 23 auctions</h3>
+{% for schedule in auctions_tommorow_list %}
 
 
 <div class="card mb-3 col-md-10">

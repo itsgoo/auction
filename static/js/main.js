@@ -172,122 +172,212 @@ btnDateField.addEventListener('click', (event) => {
 const queryStringMain = window.location
 if(queryStringMain == 'http://127.0.0.1:8000/'){
 
-const bidPlusValVal = document.getElementById('bidminus')
-const inputIdMain = bidPlusValVal.parentNode.id.replace('bids_thing_', '')
 
 
-// // load actual price in reload moment
-const inputBidMain = document.getElementById('id_bid_' + inputIdMain)
+const userStatus = document.getElementById('not_auth')
 
-const actualPriceVal = document.getElementById('actual_price_val_' + inputIdMain).textContent
+console.log('userStatus' + userStatus.textContent)
 
-
-
-inputBidMain.value = actualPriceVal
-
-
-
-const bidUp = bidPlusValVal.value
-
-
-
-
-
-var wrapper = document.querySelector('wr');
-
-var countInput = document.getElementById('id_bid_' + inputIdMain);
-
-
-
-var butM = document.getElementById('bidminus');
-var butP = document.getElementById('bidplus');
-var units = countInput.value.replace(/\d/g, '');
-console.log('units' + units)
-
-butM.onclick = function(){
-    if(parseInt(countInput.value) > 1) {
-        if(parseInt(countInput.value) == actualPriceVal){
-            console.log('its minimum ' + actualPriceVal)
-            console.log('parseInt(countInput.value) ' + parseInt(countInput.value))
-
-        }
-        console.log('bidUp butM ' + typeof Number(bidUp))
-        countInput.value = parseInt(countInput.value)-  Number(bidUp) + units;
-    }
-};
-butP.onclick = function(){
-    if(parseInt(countInput.value) > 1) {
-        console.log('bidUp butP ' + typeof Number(bidUp))
-        countInput.value = parseInt(countInput.value)+  Number(bidUp) + units;
-    }
-};
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-const currentAuctionId = document.getElementById('current_auction_id').textContent
-const startTimeVal = document.getElementById('start_time_id_' + currentAuctionId).textContent
-console.log('startTimeVal' + startTimeVal)
- 
-
-
-var remain_bv   = 3600;
-function parseTime_bv(timestamp){
-    if (timestamp < 0) timestamp = 0;
- 
-    var day = Math.floor( (timestamp/60/60) / 24);
-    var hour = Math.floor(timestamp/60/60);
-    var mins = Math.floor((timestamp - hour*60*60)/60);
-    var secs = Math.floor(timestamp - hour*60*60 - mins*60); 
-    var left_hour = Math.floor( (timestamp - day*24*60*60) / 60 / 60 );
- 
-    $('span.afss_day_bv').text(day);
-    $('span.afss_hours_bv').text(left_hour);
- 
-    if(String(mins).length > 1)
-        $('span.afss_mins_bv').text(mins);
-    else
-        $('span.afss_mins_bv').text("0" + mins);
-    if(String(secs).length > 1)
-        $('span.afss_secs_bv').text(secs);
-    else
-        $('span.afss_secs_bv').text("0" + secs);
-     
+if(userStatus.textContent == 'someoneelse'){
+    bidUpfunc()
 }
- 
-$(document).ready(function(){
-    setInterval(function(){
-        remain_bv = remain_bv - 1;
-        parseTime_bv(remain_bv);
-        if(remain_bv <= 0){
-            alert('Hello');
+
+
+
+function bidUpfunc(){
+
+    const bidPlusValVal = document.getElementById('bidminus')
+    const inputIdMain = bidPlusValVal.parentNode.id.replace('bids_thing_', '')
+    
+    
+    // // load actual price in reload moment
+    const inputBidMain = document.getElementById('id_bid_' + inputIdMain)
+    
+    const actualPriceVal = document.getElementById('actual_price_val_' + inputIdMain).textContent
+    
+    
+    
+    inputBidMain.value = actualPriceVal
+    
+    
+    
+    const bidUp = bidPlusValVal.value
+    
+    
+    
+    
+    
+    var wrapper = document.querySelector('wr');
+    
+    var countInput = document.getElementById('id_bid_' + inputIdMain);
+    
+    
+    
+    var butM = document.getElementById('bidminus');
+    var butP = document.getElementById('bidplus');
+    var units = countInput.value.replace(/\d/g, '');
+    console.log('units' + units)
+    
+    butM.onclick = function(){
+        if(parseInt(countInput.value) > 1) {
+            if(parseInt(countInput.value) == actualPriceVal){
+                console.log('its minimum ' + actualPriceVal)
+                console.log('parseInt(countInput.value) ' + parseInt(countInput.value))
+    
+            }
+            console.log('bidUp butM ' + typeof Number(bidUp))
+            countInput.value = parseInt(countInput.value)-  Number(bidUp) + units;
         }
-    }, 1000);
-});
+    };
+    butP.onclick = function(){
+        if(parseInt(countInput.value) > 1) {
+            console.log('bidUp butP ' + typeof Number(bidUp))
+            countInput.value = parseInt(countInput.value)+  Number(bidUp) + units;
+        }
+    };
+    
+}
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function updateClock2() {
+
+    const currentAuctionId = document.getElementById('current_auction_id').textContent
+    let startTimeVal = document.getElementById('start_time_id_' + currentAuctionId).textContent
+    let clearHourVal = startTimeVal.replace(':00', '')
+    clearHourVal = Number(clearHourVal) + 1
+    
+    // console.log('clearHourVal' + clearHourVal)
+    
+    // текущая дата
+    const date = new Date()
+
+    // час в текущей временной зоне
+    // console.log('time' + date.getTime())
+    // console.log('date' + date.getDate())
+    // console.log( date.getHours() )
+    // console.log ( date.getMinutes() )
+    // console.log ( date.getSeconds() )
+
+
+
+    let actualMonth1 = String(date.getMonth())
+    let nextDay1 = String(date.getDate())
+    let nextDay2 = String(date.getDate() + 1)
+    const year = String(date.getFullYear())
+
+    const startDate = new Date(year, actualMonth1, nextDay1 , date.getHours(), date.getMinutes(), date.getSeconds())
+    let startDateSec = Math.round(startDate.getMinutes())
+
+
+
+
+
+
+    const endDate = new Date(year, actualMonth1, nextDay1, clearHourVal, 00, 00)
+
+    let endDateSec = Math.round(endDate.getMinutes())
+
+    // console.log ( 'startDateSec' +startDateSec )
+    // console.log ( 'endDateSec' +endDateSec )
+
+    // console.log ( 'startDate' +startDate )
+    // console.log ( 'endDate' +endDate )
+
+
+
+    // 7947365000
+
+
+
+
+    delta = (endDate - startDate)/1000
+    // console.log ( 'delta ' +delta )
+    const day1 = Math.floor( (delta/60/60) / 24)
+
+
+    let minLeft = Math.floor(delta/60)
+    let secLeft = Math.floor(delta- (minLeft*60))
+
+    minLeft = String(minLeft)
+    secLeft = String(secLeft)
+
+    if (secLeft.length < 2){
+        secLeft = '0' + secLeft
+    }
+    if (minLeft.length < 2){
+        minLeft = '0' + minLeft
+    }
+
+    if (minLeft == '00' && secLeft == '00' ){
+
+        const divTimer = document.getElementById('timer_' + currentAuctionId)
+        const spanCurrentBuyer = document.getElementById('current_buyer_' + currentAuctionId)
+
+        const timeMsg = 'Auction was over. Winner is: ' + spanCurrentBuyer.textContent
+        divTimer.innerHTML = timeMsg
+
+        const bidForm = document.getElementById('add_form_' + currentAuctionId)
+        bidForm.innerHTML = 'Auction was closed'
+
+        const divCurrentBuyer = document.getElementById('current_buyer_div_' + currentAuctionId)
+        divCurrentBuyer.innerHTML = ''
+
+    }else{
+
+        // console.log ( 'day1 ' +day1 )
+        // console.log ( 'minLeft ' +minLeft )
+        // console.log ( 'secLeft ' +secLeft )
+    
+        const divMin = document.getElementById('timer_min_' + currentAuctionId)
+        const divSec = document.getElementById('timer_sec_' + currentAuctionId)
+    
+        divMin.innerHTML = minLeft
+        divSec.innerHTML = secLeft
+    }
+
+
+
+
+
+
+}
+
+timer2 = setInterval(updateClock2, 1000);
 
 
 

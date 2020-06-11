@@ -107,3 +107,7 @@
 .inline{
     display: inline !important;
 }
+
+#not_auth{
+    display: none;
+}
