@@ -15,195 +15,7 @@ from django.db.models import Q
 
 from dateutil.tz import tzutc, tzlocal
 
-
-
-
-
-@shared_task
-def everyDaySchedule():
-    # open 24 hours tasks
-    # activate hour auction: status 2
-    # deactivate previos auction: status 3
-    auctions_meta = Auctions.objects.filter(start_auction = '0001-01-01', sort_auction__gte = 0 ).only('id', 'sort_auction')
-
-
-
-
-    # last_hour = 23
-
-
-    # p_del = ScheduleAuction.objects.all()
-    # a_del = Auctions.objects.all()
-    # # p_del.delete()
-
-
-    # for d in p_del:
-    #     if d.id == 119:
-    #         d.active_date_time = 19
-    #         d.save()
-
-    # for a in a_del:
-    #     if a.id == 90 or a.id == 91 or a.id == 93:
-    #         a.start_auction_time = 0
-    #         a.save()
-
-
-
-
-
-
-
-
-
-
-
-    #get today date
-    test_1 = date.today()
-    s_year = test_1.year
-    s_month = test_1.month
-    s_day = test_1.day + 1
-    s_date_next_day = date(s_year, s_month, s_day)
-    print('new format active_date_time', s_date_next_day)
-
-
-    
-    
-    # get free time for automatic auctions
-    schedule_test = ScheduleAuction.objects.filter(active_time__gte = s_date_next_day).order_by('active_time')
-
-
-
-
-    busy_times_date = []
-    busy_times_time = []
-
-
-    # get busy time
-    for i in schedule_test:
-        if str(i.active_time) not in busy_times_date:
-            busy_times_date.append(str(i.active_time))
-
-    print('busy_times_date', busy_times_date)
-    busy_times_date_full = []
-    
-    for busy in busy_times_date:
-        busy_times_date_full.append([busy])
-        for i in schedule_test:
-            if busy == str(i.active_time):
-                busy_times_time.append(int(i.active_date_time))
-
-        busy_times_date_full[-1].append(busy_times_time)
-        busy_times_time = []
-
-    print('busy_times_date_full', busy_times_date_full)
-
-
-
-
-    # get free schedule time [[[2020-06-08], [1, 2, 3]], [[2020-06-09], [1, 2, 3]]]
-    positive_values = []
-    total_free_time_each_day = []
-    for busy_full in busy_times_date_full:
-        print('busy_full[0]', busy_full[0])
-
-        total_free_time_each_day.append([busy_full[0]])
-        print('busy_full[0]', busy_full[1])
-
-
-        for i in range(0, 24):
-
-            if i not in busy_full[1]:
-                positive_values.append(i)
-        
-        total_free_time_each_day[-1].append(positive_values)
-        positive_values = []
-
-
-
-
-
-
-        print('total_free_time_each_day', total_free_time_each_day)
-
-
-
-    
-
-    for i in auctions_meta:
-
-
-        if total_free_time_each_day[0][1] == []:
-            del total_free_time_each_day[0]
-
-        print('i.id', i.id)
-        active_time_auction = total_free_time_each_day[0][0]
-
-        print('active_time_auction', active_time_auction)
-
-        free_hour = total_free_time_each_day[0][1][0]
-
-        print('free_hour', free_hour)
-
-
-        s = ScheduleAuction(active_time = active_time_auction, auction = i, active_date_time = free_hour)
-        s.save()
-
-        i.sort_auction = 0
-        i.start_auction = active_time_auction
-        i.start_auction_time = free_hour
-        i.save()
-        print('i save sort_auction after ', i.sort_auction)
-    
-
-
-        del total_free_time_each_day[0][1][0]
-
-
-
-        if total_free_time_each_day[0][1] == []:
-            del total_free_time_each_day[0]
-
-        print('total_free_time_each_day ', total_free_time_each_day)
-
-
-    return print('made schedule')
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+from django.core.mail import send_mail
 
 
 
@@ -212,12 +24,6 @@ def everyDaySchedule():
 
 @shared_task
 def update_post_status():
-
-    
-
-    
-
-
 
     #get today date
     test_1 = date.today()
@@ -270,30 +76,7 @@ def update_post_status():
             p = Prices(new_price = change_auctions.start_price, auction=change_auctions, buyer_id=change_auctions.seller, winner=1)
             p.save()
 
-    return print('status of yesterday auctions was update')
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    return print('update_post_status')
 
 
 
@@ -331,8 +114,6 @@ def update_auctions_with_no_bids_status():
                     print('price.id delete', price.id)
                     price.delete()
 
-                    
-
 
                     try:
                         sh = ScheduleAuction.objects.get(auction_id = price.auction.id)
@@ -342,17 +123,263 @@ def update_auctions_with_no_bids_status():
                         pass
                 
 
-
-
-    return print('auctions who had no bids was moved to the end of the schedule list')
+    return print('update_auctions_with_no_bids_status')
     
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 @shared_task
-def add_first_price():
-    pass
+def everyDaySchedule():
+    # open 24 hours tasks
+    # activate hour auction: status 2
+    # deactivate previos auction: status 3
+    auctions_meta = Auctions.objects.filter(start_auction = '0001-01-01', sort_auction__gte = 0 ).only('id', 'sort_auction')
+
+
+
+    # p_del = ScheduleAuction.objects.all()
+    # # p_del.delete()
+
+
+    # for d in p_del:
+    #     if d.id == 119:
+    #         d.active_date_time = 19
+    #         d.save()
+
+
+    #get today date
+    test_1 = date.today()
+    s_year = test_1.year
+    s_month = test_1.month
+    s_day = test_1.day + 1
+    s_date_next_day = date(s_year, s_month, s_day)
+    print('new format active_date_time', s_date_next_day)
+
+
+    
+    
+    # get free time for automatic auctions
+    schedule_test = ScheduleAuction.objects.filter(active_time__gte = s_date_next_day).order_by('active_time')
+
+    busy_times_date = []
+    busy_times_time = []
+
+
+    # get busy time
+    for i in schedule_test:
+        if str(i.active_time) not in busy_times_date:
+            busy_times_date.append(str(i.active_time))
+
+    print('busy_times_date', busy_times_date)
+
+
+
+
+    # # get busy time
+    # for i in schedule_test:
+    #     if str(i.active_time) not in busy_times_date:
+    #         busy_times_date.append(i.active_time)
+
+    # print('busy_times_date', busy_times_date)
+
+    # for busy_time in busy_times_date:
+    #     if busy_time ==
+
+
+
+
+
+
+
+
+
+
+
+    busy_times_date_full = []
+    
+    for busy in busy_times_date:
+        busy_times_date_full.append([busy])
+        for i in schedule_test:
+            if busy == str(i.active_time):
+                busy_times_time.append(int(i.active_date_time))
+
+        busy_times_date_full[-1].append(busy_times_time)
+        busy_times_time = []
+
+    print('busy_times_date_full', busy_times_date_full)
+
+
+
+
+    # get free schedule time [[[2020-06-08], [1, 2, 3]], [[2020-06-09], [1, 2, 3]]]
+    positive_values = []
+    total_free_time_each_day = []
+    for busy_full in busy_times_date_full:
+        print('busy_full[0]', busy_full[0])
+
+        total_free_time_each_day.append([busy_full[0]])
+        print('busy_full[0]', busy_full[1])
+
+
+        for i in range(0, 24):
+
+            if i not in busy_full[1]:
+                positive_values.append(i)
+        
+        total_free_time_each_day[-1].append(positive_values)
+        positive_values = []
+
+        print('total_free_time_each_day', total_free_time_each_day)
+
+
+
+    
+
+    for i in auctions_meta:
+
+
+        if total_free_time_each_day[0][1] == []:
+            del total_free_time_each_day[0]
+
+        print('i.id', i.id)
+        active_time_auction = total_free_time_each_day[0][0]
+
+        print('active_time_auction', active_time_auction)
+
+        free_hour = total_free_time_each_day[0][1][0]
+
+        print('free_hour', free_hour)
+
+
+        s = ScheduleAuction(active_time = active_time_auction, auction = i, active_date_time = free_hour)
+        s.save()
+
+        i.sort_auction = 0
+        i.start_auction = active_time_auction
+        i.start_auction_time = free_hour
+        i.save()
+        print('i save sort_auction after ', i.sort_auction)
+    
+        del total_free_time_each_day[0][1][0]
+
+
+        if total_free_time_each_day[0][1] == []:
+            del total_free_time_each_day[0]
+
+        print('total_free_time_each_day ', total_free_time_each_day)
+
+
+    return print('everyDaySchedule')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@shared_task
+def sending_email_about_new_price(buyer_id, auction_title, bid, email):
+
+    print('User %d has new leader of the aution %s, with highest bid %d' %( buyer_id, auction_title, bid))
+    print('email', email)
+
+    # send_mail('new bid at the auction you are interested in!',
+    # 'User id 1 has new leader of the aution " watch seilo 5", with highest bid 750',
+    # 'admin@onehourbid.com',
+    # ['goo.myweb@gmail.com'])
+
 
 
 

@@ -26,16 +26,16 @@ app.autodiscover_tasks()
 
 
 app.conf.beat_schedule = {
-    'everyDaySchedule': {
-    'task': 'celery_app.tasks.everyDaySchedule',
-    'schedule': crontab(hour="*", minute="2"),
-    },
     'update_post_status': {
     'task': 'celery_app.tasks.update_post_status',
     'schedule': crontab(hour="*", minute="0"),
     },
     'update_auctions_with_no_bids_status': {
     'task': 'celery_app.tasks.update_auctions_with_no_bids_status',
+    'schedule': crontab(hour="*", minute="0"),
+    },
+    'everyDaySchedule': {
+    'task': 'celery_app.tasks.everyDaySchedule',
     'schedule': crontab(hour="*", minute="1"),
     },
 }
@@ -43,3 +43,5 @@ app.conf.beat_schedule = {
 @app.task(bind=True)
 def debug_task(self):
     print('Request: {0!r}'.format(self.request))
+
+

@@ -36,6 +36,9 @@ from pytz import timezone as tze
 
 from itertools import chain
 
+from .tasks import sending_email_about_new_price
+
+
 class userGroups:
     def sellers(self):
         return User.objects.filter(groups = 1)
@@ -644,6 +647,18 @@ class Index(View):
                 dict_bid_data.update({"current_buyer": buyer.id})
             print('model_to_dict(bid_data)', dict_bid_data)
 
+
+            all_auctions_buyers = Bids.objects.filter(auction_id = auction)
+
+            only_auctions_buyers = []
+            for bid in all_auctions_buyers:
+                print('current bids', bid)
+                if bid.buyer_id.email not in only_auctions_buyers:
+                    only_auctions_buyers.append(bid.buyer_id.email)
+
+                    sending_email_about_new_price.delay(buyer.id, bid.auction.title, new_bid, bid.buyer_id.email)
+
+                    print('bid.buyer_id.email', bid.buyer_id.email)
 
         # return redirect('index')
         return JsonResponse({'bid_data': dict_bid_data}, status=200)
