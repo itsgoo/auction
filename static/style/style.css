@@ -111,3 +111,7 @@
 #not_auth{
     display: none;
 }
+
+.deactive{
+    background: #fef !important;
+}

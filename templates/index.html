@@ -96,7 +96,7 @@ Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, ve
           <select name="buyer_id" required="" id="id_buyer_id" hidden>
               <option value="{{user.id}}" selected=""></option>
           </select>
-          <button form="add_form_{{i.id}}" data-id="{{i.id}}"  type="button" class="btn btn-primary btn_confirm" >bid</button>
+          <button form="add_form_{{i.id}}" data-id="{{i.id}}"  type="button" id="bid_first_btn_{{i.id}}" class="btn btn-primary btn_confirm" >bid</button>
 
       </form>
 
@@ -223,7 +223,7 @@ Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, ve
 
 
 
-              <button form="add_form_btn_{{i.id}}" data-id="{{i.id}}" id="add_form_btn_{{i.id}}" type="button" class="btn btn-primary" onclick="btnBidEvent(event)"  data-toggle="modal" data-target="#exampleModal">bid</button>
+              <button form="add_form_btn_{{i.id}}" data-id="{{i.id}}" id="add_form_btn_{{i.id}}" type="button" class="btn btn-primary" onclick="btnBidEvent(event)"  data-toggle="modal" data-target="#exampleModal" >bid</button>
 
           </form>
 

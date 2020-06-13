@@ -49,7 +49,7 @@ def update_post_status():
         
         if actual_hour == int(actual_auction.active_date_time):
             current_auction_id = actual_auction.auction_id
-            print('actual_auction', actual_auction.auction_id)
+            print('current_auction_id', actual_auction.auction_id)
 
 
 
