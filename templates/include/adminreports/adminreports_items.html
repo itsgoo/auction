@@ -1,16 +1,17 @@
 
 
-<table class="table table-striped">
+<table class="table table-striped" id="table_items">
     <thead>
         <tr>
-            <th scope="col">Auctions title desc id</th>
-            <th scope="col">Photo</th>
-            <th scope="col">start price</th>
-            <th scope="col">number of bids</th>
-            <th scope="col">Status</th>
-            <th scope="col">seller</th>
-            <th scope="col">winner price</th>
-            <th scope="col">winner</th>
+            <th scope="col" data-type="none">Auctions title desc id</th>
+            <th scope="col" data-type="none">Photo</th>
+            <th scope="col" data-type="integer">start price</th>
+            <th scope="col" data-type="integer">number of bids</th>
+            <th scope="col" data-type="integer">Status</th>
+            <th scope="col" data-type="none">seller</th>
+            <th scope="col" data-type="integer">winner price</th>
+            <th scope="col" data-type="text" >winner<!-- <span id="winner_col">sort</span> -->
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -80,11 +81,11 @@
                                 
                                 {% if price != 0%}
 
-                                <td>{{price}}</td>
+                                <td class="price_val">{{price}}</td>
 
                                 {% else %}
 
-                                <td>no price</td>
+                                <td  class="price_val">0</td>
                                 {% endif %}
 
                                 

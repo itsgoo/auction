@@ -420,3 +420,105 @@ timer2 = setInterval(updateClock2, 1000);
 
 
 }
+
+
+
+
+
+
+
+
+// home page
+if(queryStringMain == 'http://127.0.0.1:8000/reports'){
+
+const tableItems = document.getElementById('table_items')
+let colIndex = -1
+
+
+const sortTable = function(elIndex, dataType, isSorted){
+
+    console.log('el TH elIndex' + elIndex)
+    const tbody = tableItems.querySelector('tbody')
+
+    const compare = function(rowPrev, rowNext) {
+
+
+        const rowDataPrev =  rowPrev.cells[elIndex].innerHTML
+        const rowDataNext =  rowNext.cells[elIndex].innerHTML
+
+
+        switch (dataType){
+            case 'integer':
+                return rowDataPrev - rowDataNext
+                break
+            case 'text':
+                if(rowDataPrev < rowDataNext) return -1
+                else if(rowDataPrev > rowDataNext) return 1
+                return 0
+                break
+        }
+
+
+        
+    }
+
+    let rows = [].slice.call(tbody.rows)
+
+    rows.sort(compare)
+
+    if (isSorted) rows.reverse()
+
+    tableItems.removeChild(tbody)
+
+    for (i = 0; i < rows.length; i++){
+        tbody.appendChild(rows[i])
+    }
+
+    tableItems.appendChild(tbody)
+    console.log('tableItems' + tableItems)
+
+}
+
+tableItems.addEventListener('click', (event) => {
+    
+    const el = event.target
+    // const el = event.target.textContent
+
+
+    if (el.nodeName != 'TH') return;
+
+    const elIndex = el.cellIndex
+
+    // let sorted = [...winnerSortEl].sort()
+    // console.log('items' + sorted)
+    const dataType = el.getAttribute('data-type')
+
+    sortTable(elIndex, dataType, colIndex == elIndex)
+    colIndex = (colIndex == elIndex) ? -1 : elIndex
+
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}
+
+
+
+
+
+
+

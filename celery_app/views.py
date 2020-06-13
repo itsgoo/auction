@@ -709,7 +709,7 @@ class Index(View):
             auctions_tommorow_list.append(auciton)
 
             i +=1
-            if i == 22:
+            if i == 23:
                 break
 
 
