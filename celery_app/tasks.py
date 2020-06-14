@@ -42,18 +42,20 @@ def update_post_status():
     # get free time for automatic auctions
     schedule_test = ScheduleAuction.objects.filter(active_time = s_date_this_day)
 
-
+    current_auction_id = 'none'
     for actual_auction in schedule_test:
 
         # print('actual_auction.active_date_time', actual_auction.active_date_time)
         
         if actual_hour == int(actual_auction.active_date_time):
             current_auction_id = actual_auction.auction_id
-            print('current_auction_id', actual_auction.auction_id)
+            print('current_auction_id', current_auction_id)
+
 
 
 
     change_auctions_status = Auctions.objects.all().only('id', 'status')
+
 
 
     # change last auction status(2) to 3
@@ -62,19 +64,28 @@ def update_post_status():
     for change_auctions in change_auctions_status:
 
 
-        if change_auctions.status == 2 and change_auctions.id != current_auction_id:
-            change_auctions.status = 3
-            change_auctions.save()
-            print('change_auctions.id status 3', change_auctions.id)
+        if change_auctions.id != current_auction_id:
+            if change_auctions.status == 2: 
+                change_auctions.status = 3
+                change_auctions.save()
+                print('change_auctions.id status 3', change_auctions.id)
+
         elif change_auctions.id == current_auction_id:
             change_auctions.status = 2
             print('change_auctions.id status 2', change_auctions.id)
             change_auctions.save()
 
-
-
             p = Prices(new_price = change_auctions.start_price, auction=change_auctions, buyer_id=change_auctions.seller, winner=1)
             p.save()
+
+        # elif change_auctions.status != 2: 
+        #     if change_auctions.id == current_auction_id:
+        #         change_auctions.status = 2
+        #         print('change_auctions.id status 2', change_auctions.id)
+        #         change_auctions.save()
+
+
+
 
     return print('update_post_status')
 

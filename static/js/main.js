@@ -449,6 +449,7 @@ const sortTable = function(elIndex, dataType, isSorted){
 
         switch (dataType){
             case 'integer':
+                // console.log(rowDataPrev - rowDataNext)
                 return rowDataPrev - rowDataNext
                 break
             case 'text':
@@ -464,6 +465,7 @@ const sortTable = function(elIndex, dataType, isSorted){
 
     let rows = [].slice.call(tbody.rows)
 
+    // console.log('rows' + rows)
     rows.sort(compare)
 
     if (isSorted) rows.reverse()
@@ -475,7 +477,6 @@ const sortTable = function(elIndex, dataType, isSorted){
     }
 
     tableItems.appendChild(tbody)
-    console.log('tableItems' + tableItems)
 
 }
 
