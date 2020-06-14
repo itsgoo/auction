@@ -115,6 +115,7 @@ def update_auctions_with_no_bids_status():
     for price in auctions_width_no_bids:
         if price.winner == 1:
             if price.buyer_id.id == price.auction.seller.id:
+                print('price.buyer_id.id == price.auction.seller.id', price.buyer_id.id)
 
                 if price.auction.status != 2:
                     print('there is auction without bid', price.auction.id) 
@@ -195,23 +196,71 @@ def everyDaySchedule():
 
     # get busy time
     for i in schedule_test:
-        if str(i.active_time) not in busy_times_date:
-            busy_times_date.append(str(i.active_time))
+        if i.active_time not in busy_times_date:
+            busy_times_date.append(i.active_time)
 
     print('busy_times_date', busy_times_date)
 
 
 
+    if busy_times_date == []:
+        busy_times_date = [s_date_next_day]
 
-    # # get busy time
-    # for i in schedule_test:
-    #     if str(i.active_time) not in busy_times_date:
-    #         busy_times_date.append(i.active_time)
+ 
 
-    # print('busy_times_date', busy_times_date)
 
-    # for busy_time in busy_times_date:
-    #     if busy_time ==
+    print('auctions_meta.lendth()', len(auctions_meta))
+
+
+
+    new_days = []
+
+    next_date = date(s_year, s_month, s_day)
+    end_date = busy_times_date[-1]
+
+    while next_date <= end_date:
+
+        new_days.append(str(next_date))
+        next_date = next_date + timedelta(days = 1)
+
+
+
+        # for i in busy_times_date:
+        #     sep = i.split('-')
+        #     # print('i', sep)
+        #     this_date = date(int(sep[0]), int(sep[1]), int(sep[2]))
+        #     print('this_date', this_date)
+        #     print('next_date', next_date)
+
+        #     if this_date == next_date:
+        #         # print('ok date', this_date)
+        #         new_days.append(str(next_date))
+        #         next_date = next_date + timedelta(days = 1)
+
+        #     if this_date != next_date:
+        #         new_days.append(str(next_date))
+        #         next_date = next_date + timedelta(days = 1)
+        
+
+
+
+
+
+    print('new_days', new_days)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -225,7 +274,7 @@ def everyDaySchedule():
 
     busy_times_date_full = []
     
-    for busy in busy_times_date:
+    for busy in new_days:
         busy_times_date_full.append([busy])
         for i in schedule_test:
             if busy == str(i.active_time):
