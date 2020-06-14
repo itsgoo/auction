@@ -3,7 +3,7 @@
 <table class="table table-striped">
     <thead>
         <tr>
-        <th scope="col">Auctions</th>
+        <th scope="col">Auctions</th> 
         <th scope="col">Photo</th>
         <th scope="col">start price</th>
         <th scope="col">your price</th>
@@ -14,7 +14,7 @@
   
  
   
-      {% for prices_info in unique_actual_auctions_for_buyer %}
+      {% for prices_info in user_auctions_short_from_prices %}
           
           {% if prices_info.auction.id %}
   

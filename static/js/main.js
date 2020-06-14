@@ -1,7 +1,7 @@
 
 // create auction page
 const queryString = window.location
-if(queryString == 'http://127.0.0.1:8000/create'){
+if(queryString == 'http://127.0.0.1:8000/create' || queryString == 'http://127.0.0.1:8000/en/create'){
 
 
 
@@ -170,7 +170,7 @@ btnDateField.addEventListener('click', (event) => {
 
 // home page
 const queryStringMain = window.location
-if(queryStringMain == 'http://127.0.0.1:8000/'){
+if(queryStringMain == 'http://127.0.0.1:8000/' || queryStringMain == 'http://127.0.0.1:8000/en/'){
 
 
 
@@ -429,7 +429,7 @@ timer2 = setInterval(updateClock2, 1000);
 
 
 // home page
-if(queryStringMain == 'http://127.0.0.1:8000/reports'){
+if(queryStringMain == 'http://127.0.0.1:8000/reports' || queryStringMain == 'http://127.0.0.1:8000/en/reports'){
 
 const tableItems = document.getElementById('table_items')
 let colIndex = -1

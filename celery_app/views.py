@@ -115,15 +115,6 @@ class UserReports(View):
 
                     count_none = 0
 
-                
-
-
-
-
-
-
-
-
                 ctx = {
 
                         'bids': bids,
@@ -665,12 +656,6 @@ class Index(View):
 
 
     def get(self, request):
-
-
-
-
-
-
 
 
 

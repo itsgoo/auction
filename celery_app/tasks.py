@@ -114,8 +114,11 @@ def update_auctions_with_no_bids_status():
 
     for price in auctions_width_no_bids:
         if price.winner == 1:
+            print('price.winner == 1 in auction id', price.auction.id)
+
             if price.buyer_id.id == price.auction.seller.id:
                 print('price.buyer_id.id == price.auction.seller.id', price.buyer_id.id)
+                
 
                 if price.auction.status != 2:
                     print('there is auction without bid', price.auction.id) 
