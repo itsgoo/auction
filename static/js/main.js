@@ -419,6 +419,114 @@ timer2 = setInterval(updateClock2, 1000);
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// get notification about next acutions
+
+
+function getNotification(event, id){
+
+    return new Promise ((reslove, reject) => {
+
+        const notifModalDiv = document.getElementById('get_notification')
+        const notifForm = notifModalDiv.getElementsByTagName('form')[0]
+        notifForm.setAttribute('id', 'form_notif_' + id)
+        let selectAuction = notifForm.getElementsByTagName('select')[0]
+        let selectOption = selectAuction.getElementsByTagName('option')[0].setAttribute('value', id)
+    
+        const btnNotif = document.getElementById('btn_notif').setAttribute('id', 'btn_notif_' + id)
+
+
+        reslove(id)
+
+    })
+    .then((id) =>{
+        
+        const btnNotifId = document.getElementById('btn_notif_' + id)
+
+        btnNotifId.addEventListener('click', (event) => {
+            event.preventDefault()
+
+            var serializedData = $("#form_notif_" + id).serialize();
+            console.log('serializedData' + serializedData)
+
+            $.ajax({
+                url: $("#form_notif_" + id).data('url'),
+                data: serializedData,
+                type: 'post',
+                success: function(response){
+                    console.log('success send')
+                   
+        
+                }
+            })
+
+
+
+
+
+
+
+
+
+        })
+
+
+
+
+
+
+
+
+
+
+
+        return id
+
+    })
+    .then((id) => {
+        
+        let btnNotifIdDel = document.getElementById('btn_notif_' + id).id = 'btn_notif'
+    })
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
 
 

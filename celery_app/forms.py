@@ -1,10 +1,18 @@
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, UserChangeForm
 from django.contrib.auth.models import User
-from .models import Auctions, Bids
+from .models import Auctions, Bids, Notifications
 
 
 
+
+class NotificationForm(forms.ModelForm):
+    class Meta:
+        model = Notifications
+        fields = (
+            'auction',
+            'subscriber',
+        )
 
 
 class ChangeUserData(UserChangeForm):

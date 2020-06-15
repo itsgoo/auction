@@ -21,14 +21,84 @@
 
 {% block content %}
 
+<div id="get_notif" >
+
+</div>
 
 
 
-  <!-- Position it -->
+<!-- Get Notification modal -->
+<div class="modal fade" id="get_notification" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+
+
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+
+
+
+        <form class="form-group" method="POST" data-url="{% url 'index' %}">
+          {% csrf_token %}
+          <select name="auction" required="" id="id_auction" hidden>
+            <option id="" value="{{i.id}}"></option>
+          </select>
+        
+          <select name="subscriber" required="" id="id_subscriber" hidden>
+            <option value="{{user.id}}"></option>
+          </select>
+          
+        
+          <button type="button" id="btn_notif" class="btn btn-primary btn_confirm">get notifications</button>
+        
+        </form>
+
+
+
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- Notification about bid -->
   <div style="position: fixed; top: 18%; right: 3%; overflow: hidden;
   z-index: 15;">
     
-    <!-- Then put toasts within -->
     <div class="toast fade" role="alert" aria-live="assertive" aria-atomic="true" id="toast-notification">
       <div class="toast-header">
         <svg class="bd-placeholder-img rounded mr-2" width="20" height="20" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img"><rect width="100%" height="100%" fill="#007aff"></rect></svg>
@@ -47,15 +117,19 @@
   </div>
 
 
-
+<!-- Gallety Modal -->
 <div id="pop_up">
 
   <span id="close_popup">close</span>
 </div>
 
-<!-- Button trigger modal -->
 
-<!-- Modal -->
+
+
+
+
+
+<!-- Modal terms of condition -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -73,13 +147,6 @@ Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagi
 Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.
       </div>
       <div class="modal-footer">
-
-
-
-
-
-
-
 
         <form class="form-group" method="POST" data-url="{% url 'index' %}">
           {% csrf_token %}
@@ -348,9 +415,13 @@ Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, ve
      <img src="{{ MEDIA_URL }}{{ schedule.auction.main_img }}" class="card-img" alt="...">
    </div>
    <div class="col-md-8 relative ">
-     <div class="get_notif">
+
+
+    <button type="button" class="get_notif" data-toggle="modal" data-target="#get_notification" onclick="getNotification(event, {{schedule.auction.id}})">
       <img class="noti-icon" src="{{ MEDIA_URL }}/file/notification.png" title="get notification about this lot" alt="">
-     </div>
+    </button>
+
+
      <div class="card-body">
        <h5 class="card-title">Next Auctions: {{schedule.auction.start_auction}}</h5>
        <small class="text-muted mr-3">Hour: {{schedule.active_date_time}}</small>

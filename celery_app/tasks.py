@@ -415,7 +415,10 @@ def everyDaySchedule():
 
 
 
-
+@shared_task
+def start_auction_notification():
+    print('ok notification')
+    
 
 
 

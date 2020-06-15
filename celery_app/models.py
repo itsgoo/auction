@@ -39,3 +39,8 @@ class ScheduleAuction(models.Model):
     active_time = models.DateField(auto_now = False)
     active_date_time = models.IntegerField(max_length=6)
     auction = models.ForeignKey(Auctions, on_delete = models.CASCADE)
+
+
+class Notifications(models.Model):
+    auction = models.ForeignKey(Auctions, on_delete = models.CASCADE)
+    subscriber = models.ForeignKey(User, on_delete = models.CASCADE)

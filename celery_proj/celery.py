@@ -38,6 +38,10 @@ app.conf.beat_schedule = {
     'task': 'celery_app.tasks.everyDaySchedule',
     'schedule': crontab(hour="*", minute="2"),
     },
+    'start_auction_notification': {
+    'task': 'celery_app.tasks.start_auction_notification',
+    'schedule': crontab(hour="*", minute="30,50"),
+    },
 }
 # crontab(minute=0, hour=0)
 @app.task(bind=True)

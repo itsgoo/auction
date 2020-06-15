@@ -115,3 +115,9 @@
 .deactive{
     background: #fef !important;
 }
+
+
+.get_notif{
+    border: none;
+    background: none;
+}

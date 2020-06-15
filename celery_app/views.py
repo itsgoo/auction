@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views.generic.base import View
-from .forms import RegisterUserForm, AuctionsForm, BidUpForm, ChangeUserData
+from .forms import RegisterUserForm, AuctionsForm, BidUpForm, ChangeUserData, NotificationForm
 
 from django.views.generic import CreateView
 
@@ -8,7 +8,7 @@ from django.urls import reverse_lazy
 
 
 from django.contrib.auth.models import User, Group, GroupManager
-from .models import Auctions, Bids, Prices, ImgForAuction, ScheduleAuction
+from .models import Auctions, Bids, Prices, ImgForAuction, ScheduleAuction, Notifications
 
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -594,6 +594,29 @@ class Index(View):
 
     def post(self, request):
         bidup_form = BidUpForm(request.POST)
+        Notification_form = NotificationForm(request.POST)
+
+
+
+
+
+        if Notification_form.is_valid():
+            notif_data = Notification_form.save(commit=True)
+
+
+            auction = Notification_form.cleaned_data['auction']
+            subscriber = Notification_form.cleaned_data['subscriber']
+
+            print('auction', auction)
+            print('subscriber', subscriber)
+
+            new_notif = Notifications(auction = auction, subscriber=subscriber)
+            new_notif.save()
+
+            dict_bid_data = 'pass'
+
+
+
         print('bidup_form view')
         if bidup_form.is_valid():
             print('bidup_form.cleaned_data[bid]')
@@ -677,19 +700,18 @@ class Index(View):
         additional_img = ImgForAuction.objects.all() 
         groups_user_buyers = User.objects.filter(groups = 2)
         form = BidUpForm
+        notoficaion_form = NotificationForm
         groups_user_sellers = User.objects.filter(groups = 1)
 
 
 
 
-        auctions_tomorrow = Auctions.objects.filter(status=1, start_auction__range= (s_date_day_today, s_date_next_day)).order_by('start_auction')
-
-        auctions_tomorrow2 = ScheduleAuction.objects.filter(auction__status = 1, active_time__range = (s_date_day_today, s_date_next_day) ).order_by('active_time' , 'active_date_time' )
+        auctions_tomorrow = ScheduleAuction.objects.filter(auction__status = 1, active_time__range = (s_date_day_today, s_date_next_day) ).order_by('active_time' , 'active_date_time' )
 
         i = 0
 
         auctions_tommorow_list = []
-        for auciton in auctions_tomorrow2:
+        for auciton in auctions_tomorrow:
 
             auctions_tommorow_list.append(auciton)
 
@@ -718,10 +740,11 @@ class Index(View):
 
 
 
-
+        
 
         ctx ={
             'form': form,
+            'notoficaion_form': notoficaion_form,
             'winners': winners,
             'current_user': current_user,
             'additional_img': additional_img,
@@ -733,7 +756,6 @@ class Index(View):
             'groups_user_buyers': groups_user_buyers,
             'groups_user_sellers': groups_user_sellers,
             'true_admin': true_admin,
-            'auctions_tomorrow2': auctions_tomorrow2,
         }
         return render(request, 'index.html', ctx)
 

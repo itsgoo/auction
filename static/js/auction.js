@@ -119,8 +119,9 @@ $('.modal').on('click', '#id_send_btn_' + event, function() {
 	const confirmationPopUp3 = document.getElementsByClassName('modal-backdrop')[0]
 	console.log('confirmationPopUp2' + confirmationPopUp2)
 	confirmationPopUp2.classList.remove('show')
-	confirmationPopUp3.classList.remove('show')
 	confirmationPopUp2.style.display = "none"
+
+	confirmationPopUp3.classList.remove('show')
 	confirmationPopUp3.style.display = "none"
 	
 
