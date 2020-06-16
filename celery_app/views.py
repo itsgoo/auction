@@ -36,7 +36,7 @@ from pytz import timezone as tze
 
 from itertools import chain
 
-from .tasks import sending_email_about_new_price
+from .tasks import sending_email_about_new_price, start_auction_notification, new_registration
 
 
 class userGroups:
@@ -603,12 +603,8 @@ class Index(View):
         if Notification_form.is_valid():
             notif_data = Notification_form.save(commit=True)
 
-            # check_duble = Notifications.objects.all()
 
-            # for i in check_duble:
-            #     if i.auction_id == 
-
-            # dict_bid_data = 'pass'
+            dict_bid_data = 'pass'
 
             
 
@@ -787,6 +783,7 @@ class RegisterUserView(CreateView):
     def form_valid(self, form):
         form_valid = super().form_valid(form)
         username = form.cleaned_data["username"]
+        email = form.cleaned_data["email"]
         password = form.cleaned_data["password1"]
         group = form.cleaned_data["groups"]
         auth_user = authenticate(username=username, password=password)
@@ -796,6 +793,10 @@ class RegisterUserView(CreateView):
         my_group = Group.objects.get(id = group_id)
         print('User.id', self.request.user.id)
         my_group.user_set.add(self.request.user.id)
+
+        new_registration.delay(email)
+        
+
         return form_valid
 
 

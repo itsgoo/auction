@@ -17,7 +17,7 @@ from dateutil.tz import tzutc, tzlocal
 
 from django.core.mail import send_mail
 
-
+from django.contrib.auth.models import User
 
 
 
@@ -54,7 +54,7 @@ def update_post_status():
 
 
 
-    change_auctions_status = Auctions.objects.all().only('id', 'status')
+    change_auctions_status = Auctions.objects.all().only('id', 'status', 'seller_id')
 
 
 
@@ -68,6 +68,9 @@ def update_post_status():
             if change_auctions.status == 2: 
                 change_auctions.status = 3
                 change_auctions.save()
+
+                notif_end_of_auciton.delay(change_auctions.id)
+
                 print('change_auctions.id status 3', change_auctions.id)
 
         elif change_auctions.id == current_auction_id:
@@ -75,8 +78,17 @@ def update_post_status():
             print('change_auctions.id status 2', change_auctions.id)
             change_auctions.save()
 
+
+            start_auction_to_seller.delay(change_auctions.seller_id)
+
             p = Prices(new_price = change_auctions.start_price, auction=change_auctions, buyer_id=change_auctions.seller, winner=1)
             p.save()
+
+            notif_for_current_auction = Notifications.objects.filter(auction_id = change_auctions)
+            print('notif_for_current_auction delete' , notif_for_current_auction)
+
+            notif_for_current_auction.delete()
+
 
         # elif change_auctions.status != 2: 
         #     if change_auctions.id == current_auction_id:
@@ -125,6 +137,8 @@ def update_auctions_with_no_bids_status():
                     price.auction.start_auction = '0001-01-01'
                     price.auction.status = 1
                     price.auction.save()
+
+                    next_auction_schedule.delay(price.auction.id)
 
                     print('price.id delete', price.id)
                     price.delete()
@@ -209,8 +223,6 @@ def everyDaySchedule():
     if busy_times_date == []:
         busy_times_date = [s_date_next_day]
 
- 
-
 
     print('auctions_meta.lendth()', len(auctions_meta))
 
@@ -250,29 +262,6 @@ def everyDaySchedule():
 
 
     print('new_days', new_days)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     busy_times_date_full = []
@@ -333,6 +322,8 @@ def everyDaySchedule():
 
         s = ScheduleAuction(active_time = active_time_auction, auction = i, active_date_time = free_hour)
         s.save()
+
+        auction_in_schedule.delay(i.id, str(active_time_auction), int(free_hour))
 
         i.sort_auction = 0
         i.start_auction = active_time_auction
@@ -403,7 +394,21 @@ def everyDaySchedule():
 
 
 
+@shared_task
+def auction_in_schedule(auction_id, active_time_auction, free_hour):
 
+    auction = Auctions.objects.get(id = auction_id)
+    email = auction.seller.email
+    auction_name = auction.title
+    text = 'your auction: %s will in schedule at %s and %d hour' %(auction_name, active_time_auction, free_hour)
+
+    send_mail(
+        'your auction in schedule!',
+        text,
+        'admin@onehourbid.com',
+        [email],
+    )
+    print('notif auction_in_schedule id', auction_id)
 
 
 
@@ -417,7 +422,6 @@ def everyDaySchedule():
 
 @shared_task
 def start_auction_notification():
-    print('ok notification')
     #get today date
     test_1 = date.today()
     s_year = test_1.year
@@ -433,33 +437,32 @@ def start_auction_notification():
 
     print('minutes_left', minutes_left)
 
-
     next_auction = ScheduleAuction.objects.filter(active_time = s_date_this_day).get(active_date_time = next_hour)
 
-
-
     print(next_auction)
-
 
     current_notifications = Notifications.objects.filter(auction_id = next_auction.auction_id)
 
     print('current_notifications', current_notifications)
-
+    current_subscribers = []
+    for all_sub in current_notifications:
+        if all_sub.subscriber.email not in current_subscribers:
+            current_subscribers.append(all_sub.subscriber.email)
 
     for notif in current_notifications:
 
+        if notif.subscriber.email in current_subscribers:
+            text = 'Auction - %s will start in %d minutes' %(notif.auction_id, minutes_left)
 
-        text = 'Auction - %s will start in %d minutes' %(notif.auction_id, minutes_left)
-
-        print('notif.auction.seller_id', notif.subscriber.email)
-        
-        # send_mail(
-        #     'new bid at the auction you are interested in!',
-        #     text,
-        #     'admin@onehourbid.com',
-        #     [notif.auction.seller_id],
-        # )
-
+            print('notif auction.seller_id', notif.subscriber.email)
+            
+            send_mail(
+                'next auction will start soon!',
+                text,
+                'admin@onehourbid.com',
+                [notif.subscriber.email],
+            )
+            current_subscribers.remove(notif.subscriber.email)
     
 
 
@@ -472,9 +475,9 @@ def new_registration(email):
     
     text = 'Welcome to auction 10bid area!'
     
-    
+    print('notif new_registration', email)
     send_mail(
-        'new bid at the auction you are interested in!',
+        'Congratulation!',
         text,
         'admin@onehourbid.com',
         [email],
@@ -484,40 +487,95 @@ def new_registration(email):
 
 
 @shared_task
-def start_auction(email):
+def start_auction_to_seller(seller_id):
     
+    user = User.objects.get(id = seller_id)
+
     text = 'Your auction was start'
+    email = user.email
     
-    
+    print('notif start_auction_to_seller', email)
+    send_mail(
+        'Congratulation!',
+        text,
+        'admin@onehourbid.com',
+        [email],
+    )
 
 
 
 @shared_task
 def auction_to_schedule(email):
     
-    text = 'Your auction was start'
+    text = 'Your auction was start at '
     
-    
+    print('notif auction_to_schedule', email)
+    send_mail(
+        'Congratulation!',
+        text,
+        'admin@onehourbid.com',
+        [email],
+    )
 
 
 
 @shared_task
-def end_of_auciton(email):
-    
-    text = 'You auction was end'
-    
-    
+def notif_end_of_auciton(auction_id):
+
+    auctions_width_no_bids = Prices.objects.filter(auction_id = auction_id).select_related('auction').prefetch_related('auction__seller').order_by('new_price_time')
+
+    players = []
+    for price in auctions_width_no_bids:
+
+        if price.buyer_id.id == price.auction.seller.id:
+            if price.winner == 1:
+                # wasnt bid
+                email = price.auction.seller.email
+                text = 'wasnt bid'
+                print('notif_end_of_auciton wasnt bid', auction_id)
+                send_mail(
+                    'Congratulation!',
+                    text,
+                    'admin@onehourbid.com',
+                    [email],
+                )
+
+                break
+
+        elif price.buyer_id.id != price.auction.seller.id:
+            if price.winner == 1:
+                # winner!
+                email = price.buyer_id.email
+                text = 'you are a winner!'
+
+                print('notif notif_end_of_auciton winner', email)
+                send_mail(
+                    'Congratulation!',
+                    text,
+                    'admin@onehourbid.com',
+                    [email],
+                )
+            elif price.winner != 1:
+                # players!
+                if price.buyer_id.email not in players:
+                    email = price.buyer_id.email
+                    text = 'you arent a winner, try again!'
+
+                    print('notif notif_end_of_auciton not a winner', email)
+                    send_mail(
+                        'Congratulation!',
+                        text,
+                        'admin@onehourbid.com',
+                        [email],
+                    )
+
+                    players.append(price.buyer_id.email)
 
 
 
-
-
-
-
-
-
-
-
+@shared_task
+def next_auction_schedule(auction_id):
+    print('next_auction_schedule', auction_id)
 
 
 
@@ -525,22 +583,35 @@ def end_of_auciton(email):
 @shared_task
 def sending_email_about_new_price(buyer_id, auction_title, bid, email):
 
-
     text = 'User %d has new leader of the aution %s, with highest bid %d' %( buyer_id, auction_title, bid)
 
-    print(text)
-    print(email)
-    # send_mail('new bid at the auction you are interested in!',
-    # text,
-    # 'admin@onehourbid.com',
-    # [email])
-
+    print('notif sending_email_about_new_price buyer email', email)
     send_mail(
         'new bid at the auction you are interested in!',
         text,
         'admin@onehourbid.com',
         [email],
     )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 @shared_task

@@ -489,16 +489,16 @@ function getNotification(event, id){
 
             console.log('serializedData' + serializedData)
             
-            // $.ajax({
-            //     url: $("#form_notif_" + id).data('url'),
-            //     data: serializedData,
-            //     type: 'post',
-            //     success: function(response){
-            //         console.log('success send')
-            //         const btnNotifId = document.getElementById('call_notif_' + id).setAttribute('disabled', 'disabled')
+            $.ajax({
+                url: $("#form_notif_" + id).data('url'),
+                data: serializedData,
+                type: 'post',
+                success: function(response){
+                    console.log('success send')
+                    const btnNotifId = document.getElementById('call_notif_' + id).setAttribute('disabled', 'disabled')
         
-            //     }
-            // })
+                }
+            })
 
 
 
@@ -513,9 +513,9 @@ function getNotification(event, id){
             btnNotifCLose.id = 'close'
             btnNotifId.id = 'btn_notif'
 
-
+            document.notif_form.reset()
             console.log('document.notif_form_ ' + document.notif_form.auction.value)
-            console.log('document.notif_form_ ' + document.notif_form.subscriber.value)
+
 
         })
 
