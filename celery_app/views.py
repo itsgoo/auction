@@ -603,18 +603,14 @@ class Index(View):
         if Notification_form.is_valid():
             notif_data = Notification_form.save(commit=True)
 
+            # check_duble = Notifications.objects.all()
 
-            auction = Notification_form.cleaned_data['auction']
-            subscriber = Notification_form.cleaned_data['subscriber']
+            # for i in check_duble:
+            #     if i.auction_id == 
 
-            print('auction', auction)
-            print('subscriber', subscriber)
+            # dict_bid_data = 'pass'
 
-            new_notif = Notifications(auction = auction, subscriber=subscriber)
-            new_notif.save()
-
-            dict_bid_data = 'pass'
-
+            
 
 
         print('bidup_form view')
@@ -670,9 +666,15 @@ class Index(View):
                 if bid.buyer_id.email not in only_auctions_buyers:
                     only_auctions_buyers.append(bid.buyer_id.email)
 
+
+
+                    print('buyer.id', buyer.id)
+                    print('bid.auction.title', bid.auction.title)
+                    print('new_bid', new_bid)
+                    print('bid.buyer_id.email', bid.buyer_id.email)
+
                     sending_email_about_new_price.delay(buyer.id, bid.auction.title, new_bid, bid.buyer_id.email)
 
-                    print('bid.buyer_id.email', bid.buyer_id.email)
 
         # return redirect('index')
         return JsonResponse({'bid_data': dict_bid_data}, status=200)
@@ -709,7 +711,6 @@ class Index(View):
         auctions_tomorrow = ScheduleAuction.objects.filter(auction__status = 1, active_time__range = (s_date_day_today, s_date_next_day) ).order_by('active_time' , 'active_date_time' )
 
         i = 0
-
         auctions_tommorow_list = []
         for auciton in auctions_tomorrow:
 
@@ -719,8 +720,8 @@ class Index(View):
             if i == 23:
                 break
 
-
-            
+        notif_list = Notifications.objects.all()
+        # notif_list.delete()
 
 
 
@@ -745,6 +746,7 @@ class Index(View):
         ctx ={
             'form': form,
             'notoficaion_form': notoficaion_form,
+            'notif_list': notif_list,
             'winners': winners,
             'current_user': current_user,
             'additional_img': additional_img,

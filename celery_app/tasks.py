@@ -2,7 +2,7 @@
 from __future__ import absolute_import, unicode_literals
 
 from celery import shared_task
-from .models import Auctions, Prices, ScheduleAuction
+from .models import Auctions, Prices, ScheduleAuction, Notifications
 from datetime import datetime, timedelta, time, date
 
 
@@ -418,8 +418,95 @@ def everyDaySchedule():
 @shared_task
 def start_auction_notification():
     print('ok notification')
+    #get today date
+    test_1 = date.today()
+    s_year = test_1.year
+    s_month = test_1.month
+    s_day = test_1.day
+    s_date_this_day = date(s_year, s_month, s_day)
+    print('new format active_date_time', s_date_this_day)
+
+    time_now = datetime.now() 
+    next_hour = int(time_now.hour) + 1
+
+    minutes_left = 60 - int(time_now.minute)
+
+    print('minutes_left', minutes_left)
+
+
+    next_auction = ScheduleAuction.objects.filter(active_time = s_date_this_day).get(active_date_time = next_hour)
+
+
+
+    print(next_auction)
+
+
+    current_notifications = Notifications.objects.filter(auction_id = next_auction.auction_id)
+
+    print('current_notifications', current_notifications)
+
+
+    for notif in current_notifications:
+
+
+        text = 'Auction - %s will start in %d minutes' %(notif.auction_id, minutes_left)
+
+        print('notif.auction.seller_id', notif.subscriber.email)
+        
+        # send_mail(
+        #     'new bid at the auction you are interested in!',
+        #     text,
+        #     'admin@onehourbid.com',
+        #     [notif.auction.seller_id],
+        # )
+
     
 
+
+
+
+
+
+@shared_task
+def new_registration(email):
+    
+    text = 'Welcome to auction 10bid area!'
+    
+    
+    send_mail(
+        'new bid at the auction you are interested in!',
+        text,
+        'admin@onehourbid.com',
+        [email],
+    )
+
+
+
+
+@shared_task
+def start_auction(email):
+    
+    text = 'Your auction was start'
+    
+    
+
+
+
+@shared_task
+def auction_to_schedule(email):
+    
+    text = 'Your auction was start'
+    
+    
+
+
+
+@shared_task
+def end_of_auciton(email):
+    
+    text = 'You auction was end'
+    
+    
 
 
 
@@ -438,15 +525,22 @@ def start_auction_notification():
 @shared_task
 def sending_email_about_new_price(buyer_id, auction_title, bid, email):
 
-    print('User %d has new leader of the aution %s, with highest bid %d' %( buyer_id, auction_title, bid))
-    print('email', email)
 
+    text = 'User %d has new leader of the aution %s, with highest bid %d' %( buyer_id, auction_title, bid)
+
+    print(text)
+    print(email)
     # send_mail('new bid at the auction you are interested in!',
-    # 'User id 1 has new leader of the aution " watch seilo 5", with highest bid 750',
+    # text,
     # 'admin@onehourbid.com',
-    # ['goo.myweb@gmail.com'])
+    # [email])
 
-
+    send_mail(
+        'new bid at the auction you are interested in!',
+        text,
+        'admin@onehourbid.com',
+        [email],
+    )
 
 
 @shared_task

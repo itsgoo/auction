@@ -33,7 +33,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" id="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -43,12 +43,11 @@
       <div class="modal-footer">
 
 
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 
 
 
 
-        <form class="form-group" method="POST" data-url="{% url 'index' %}">
+        <form class="form-group" method="POST" data-url="{% url 'index' %}" name="notif_form">
           {% csrf_token %}
           <select name="auction" required="" id="id_auction" hidden>
             <option id="" value="{{i.id}}"></option>
@@ -59,7 +58,7 @@
           </select>
           
         
-          <button type="button" id="btn_notif" class="btn btn-primary btn_confirm">get notifications</button>
+          <button type="button" id="btn_notif" class="btn btn-primary btn_confirm" >get notifications</button>
         
         </form>
 
@@ -417,7 +416,13 @@ Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, ve
    <div class="col-md-8 relative ">
 
 
-    <button type="button" class="get_notif" data-toggle="modal" data-target="#get_notification" onclick="getNotification(event, {{schedule.auction.id}})">
+    <button type="button" class="get_notif" id="call_notif_{{schedule.auction.id}}" data-toggle="modal" data-target="#get_notification" onclick="getNotification(event, {{schedule.auction.id}})" 
+    {% for notif in notif_list %}
+        {% if notif.auction_id == schedule.auction.id and notif.auction_id == user.id%}
+        disabled
+        {% endif %}
+    {% endfor %}
+>
       <img class="noti-icon" src="{{ MEDIA_URL }}/file/notification.png" title="get notification about this lot" alt="">
     </button>
 

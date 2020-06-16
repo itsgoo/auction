@@ -439,49 +439,66 @@ timer2 = setInterval(updateClock2, 1000);
 
 // get notification about next acutions
 
+console.log('document.notif_form' + document.notif_form.auction.textContent)
 
 function getNotification(event, id){
-
+    console.log('getNotification')
     return new Promise ((reslove, reject) => {
-
+        console.log('Promise')
         const notifModalDiv = document.getElementById('get_notification')
         const notifForm = notifModalDiv.getElementsByTagName('form')[0]
         notifForm.setAttribute('id', 'form_notif_' + id)
         let selectAuction = notifForm.getElementsByTagName('select')[0]
         let selectOption = selectAuction.getElementsByTagName('option')[0].setAttribute('value', id)
     
-        const btnNotif = document.getElementById('btn_notif').setAttribute('id', 'btn_notif_' + id)
+
+        document.getElementById('close').id = 'close_' + id
+        document.getElementById('btn_notif').id = 'btn_notif_' + id
+
 
 
         reslove(id)
 
     })
     .then((id) =>{
-        
+
+
+
+
+
         const btnNotifId = document.getElementById('btn_notif_' + id)
+        console.log('btnNotifId' + btnNotifId.id)
+        let count = 0
 
-        btnNotifId.addEventListener('click', (event) => {
-            event.preventDefault()
-
-            var serializedData = $("#form_notif_" + id).serialize();
-            console.log('serializedData' + serializedData)
-
-            $.ajax({
-                url: $("#form_notif_" + id).data('url'),
-                data: serializedData,
-                type: 'post',
-                success: function(response){
-                    console.log('success send')
-                   
         
-                }
-            })
+        btnNotifId.addEventListener('click', (event) => {
+            count ++
+            console.log('count' + count)
+            console.log('event' + event)
 
 
 
+            console.log('document.notif_form reset_ ' + document.notif_form.auction.value)
+            console.log('document.notif_form reset_ ' + document.notif_form.subscriber.value)
+
+            serializedData = $("#form_notif_" + id).serialize();
 
 
 
+            console.log('data form')
+
+            console.log('serializedData' + serializedData)
+            
+            // $.ajax({
+            //     url: $("#form_notif_" + id).data('url'),
+            //     data: serializedData,
+            //     type: 'post',
+            //     success: function(response){
+            //         console.log('success send')
+            //         const btnNotifId = document.getElementById('call_notif_' + id).setAttribute('disabled', 'disabled')
+        
+            //     }
+            // })
 
 
 
@@ -489,8 +506,18 @@ function getNotification(event, id){
 
 
 
+        const btnNotifCLose = document.getElementById('close_' + id)
+        btnNotifCLose.addEventListener('click', (event) => {
+
+            
+            btnNotifCLose.id = 'close'
+            btnNotifId.id = 'btn_notif'
 
 
+            console.log('document.notif_form_ ' + document.notif_form.auction.value)
+            console.log('document.notif_form_ ' + document.notif_form.subscriber.value)
+
+        })
 
 
 
@@ -503,6 +530,7 @@ function getNotification(event, id){
     .then((id) => {
         
         let btnNotifIdDel = document.getElementById('btn_notif_' + id).id = 'btn_notif'
+        document.notif_form.reset();
     })
 
 }
