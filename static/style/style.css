@@ -89,7 +89,7 @@ a{
 .get_notif{
     position: absolute;
     
-    top: 5%;
+    bottom: 5%;
 }
 
 
@@ -214,7 +214,7 @@ line-height: 24px;
 
 
 .container, .container-lg, .container-md, .container-sm, .container-xl {
-    max-width: 1606px !important;
+    max-width: 1392px !important;
 }
 
 
@@ -236,7 +236,7 @@ line-height: 24px;
     line-height: 24px;
 }
 
-.auction_desc, .auction_start_price_pre{
+.auction_desc, .auction_start_price_pre, .price_block p, .time_desc{
     font-size: 16px;
     line-height: 24px;
 }
@@ -261,9 +261,69 @@ line-height: 24px;
     cursor: pointer;
     display: inline-block;
 font-weight: 400;
-color: #212529;
+color: #727586;
 text-align: center;
 -webkit-appearance: button;
 overflow: visible;
-border-color: #6c757d !important;
+border-color: #727586 !important;
+border-top-left-radius: 5px !important;
+border-bottom-left-radius: 5px !important;
+border-top-right-radius: 5px !important;
+border-bottom-right-radius: 5px !important;
+width: 40px;
+
 }
+
+.pad-btn{
+    margin: 15px 0 0 20px;
+    padding: .4rem 2rem;
+    color: #fff;
+}
+
+.pad-bid{
+    margin: 15px 0 0 0px;
+
+}
+
+.current_price_num{
+    color: #BF9D64;
+    font-weight: 600;
+    font-size: 30px;
+    line-height: 48px;
+}
+
+.disabled{
+    background: #8c8c8c;
+}
+
+.timer_div{
+    font-size: 50px;
+    min-height: 50px;
+}
+
+.all_time_div {
+    margin: 100% 0;
+}
+
+
+.time_desc{
+    box-sizing: inherit;
+}
+
+.all_time_desc{
+    margin: -50px 0 0 0;
+}
+
+.all_time_span{
+    min-height: 50px;
+}
+
+
+.img_div.relative {
+    overflow: hidden;
+    position: relative;
+}
+
+
+
+

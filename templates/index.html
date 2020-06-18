@@ -10,9 +10,58 @@
 
 
 
+{% block slider %}
+
+
+
+
+<div dir="ltr" id="owl-carousel" class="owl-carousel owl-theme mb-5">
+
+  <div class="item full_slider" onclick="imgSliderEvent(event)"> 
+    
+    <div class="div_main_page">
+      <h2>{% trans "The portal is your gate to the auction arena" %}</h2>
+      <p>bids when you wont life</p>
+    </div>
+    
+    <img class="slider_img" id="img_{{i.id}}" src="/media/file/slider1.png" alt="">  </div>
+
+  <div class="item" onclick="imgSliderEvent(event)"> <img class="slider_img" id="img_{{i.id}}" src="/media/file/slider1.png" alt="">  </div>
+
+  <div class="item" onclick="imgSliderEvent(event)"> <img class="slider_img" id="img_{{i.id}}" src="/media/file/slider1.png" alt="">  </div>
+
+
+
+</div>
+
+<script>
+$('.owl-carousel').owlCarousel({
+  dots: false,
+  nav:false,
+  dots:true,
+  items:1,
+})
+
+
+</script>
+
+
+
+
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
 
 {% block content_title %}
-
+{% trans "Current auction" %}
 
 {% endblock %}
 
@@ -201,39 +250,6 @@ Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, ve
 
 
 
-<div dir="ltr" id="owl-carousel" class="owl-carousel owl-theme mb-5">
-
-        <div class="item full_slider" onclick="imgSliderEvent(event)"> 
-          
-          <div class="div_main_page">
-            <h2>{% trans "The portal is your gate to the auction arena" %}</h2>
-            <p>bids when you wont life</p>
-          </div>
-          
-          <img class="slider_img" id="img_{{i.id}}" src="/media/file/example2.jpg" alt="">  </div>
-
-        <div class="item" onclick="imgSliderEvent(event)"> <img class="slider_img" id="img_{{i.id}}" src="/media/file/example2.jpg" alt="">  </div>
-
-        <div class="item" onclick="imgSliderEvent(event)"> <img class="slider_img" id="img_{{i.id}}" src="/media/file/example2.jpg" alt="">  </div>
-
-
-
-</div>
-
-<script>
-    $('.owl-carousel').owlCarousel({
-        dots: false,
-        nav:false,
-        dots:true,
-        items:1,
-    })
-
-
-</script>
-
-
-
-
 
 
 
@@ -279,7 +295,7 @@ Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, ve
   <div class="row col-md-12">
 
     <div class="row col-md-10">
-    <div class="col-md-3" id="main_carousel_{{i.id}}">
+    <div class="col-md-5" id="main_carousel_{{i.id}}">
   
       <div dir="ltr" id="owl-carousel_{{i.id}}" class="owl-carousel owl-theme">
 
@@ -320,7 +336,7 @@ Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, ve
         </h5>
         <p class="auction_desc">{{i.description}}</p>
         <p class="card-text">
-          <small class="auction_start_price_pre mr-3" >Start price:<small class="auction_start_price"> NIS {{i.start_price}}  </small> 
+          <small class="auction_start_price_pre mr-3" >Start price:<small class="auction_start_price"> <span class="">&#8362;</span> {{i.start_price}}  </small> 
           </small>
 
           <small class="auction_start_price_pre mr-3" >Bid up:<small class="auction_start_price"> {{i.bid_up}}  </small> 
@@ -337,13 +353,12 @@ Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, ve
         <p class="card-text">
           <form id="add_form_{{i.id}}" class="form-group" method="POST" >
               
-              {{form.bid.label}}
               
-              <div class="btn-toolbar mb-3 inline" role="toolbar" aria-label="Toolbar with button groups">
-                <div class="btn-group mr-2" role="group" aria-label="First group" id ="bids_thing_{{i.id}}">
-                  <button type="button" class="btn " id="bidminus" value="{{i.bid_up}}" >-</button>
+              <div class="btn-toolbar mb-3 inline "  role="toolbar" aria-label="Toolbar with button groups">
+                <div class="btn-group mr-2  pad-bid" role="group" aria-label="First group" id ="bids_thing_{{i.id}}">
+                  <button type="button" class="btn btn_custom" id="bidminus" value="{{i.bid_up}}" >-</button>
 
-              <input type="number" size=7 name="bid" id="id_bid_{{i.id}}" value="" class="input_bid" readonly>
+              <input type="number" size=6 name="bid" id="id_bid_{{i.id}}" value="" class="input_bid" readonly>
 
                   <button type="button" class="btn btn_custom" id="bidplus" value="{{i.bid_up}}">+</button>
                 </div>
@@ -364,9 +379,11 @@ Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, ve
 
 
 
-              <button form="add_form_btn_{{i.id}}" data-id="{{i.id}}" id="add_form_btn_{{i.id}}" type="button" class="btn btn-primary" onclick="btnBidEvent(event)"  data-toggle="modal" data-target="#exampleModal" >bid</button>
+              <button form="add_form_btn_{{i.id}}" data-id="{{i.id}}" id="add_form_btn_{{i.id}}" type="button" class="pad-btn  c-bg-dark c-btn " onclick="btnBidEvent(event)"  data-toggle="modal" data-target="#exampleModal" >bid</button>
 
           </form>
+
+          
 
 
       </p>
@@ -405,17 +422,20 @@ Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, ve
             {% endfor %}
         </p>
 
-        <h5 class="card-title" >
+
+
+
+        <div class="price_block" >
           <!-- {{i.start_price}} -->
 
           {% for p in prices %}
             {% if p.auction_id == i.id and p.winner == 1%}
             
-            <p >actual price: <span id="actual_price_val_{{i.id}}">{{p.new_price}}</span></p>
+            <p >Current price: <span class="current_price_num">&#8362;</span>  <span id="actual_price_val_{{i.id}}" class="current_price_num">{{p.new_price}}</span></p>
             
 
             <p id="current_buyer_div_{{i.id}">
-              current buyer: 
+              
 
             
             {% if user.is_authenticated and user.id != i.seller_id %}
@@ -431,7 +451,7 @@ Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, ve
               {% else %}
                 
 
-
+              Leader : 
                 <span id="current_buyer_{{i.id}}">{{p.buyer_id.id}}</span>
 
               {% endif %}
@@ -451,7 +471,7 @@ Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, ve
 
 
 
-        </h5>
+        </div>
 
 <!-- 
         <span class="popover-dismiss d-inline-block" data-toggle="popover" data-content="Disabled popover">
@@ -467,13 +487,23 @@ Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, ve
     </div>
   </div>
 
-<div class="col col-md-1">
-  <h5>Time left</h5>
-  <div id="timer_{{i.id}}">
-    <span id="timer_min_{{i.id}}"></span>
-    <span id="timer_sec_{{i.id}}"></span>
-  </div>
+<div class="col col-md-2">
 
+  <div class="all_time_div">
+    <h5>Time left</h5>
+    <div id="timer_{{i.id}}" class="timer_div">
+      <span class="all_time_span">
+        <smal id="timer_min_{{i.id}}"></smal>
+        
+      <smal id="timer_sec_{{i.id}}"></smal>
+
+        </span>
+        <div class="all_time_desc">
+          <smal class="time_desc">minutes</smal>
+          <smal class="time_desc">seconds</smal>
+        </div>
+    </div>
+  </div>
 </div>
 
 
@@ -502,6 +532,85 @@ Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, ve
 
 </div>
 <h3>Next 23 auctions</h3>
+
+
+<div class="row row-cols-1 row-cols-md-3">
+
+
+{% for schedule in auctions_tommorow_list %}
+
+  
+  <div class="col mb-4 ">
+
+
+
+
+    <div class="card h-100">
+
+
+      <div class="img_div relative">
+
+    <button type="button" class="get_notif" 
+    style="{% if LANGUAGE_BIDI %}
+    left: 3%
+    {% else %}
+    right: 3%
+    {% endif %}
+     " id="call_notif_{{schedule.auction.id}}" data-toggle="modal" data-target="#get_notification" onclick="getNotification(event, {{schedule.auction.id}})" 
+    {% for notif in notif_list %}
+    
+        {% if notif.auction_id == schedule.auction.id and notif.subscriber_id == user.id%}
+        disabled
+        {% endif %}
+    {% endfor %}
+>
+      <img class="noti-icon" src="{{ MEDIA_URL }}/file/notification.png" title="get notification about this lot" alt="">
+    </button>
+      <img src="{{ MEDIA_URL }}{{ schedule.auction.main_img }}" class="card-img" alt="...">
+      </div>
+
+      <div class="card-body">
+        <h5 class="card-title">{{schedule.auction.title}}</h5>
+
+        <small class="auction_start_price_pre mr-3" >Start price:<small class="auction_start_price"> <span class="">&#8362;</span> {{schedule.auction.start_price}} </small> 
+      </small> 
+
+
+
+
+
+
+
+
+      </div>
+    </div>
+  </div>
+
+{% endfor %}
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 
+
+
+
+
 {% for schedule in auctions_tommorow_list %}
 
 
@@ -547,7 +656,7 @@ Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, ve
 
 
 
-{% endfor %}
+{% endfor %} -->
 
 
 
