@@ -107,8 +107,8 @@
           <span id="close-notification" aria-hidden="true">×</span>
         </button>
       </div>
-      <div class="toast-body">
-        Congratulations! Your bid is accepted!
+      <div class="toast-body" id="toast-body">
+        
       </div>
     </div>
 
@@ -415,10 +415,10 @@ Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, ve
    </div>
    <div class="col-md-8 relative ">
 
-
     <button type="button" class="get_notif" id="call_notif_{{schedule.auction.id}}" data-toggle="modal" data-target="#get_notification" onclick="getNotification(event, {{schedule.auction.id}})" 
     {% for notif in notif_list %}
-        {% if notif.auction_id == schedule.auction.id and notif.auction_id == user.id%}
+    
+        {% if notif.auction_id == schedule.auction.id and notif.subscriber_id == user.id%}
         disabled
         {% endif %}
     {% endfor %}

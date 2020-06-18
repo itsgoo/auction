@@ -115,32 +115,48 @@ $('.modal').on('click', '#id_send_btn_' + event, function() {
 	$('#add_form_' + elementId)[0].reset();
 
 
-	const confirmationPopUp2 = document.getElementById('exampleModal')
-	const confirmationPopUp3 = document.getElementsByClassName('modal-backdrop')[0]
-	console.log('confirmationPopUp2' + confirmationPopUp2)
-	confirmationPopUp2.classList.remove('show')
-	confirmationPopUp2.style.display = "none"
 
-	confirmationPopUp3.classList.remove('show')
-	confirmationPopUp3.style.display = "none"
-	
-
-	const bodyTag = document.getElementsByTagName('body')[0]
-	bodyTag.classList.remove('modal-open')
-	bodyTag.style.paddingRight = 0
-	showNotification(event)
+	removePopUp('exampleModal')
+	let textForNote = 'Congratulations! Your bid is accepted!'
+	showNotification(textForNote)
 
 });
 
 }
 
+function removePopUp(popUpId){
 
-function showNotification(event){
+	const confirmationPopUp2 = document.getElementById(popUpId)
+
+	console.log('confirmationPopUp2' + confirmationPopUp2)
+	confirmationPopUp2.classList.remove('show')
+	confirmationPopUp2.style.display = "none"
+
+	const confirmationPopUp3 = document.getElementsByClassName('modal-backdrop')[0]
+	confirmationPopUp3.classList.remove('show')
+	confirmationPopUp3.style.display = "none"
+	
+	const bodyTag = document.getElementsByTagName('body')[0]
+	bodyTag.classList.remove('modal-open')
+	bodyTag.style.paddingRight = 0
+}
+
+
+
+
+
+
+function showNotification(text){
 
 
 
 	return new Promise((resolve, reject) => {
 		console.log('event ' + event)
+
+		const toastBody = document.getElementById('toast-body').innerHTML = text
+
+
+
 		const toastEl = document.getElementById('toast-notification')
 		console.log('toastEl' + toastEl)
 		toastEl.classList.add('show')

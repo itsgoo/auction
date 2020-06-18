@@ -138,8 +138,6 @@ def update_auctions_with_no_bids_status():
                     price.auction.status = 1
                     price.auction.save()
 
-                    next_auction_schedule.delay(price.auction.id)
-
                     print('price.id delete', price.id)
                     price.delete()
 
@@ -531,10 +529,10 @@ def notif_end_of_auciton(auction_id):
             if price.winner == 1:
                 # wasnt bid
                 email = price.auction.seller.email
-                text = 'wasnt bid'
+                text = 'your %s auction nobody bought. Dont worry, you will get soon a new date and time for you auction and we try again!' % auction_id
                 print('notif_end_of_auciton wasnt bid', auction_id)
                 send_mail(
-                    'Congratulation!',
+                    'auction not sold!',
                     text,
                     'admin@onehourbid.com',
                     [email],
@@ -546,21 +544,21 @@ def notif_end_of_auciton(auction_id):
             if price.winner == 1:
                 # winner!
                 email = price.buyer_id.email
-                text = 'you are a winner!'
+                text = 'you are a winner! in auction: %s. Take seller contacts to your personal account page!' %price.auction.title
+
+
 
                 print('notif notif_end_of_auciton winner', email)
                 send_mail(
-                    'Congratulation!',
+                    'Congratulations you won!',
                     text,
                     'admin@onehourbid.com',
                     [email],
                 )
 
-
-
-                print('notif notif_end_of_auciton winner', price.auction.seller.email)
+                print('notif notif_end_of_auciton sold seller', price.auction.seller.email)
                 send_mail(
-                    'Congratulations!',
+                    'Congratulations auction was sold!',
                     'your auction was sold for %d' %price.new_price,
                     'admin@onehourbid.com',
                     [price.auction.seller.email],
@@ -572,11 +570,11 @@ def notif_end_of_auciton(auction_id):
                 # players!
                 if price.buyer_id.email not in players:
                     email = price.buyer_id.email
-                    text = 'you arent a winner, try again!'
+                    text = 'someone put highest bid on the auction: %s, try again' %price.auction.title
 
                     print('notif notif_end_of_auciton not a winner', email)
                     send_mail(
-                        'Congratulation!',
+                        'You are not a winner. Try again!',
                         text,
                         'admin@onehourbid.com',
                         [email],
@@ -586,9 +584,9 @@ def notif_end_of_auciton(auction_id):
 
 
 
-@shared_task
-def next_auction_schedule(auction_id):
-    print('next_auction_schedule', auction_id)
+# @shared_task
+# def next_auction_schedule(auction_id):
+    # print('next_auction_schedule', auction_id)
 
 
 

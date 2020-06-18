@@ -717,7 +717,7 @@ class Index(View):
                 break
 
         notif_list = Notifications.objects.all()
-        # notif_list.delete()
+
 
 
 

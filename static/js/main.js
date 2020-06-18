@@ -496,11 +496,16 @@ function getNotification(event, id){
                 success: function(response){
                     console.log('success send')
                     const btnNotifId = document.getElementById('call_notif_' + id).setAttribute('disabled', 'disabled')
+
         
                 }
             })
 
 
+            removePopUp('get_notification')
+
+            let textForNote = 'we will notify you about the beginning of the auction'
+            showNotification(textForNote)
 
         })
 
@@ -531,6 +536,7 @@ function getNotification(event, id){
         
         let btnNotifIdDel = document.getElementById('btn_notif_' + id).id = 'btn_notif'
         document.notif_form.reset();
+
     })
 
 }
