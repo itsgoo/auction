@@ -555,6 +555,19 @@ def notif_end_of_auciton(auction_id):
                     'admin@onehourbid.com',
                     [email],
                 )
+
+
+
+                print('notif notif_end_of_auciton winner', price.auction.seller.email)
+                send_mail(
+                    'Congratulations!',
+                    'your auction was sold for %d' %price.new_price,
+                    'admin@onehourbid.com',
+                    [price.auction.seller.email],
+                )
+
+                # add athis email to players array
+
             elif price.winner != 1:
                 # players!
                 if price.buyer_id.email not in players:
