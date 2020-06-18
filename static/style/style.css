@@ -1,4 +1,13 @@
 
+body{
+    font-size: 16px !important;
+}
+
+a{
+    font-size: 16px !important;
+
+}
+
 
 .owl-prev span{
     padding: 4px 20px;
@@ -79,7 +88,7 @@
 
 .get_notif{
     position: absolute;
-    right: 3%;
+    
     top: 5%;
 }
 
@@ -120,4 +129,141 @@
 .get_notif{
     border: none;
     background: none;
+}
+
+
+.form-control.form-control-sm.mr-2 {
+    width: 100px;
+}
+
+.ml-10 {
+    margin-left: 10rem !important;
+  }
+
+
+  .mr-10 {
+    margin-right: 10rem !important;
+  }
+
+
+  .c-bg-dark{
+      background: #0E0C22;
+  }
+
+  .c-color-light{
+      color: #727586;
+  }
+
+  .c-btn{
+    padding: .00rem .5rem;
+    line-height: 1.5;
+    border-radius: .2rem;
+    display: inline-block;
+    font-weight: 400;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    border: 1px solid transparent;
+    line-height: 1.5;
+    border-radius: .25rem;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+
+
+  }
+
+.dropdown-item{
+    color: #727586 !important;
+}
+
+.non_border{
+    border: none;
+}
+
+
+
+.dropdown-menu.show {
+    min-width: 100px;
+}
+
+
+.full_slider{
+    position: relative;
+}
+
+
+.div_main_page {
+    position: absolute;
+    top: 50%;
+    left: 15%;
+    color: #fff;
+}
+
+
+.div_main_page h2 {
+    font-size: 64px;
+}
+
+.div_main_page p {
+    font-size: 16px;
+line-height: 24px;
+}
+
+
+.container, .container-lg, .container-md, .container-sm, .container-xl {
+    max-width: 1606px !important;
+}
+
+
+.container-fluid, .container-lg, .container-md, .container-sm, .container-xl {
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.auction_title{
+    font-size: 36px !important;
+}
+
+.auction_id{
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 24px;
+}
+
+.auction_desc, .auction_start_price_pre{
+    font-size: 16px;
+    line-height: 24px;
+}
+
+.auction_start_price{
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 600;
+
+}
+
+.input_bid{
+    border: none;
+    text-align: center;
+    -webkit-appearance: none;
+    -moz-appearance: textfield;
+}
+
+
+.btn_custom{
+    margin-left: -1px;
+    cursor: pointer;
+    display: inline-block;
+font-weight: 400;
+color: #212529;
+text-align: center;
+-webkit-appearance: button;
+overflow: visible;
+border-color: #6c757d !important;
 }
