@@ -101,7 +101,7 @@ $('.modal').on('click', '#id_send_btn_' + event, function() {
 
 				$('#actual_price_val_'  + elementId).replaceWith($('#actual_price_val_'  + elementId).text(response.bid_data.new_bid))
 
-				$('#current_buyer_'  + elementId).replaceWith($('#current_buyer_'  + elementId).text(response.bid_data.current_buyer))
+				$('#current_buyer_'  + elementId).replaceWith($('#current_buyer_'  + elementId).text('Leader : ' + response.bid_data.current_buyer))
 
 				$('#id_bid_' + elementId).val(response.bid_data.new_bid);
 

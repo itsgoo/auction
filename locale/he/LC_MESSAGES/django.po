@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-05-31 10:11+0300\n"
+"POT-Creation-Date: 2020-06-20 14:06+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,10 +19,148 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % "
 "1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;\n"
 
-#: templates/base.html:96
-msgid "Languages"
-msgstr "Languages he"
+#: templates/base.html:200
+msgid "Change"
+msgstr "שינוי"
 
-#: templates/index.html:15
-msgid "index"
-msgstr "index he"
+#: templates/base.html:248
+msgid "Company"
+msgstr "חֶברָה"
+
+#: templates/base.html:261 templates/contact.html:14
+msgid "Contact us"
+msgstr "צור קשר"
+
+#: templates/base.html:289
+msgid "Create Auction"
+msgstr "צור מכירה פומבית"
+
+#: templates/base.html:299
+msgid "Sign in"
+msgstr "להתחבר"
+
+#: templates/base.html:313
+msgid "Account"
+msgstr "חשבון"
+
+#: templates/base.html:316 templates/base.html:323
+msgid "LogOut"
+msgstr "להתנתק"
+
+#: templates/base.html:320
+msgid "Reports"
+msgstr "דיווחים"
+
+#: templates/base.html:329
+msgid "LogIn"
+msgstr "התחברות"
+
+#: templates/base.html:331
+msgid "Registration"
+msgstr "הַרשָׁמָה"
+
+#: templates/company.html:14
+msgid "About company"
+msgstr "אודות חברה"
+
+#: templates/index.html:22
+msgid "The portal is your gate to the auction arena"
+msgstr "הפורטל הוא השער שלך לזירת המכירה הפומבית"
+
+#: templates/index.html:63
+msgid "Current auction"
+msgstr "מכירה פומבית נוכחית"
+
+#: templates/index.html:83
+msgid "Notify me"
+msgstr "תודיע לי"
+
+#: templates/index.html:89
+#, fuzzy
+#| msgid "Subscribe to notifications about the beginning of this auction"
+msgid "Subscribe to notifications about the begining of this auction"
+msgstr "הירשם להתראות לגבי תחילת מכירה פומבית זו"
+
+#: templates/index.html:109
+msgid "Subscribe"
+msgstr "להירשם"
+
+#: templates/index.html:193
+msgid "Terms of contidion"
+msgstr "תנאי תנאי"
+
+#: templates/index.html:207
+msgid "Your Bid"
+msgstr "ההימור שלך"
+
+#: templates/index.html:220
+msgid "Make a bid"
+msgstr "לְהַצִיעַ מְחִיר"
+
+#: templates/index.html:336 templates/index.html:640
+msgid "Start price"
+msgstr "מחיר התחלה"
+
+#: templates/index.html:339
+msgid "Bid up"
+msgstr "הגש הצעה"
+
+#: templates/index.html:342
+msgid "Start was"
+msgstr "ההתחלה הייתה"
+
+#: templates/index.html:379 templates/index.html:417
+msgid "bid"
+msgstr "הימור"
+
+#: templates/index.html:391
+msgid "You cannot make a bids to your auctions"
+msgstr "אינך יכול להגיש הצעות מחיר למכירה הפומבית שלך"
+
+#: templates/index.html:408
+msgid "To bid, please"
+msgstr "כדי להציע, בבקשה"
+
+#: templates/index.html:408
+msgid "log in"
+msgstr "התחברות"
+
+#: templates/index.html:408
+msgid "or"
+msgstr "או"
+
+#: templates/index.html:408
+msgid "register"
+msgstr "להירשם"
+
+#: templates/index.html:431
+msgid "Current price"
+msgstr "מחיר נוכחי"
+
+#: templates/index.html:443
+msgid "your bid will be first"
+msgstr "ההצעה שלך תהיה הראשונה"
+
+#: templates/index.html:451
+msgid "Leader "
+msgstr "מַנהִיג"
+
+#: templates/index.html:458
+msgid "you need to wait until someone to bid"
+msgstr "אתה צריך לחכות עד שמישהו יציע"
+
+#: templates/index.html:490
+msgid "Time left"
+msgstr "הזמן שנותר"
+
+#: templates/index.html:512
+msgid "minutes"
+msgstr "דקות"
+
+#: templates/index.html:531
+msgid "seconds"
+msgstr "שניות"
+
+#: templates/index.html:569
+msgid "Next 23 auctions"
+msgstr "23 המכרזים הבאים"

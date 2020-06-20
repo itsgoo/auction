@@ -49,10 +49,12 @@
 	{% if LANGUAGE_BIDI %}
 
 	<link rel="stylesheet" href="https://cdn.rtlcss.com/bootstrap/v4.2.1/css/bootstrap.min.css" integrity="sha384-vus3nQHTD+5mpDiZ4rkEPlnkcyTP+49BhJ4wJeJunw06ZAp+wzzeBPUXr42fi8If" crossorigin="anonymous">
+	<link rel="stylesheet" href="{% static 'style/style_he.css'%} ">
 
 	{% else %}
 
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+	
 	{% endif %}
 
 
@@ -98,7 +100,7 @@
 
 
 	<nav class="navbar navbar-expand-lg navbar-light bg-light ">
-		<a class="navbar-brand" href="{% url 'index' %}">Auctions</a>
+		<a class="navbar-brand" href="{% url 'index' %}">10BID</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
@@ -243,7 +245,7 @@
 
 			<li class="nav-item mr-3">
 				
-				<a class="nav-link" href="{% url 'company_page' %}">Company</a>
+				<a class="nav-link" href="{% url 'company_page' %}"> {% trans 'Company' %}</a>
 			</li>
 
 
@@ -256,7 +258,7 @@
 
 			<li class="nav-item mr-3">
 				
-				<a class="nav-link" href="{% url 'create_auction' %}">Contact us</a>
+				<a class="nav-link" href="{% url 'contact_page' %}">{% trans 'Contact us' %}</a>
 			</li>
 
 
@@ -284,7 +286,7 @@
 					{% if i.id == user.id%}
 					
 						<li class="nav-item mr-5  c-bg-dark c-btn  ">
-							<a class="nav-link text-light" href="{% url 'create_auction' %}">Create Auction<span class="sr-only">(current)</span></a>
+							<a class="nav-link text-light" href="{% url 'create_auction' %}">{% trans 'Create Auction' %}<span class="sr-only">(current)</span></a>
 						</li>
 
 					
@@ -294,7 +296,7 @@
 
 			<li class="nav-item dropdown ">
 				<a class="nav-link dropdown-toggle c-color-light" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					{% if user.is_authenticated %} {{ user.username }} {% else %} Sign in {% endif %}
+					{% if user.is_authenticated %} {{ user.username }} {% else %} {% trans 'Sign in' %} {% endif %}
 				</a>
 
 
@@ -308,25 +310,25 @@
 				{% if user.is_authenticated  %}
 					{% if true_admin == 0  %}
 
-						<a class="dropdown-item" href="{% url 'account_page' %}">Account</a>
+						<a class="dropdown-item" href="{% url 'account_page' %}">{% trans 'Account' %}</a>
 
 						<div class="dropdown-divider"></div>
-						<a class="dropdown-item" href="{% url 'logout' %}">LogOut</a>
+						<a class="dropdown-item" href="{% url 'logout' %}">{% trans 'LogOut' %}</a>
 					{% elif true_admin == 1 %}
 
 
-						<a class="dropdown-item" href="{% url 'reports_page' %}">Reports</a>
+						<a class="dropdown-item" href="{% url 'reports_page' %}">{% trans 'Reports' %}</a>
 
 						<div class="dropdown-divider"></div>
-						<a class="dropdown-item" href="{% url 'logout' %}">LogOut</a>
+						<a class="dropdown-item" href="{% url 'logout' %}">{% trans 'LogOut' %}</a>
 
 					{% endif %}
 
 				{% else %}
 
-						<a class="dropdown-item" href="{% url 'login' %}">LogIn</a>
+						<a class="dropdown-item" href="{% url 'login' %}">{% trans 'LogIn' %}</a>
 						<div class="dropdown-divider"></div>
-						<a class="dropdown-item" href="{% url 'register_page' %}">Registration</a>
+						<a class="dropdown-item" href="{% url 'register_page' %}">{% trans 'Registration' %}</a>
 
 				{% endif %}
 

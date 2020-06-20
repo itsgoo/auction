@@ -398,7 +398,7 @@ def auction_in_schedule(auction_id, active_time_auction, free_hour):
     auction = Auctions.objects.get(id = auction_id)
     email = auction.seller.email
     auction_name = auction.title
-    text = 'your auction: %s will in schedule at %s and %d hour' %(auction_name, active_time_auction, free_hour)
+    text = 'your auction: %s will in schedule at %s and %d hour' %(auction_name, active_time_auction, int(free_hour))
 
     send_mail(
         'your auction in schedule!',

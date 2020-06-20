@@ -1,0 +1,44 @@
+.time_desc{
+    left: 0px !important;
+}
+
+
+
+
+
+@media only screen and (min-width: 1201px) {
+
+
+
+    .all_time_div {
+        float: right;
+    }
+
+}
+
+
+
+
+@media only screen and (min-width: 768px)  and (max-width: 1200px) {
+
+
+
+    .all_time_div {
+        float: left !important;
+        width: 130px;
+    }
+
+}
+
+
+
+@media only screen and (max-width: 767px) and (min-width: 300px)  {
+
+
+    .all_time_div {
+        float: right;
+    }
+
+}
+
+

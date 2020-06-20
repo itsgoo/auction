@@ -128,7 +128,9 @@ a{
 
 .get_notif{
     border: none;
-    background: none;
+    background: #e1e1e1;
+    padding: 10px;
+    border-radius: 25px;
 }
 
 
@@ -281,6 +283,11 @@ width: 40px;
     color: #fff;
 }
 
+.pad-btn2{
+    padding: .4rem 2rem;
+    color: #fff;
+}
+
 .pad-bid{
     margin: 15px 0 0 0px;
 
@@ -313,10 +320,10 @@ width: 40px;
 
 
     .card_one{
-        -ms-flex: 0 0 100%;
-        flex: 0 0 100%;
-        max-width: 100%;
         margin-bottom: 20px !important;
+        -ms-flex: 0 0 33.333333% !important;
+        flex: 0 0 33.333333% !important;
+        max-width: 33.333333% !important;
     }
 
 
@@ -331,6 +338,8 @@ width: 40px;
     .all_time_div {
         margin: 50% 0;
         overflow: hidden;
+        float: right;
+        width: 130px;
     }
     .card_one{
         flex: 0 0 50% !important;
@@ -438,11 +447,11 @@ width: 40px;
 
 
 .card_img_custom {
-    width: auto !important;
-    border-radius: calc(.25rem - 1px);
-    max-height: 400px;
+    max-height: 300px;
     margin: 0 auto;
     display: block;
+    width: initial !important;
+    max-width: 100%;
 }
 
 .card_body_custom{
@@ -452,8 +461,6 @@ width: 40px;
 
 
 .time_start_div {
-    width: 121px;
-    height: 53px;
     background: #0E0C22;
     color: #fff;
     text-align: center;
@@ -464,16 +471,19 @@ width: 40px;
     top: 4%;
 }
 
-.time_start_text{
+.time_start_text {
     line-height: 20px;
     font-size: 16px;
+    display: block;
+    padding: 0 10px;
 }
 
 
 .time_start_span {
     overflow: hidden;
-    padding: 6px 0 0 15px;
+    padding: 5px 0px;
     float: left;
+    margin: 0 auto;
 }
 
 
@@ -486,3 +496,10 @@ width: 40px;
     margin-bottom:15px;
 }
 
+#toast-notification {
+    max-width: 300px;
+}
+
+.img_block{
+    
+}

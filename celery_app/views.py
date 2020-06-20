@@ -73,6 +73,15 @@ class Company(View):
 
 
 
+class Contact(View):
+    def get(self, request):
+
+        return render(request, 'contact.html')
+
+
+
+
+
 
 
 
@@ -513,8 +522,9 @@ class CreateAuction(View):
                 
                 s.save()
                 print('schedule', s)
+                print('auction ID', id_auction)
                 
-                # auction_in_schedule(s.id, start_auction, start_auction_time)
+                auction_in_schedule.delay(id_auction, start_auction, start_auction_time)
 
             return redirect ('index')
 
