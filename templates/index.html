@@ -19,15 +19,17 @@
   <div class="item full_slider" onclick="imgSliderEvent(event)"> 
     
     <div class="div_main_page">
-      <h2>{% trans "The portal is your gate to the auction arena" %}</h2>
+      <div class="header_to_slide"> {% trans "The portal is your gate to the auction arena" %} 
+        <span class="he_word2">_ </span> </span> <span class="he_word"> 10Bid</span>
+      </div>
       <p>bids when you wont life</p>
     </div>
     
-    <img class="slider_img" id="img_{{i.id}}" src="/media/file/slider1.png" alt="">  </div>
+    <img class="slider_img" src="/media/file/slider1.png" alt="">  </div>
 
-  <div class="item" onclick="imgSliderEvent(event)"> <img class="slider_img" id="img_{{i.id}}" src="/media/file/slider1.png" alt="">  </div>
+  <div class="item" onclick="imgSliderEvent(event)"> <img class="slider_img" src="/media/file/slider1.png" alt="">  </div>
 
-  <div class="item" onclick="imgSliderEvent(event)"> <img class="slider_img" id="img_{{i.id}}" src="/media/file/slider1.png" alt="">  </div>
+  <div class="item" onclick="imgSliderEvent(event)"> <img class="slider_img" src="/media/file/slider1.png" alt="">  </div>
 
 
 
@@ -296,12 +298,12 @@ $('.owl-carousel').owlCarousel({
   
       <div dir="ltr" id="owl-carousel_{{i.id}}" class="owl-carousel owl-theme">
 
-        <div class="item" onclick="imgSliderEvent(event)" > <img id="img_{{i.id}}" src="{{ MEDIA_URL }}{{ i.main_img }}" class="card-img" alt="..."> </div>
+        <div class="item" onclick="imgSliderEvent(event)" > <img id="img_{{i.id}}" src="{{ MEDIA_URL }}{{ i.main_img }}" class="card-img card_img_custom_current" alt="..."> </div>
       
       {% for img in additional_img %}
           {% if img.auction_id == i.id %}
               
-              <div class="item" onclick="imgSliderEvent(event)"> <img class="slider_img" id="img_{{i.id}}" src="{{ MEDIA_URL }}{{img.img}}" alt="">  </div>
+              <div class="item" onclick="imgSliderEvent(event)"> <img class="card_img_custom_current" id="img_{{i.id}}" src="{{ MEDIA_URL }}{{img.img}}" alt="">  </div>
           {% endif %}
       {% endfor %}
 
@@ -336,7 +338,7 @@ $('.owl-carousel').owlCarousel({
           <small class="auction_start_price_pre mr-3" >{% trans 'Start price' %}:<small class="auction_start_price"> <span class="">&#8362;</span> {{i.start_price}}  </small> 
           </small>
 
-          <small class="auction_start_price_pre mr-3" >{% trans 'Bid up' %}:<small class="auction_start_price"> {{i.bid_up}}  </small> 
+          <small hidden class="auction_start_price_pre mr-3" >{% trans 'Bid up' %}:<small class="auction_start_price"> {{i.bid_up}}  </small> 
           </small>
 
           <small class="auction_start_price_pre mr-3">{% trans 'Start was' %}: <span class="auction_start_price" id="start_time_id_{{i.id}}">{{i.start_auction_time}}:00</span></small>
@@ -566,7 +568,7 @@ float: left;
 {% endfor %}
 
 </div>
-<h3>{% trans 'Next 23 auctions' %}</h3>
+<h3  class="headers">{% trans 'Next 23 auctions' %}</h3>
 
 
 
@@ -724,7 +726,109 @@ float: left;
 {% endfor %} -->
 
 
+<h3 class="headers">{% trans 'Past auctions' %}</h3>
 
+
+<div dir="ltr" id="owl-carousel_past_auctions" class="owl-carousel owl-theme">
+
+{% for yesterday in auctions_yesterday %}
+
+  <div class="item" >
+
+
+
+
+
+    <div class="col card_one_past">
+
+
+
+
+      <div class="card h-100">
+  
+  
+        <div class="img_div2">
+  
+  
+  
+          <img src="{{ MEDIA_URL }}{{ yesterday.main_img }}" class="card-img card_img_custom_past" alt="...">
+  
+  
+      </div>
+      <div class="card-body">
+        <h5 class="card-title">{{yesterday.title}}</h5>
+  
+  
+  
+      </div>
+      </div>
+    </div>
+
+
+
+
+
+
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% endfor %}
+
+</div>
+
+<script>
+  $('.owl-carousel').owlCarousel({
+      dots: false,
+      dots:true,
+      responsive:{
+        0:{
+            items:2
+        },
+        768:{
+            items:3
+        },
+        1200:{
+            items:5
+        }
+    }
+  })
+
+
+</script>
 
 
 

@@ -99,9 +99,20 @@ $('.modal').on('click', '#id_send_btn_' + event, function() {
 				console.log('response.bid_data.current_buyer' + response.bid_data.current_buyer)
 				
 
+				
+
+
+				this['leader' + t()] = 'Leader'
+
+				const leader = 'מַנהִיג'
+
+				const leaderT = t() == 'En' ? leaderEn : leader
+
+
+
 				$('#actual_price_val_'  + elementId).replaceWith($('#actual_price_val_'  + elementId).text(response.bid_data.new_bid))
 
-				$('#current_buyer_'  + elementId).replaceWith($('#current_buyer_'  + elementId).text('Leader : ' + response.bid_data.current_buyer))
+				$('#current_buyer_'  + elementId).replaceWith($('#current_buyer_'  + elementId).text(leaderT + ': ' + response.bid_data.current_buyer))
 
 				$('#id_bid_' + elementId).val(response.bid_data.new_bid);
 

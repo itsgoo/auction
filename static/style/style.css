@@ -199,10 +199,27 @@ a{
 
 .div_main_page {
     position: absolute;
-    top: 50%;
-    left: 15%;
+    bottom: 5%;
+    right: 15%;
     color: #fff;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 .div_main_page h2 {
@@ -326,7 +343,15 @@ width: 40px;
         max-width: 33.333333% !important;
     }
 
-
+    .div_main_page {
+        position: absolute;
+        bottom: 5%;
+        right: 23%;
+        color: #fff;
+    }
+    .header_to_slide {
+        font-size: 30px;
+    }
 }
 
 
@@ -346,7 +371,15 @@ width: 40px;
         max-width: 50% !important;
         margin-bottom: 20px !important;
     }
-
+    .div_main_page {
+        position: absolute;
+        bottom: 5%;
+        right: 10%;
+        color: #fff;
+    }
+    .header_to_slide {
+        font-size: 30px;
+    }
 }
 
 
@@ -364,13 +397,28 @@ width: 40px;
         flex: 0 0 100%;
         max-width: 100%;
         margin-bottom: 20px !important;
+        flex-basis: auto !important;
+    }
+    .div_main_page {
+        position: absolute;
+        bottom: 5%;
+        right: 10%;
+        color: #fff;
     }
 
-
+    .header_to_slide {
+        font-size: 25px;
+    }
 }
 
 
-
+.card_img_custom_current {
+    max-height: 500px;
+    margin: 0 auto;
+    display: block;
+    width: initial !important;
+    max-width: 100%;
+}
 
 
 .time_desc {
@@ -503,3 +551,25 @@ width: 40px;
 .img_block{
     
 }
+
+
+.card_img_custom_past{
+    max-height: 230px;
+    margin: 0 auto;
+    display: block;
+    width: initial !important;
+    max-width: 100%;
+}
+
+.headers{
+    margin: 100px 0 20px 0;
+}
+
+.slider_img{
+    max-height: 500px;
+    margin: 0 auto;
+    display: block;
+    width: initial !important;
+    max-width: 100%;
+}
+

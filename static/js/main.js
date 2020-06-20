@@ -166,12 +166,19 @@ btnDateField.addEventListener('click', (event) => {
 
 
 
+function t(){
+    if (location.pathname.split('/')[1] == 'en'){
+        return 'En'
+    }else{
+        return ''
+    }
+}
 
+window.scrollTo( 0, 1 );
 
 // home page
 const queryStringMain = window.location
 if(queryStringMain == 'http://127.0.0.1:8000/' || queryStringMain == 'http://127.0.0.1:8000/en/'){
-
 
 
 
@@ -303,13 +310,6 @@ function bidUpfunc(){
 
 
 
-
-
-
-
-
-
-
 function updateClock2() {
 
     const currentAuctionId = document.getElementById('current_auction_id').textContent
@@ -375,8 +375,25 @@ function updateClock2() {
         const divTimer = document.getElementById('timer_' + currentAuctionId)
         const spanCurrentBuyer = document.getElementById('current_buyer_' + currentAuctionId)
 
-        const timeMsg = 'Auction was over'
-        divTimer.innerHTML = timeMsg
+
+
+
+        this['leader' + t()] = 'Leader'
+
+        const leader = 'מַנהִיג'
+
+        const leaderT = t() == 'En' ? leaderEn : leader
+
+
+
+
+        this['timeMsg' + t()] = 'Auction was over'
+
+        const timeMsg = 'המכרז הסתיים'
+
+        const timeMsgT = t() == 'En' ? timeMsgEn : timeMsg
+
+        divTimer.innerHTML = timeMsgT
 
         const bidForm = document.getElementById('add_form_' + currentAuctionId)
         bidForm.innerHTML = 'Auction was closed'

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-20 14:06+0300\n"
+"POT-Creation-Date: 2020-06-20 18:46+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,7 +25,7 @@ msgstr "שינוי"
 
 #: templates/base.html:248
 msgid "Company"
-msgstr "חֶברָה"
+msgstr "חברה"
 
 #: templates/base.html:261 templates/contact.html:14
 msgid "Contact us"
@@ -37,7 +37,7 @@ msgstr "צור מכירה פומבית"
 
 #: templates/base.html:299
 msgid "Sign in"
-msgstr "להתחבר"
+msgstr "התחברות"
 
 #: templates/base.html:313
 msgid "Account"
@@ -49,7 +49,7 @@ msgstr "להתנתק"
 
 #: templates/base.html:320
 msgid "Reports"
-msgstr "דיווחים"
+msgstr "דוחות"
 
 #: templates/base.html:329
 msgid "LogIn"
@@ -57,7 +57,7 @@ msgstr "התחברות"
 
 #: templates/base.html:331
 msgid "Registration"
-msgstr "הַרשָׁמָה"
+msgstr "הרשמה"
 
 #: templates/company.html:14
 msgid "About company"
@@ -65,102 +65,104 @@ msgstr "אודות חברה"
 
 #: templates/index.html:22
 msgid "The portal is your gate to the auction arena"
-msgstr "הפורטל הוא השער שלך לזירת המכירה הפומבית"
+msgstr "זירת המכירות הפומביות של ישראל"
 
-#: templates/index.html:63
+#: templates/index.html:65
 msgid "Current auction"
 msgstr "מכירה פומבית נוכחית"
 
-#: templates/index.html:83
+#: templates/index.html:85
 msgid "Notify me"
-msgstr "תודיע לי"
+msgstr "עדכן אותי"
 
-#: templates/index.html:89
-#, fuzzy
-#| msgid "Subscribe to notifications about the beginning of this auction"
+#: templates/index.html:91
 msgid "Subscribe to notifications about the begining of this auction"
-msgstr "הירשם להתראות לגבי תחילת מכירה פומבית זו"
+msgstr "הירשם להתרעות לגבי תחילת מכירה פומבית זו"
 
-#: templates/index.html:109
+#: templates/index.html:111
 msgid "Subscribe"
 msgstr "להירשם"
 
-#: templates/index.html:193
+#: templates/index.html:195
 msgid "Terms of contidion"
 msgstr "תנאי תנאי"
 
-#: templates/index.html:207
+#: templates/index.html:209
 msgid "Your Bid"
-msgstr "ההימור שלך"
+msgstr "תנאי והגבלות"
 
-#: templates/index.html:220
+#: templates/index.html:222
 msgid "Make a bid"
-msgstr "לְהַצִיעַ מְחִיר"
+msgstr "שלח"
 
-#: templates/index.html:336 templates/index.html:640
+#: templates/index.html:338 templates/index.html:642
 msgid "Start price"
-msgstr "מחיר התחלה"
+msgstr "מחיר פתיחה"
 
-#: templates/index.html:339
+#: templates/index.html:341
 msgid "Bid up"
 msgstr "הגש הצעה"
 
-#: templates/index.html:342
+#: templates/index.html:344
 msgid "Start was"
-msgstr "ההתחלה הייתה"
+msgstr "שעת פתיחת המכירה"
 
-#: templates/index.html:379 templates/index.html:417
+#: templates/index.html:381 templates/index.html:419
 msgid "bid"
-msgstr "הימור"
+msgstr "שלח"
 
-#: templates/index.html:391
+#: templates/index.html:393
 msgid "You cannot make a bids to your auctions"
 msgstr "אינך יכול להגיש הצעות מחיר למכירה הפומבית שלך"
 
-#: templates/index.html:408
+#: templates/index.html:410
 msgid "To bid, please"
 msgstr "כדי להציע, בבקשה"
 
-#: templates/index.html:408
+#: templates/index.html:410
 msgid "log in"
 msgstr "התחברות"
 
-#: templates/index.html:408
+#: templates/index.html:410
 msgid "or"
 msgstr "או"
 
-#: templates/index.html:408
+#: templates/index.html:410
 msgid "register"
-msgstr "להירשם"
+msgstr "הרשמה"
 
-#: templates/index.html:431
+#: templates/index.html:433
 msgid "Current price"
-msgstr "מחיר נוכחי"
+msgstr "המחיר הנוכחי"
 
-#: templates/index.html:443
+#: templates/index.html:445
 msgid "your bid will be first"
 msgstr "ההצעה שלך תהיה הראשונה"
 
-#: templates/index.html:451
+#: templates/index.html:453
 msgid "Leader "
-msgstr "מַנהִיג"
+msgstr "מוביל"
 
-#: templates/index.html:458
+#: templates/index.html:460
 msgid "you need to wait until someone to bid"
-msgstr "אתה צריך לחכות עד שמישהו יציע"
+msgstr "אתה צריך לחכות עד שמישהו אחר יציע הצעה אחרת"
 
-#: templates/index.html:490
+#: templates/index.html:492
 msgid "Time left"
 msgstr "הזמן שנותר"
 
-#: templates/index.html:512
+#: templates/index.html:514
 msgid "minutes"
 msgstr "דקות"
 
-#: templates/index.html:531
+#: templates/index.html:533
 msgid "seconds"
 msgstr "שניות"
 
-#: templates/index.html:569
+#: templates/index.html:571
 msgid "Next 23 auctions"
 msgstr "23 המכרזים הבאים"
+
+#: templates/index.html:729
+msgid "Past auctions"
+msgstr "מכרזים שהסתיימו"
