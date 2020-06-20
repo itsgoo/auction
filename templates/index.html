@@ -292,9 +292,9 @@ Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, ve
 
 
 
-  <div class="row col-md-12">
+  <div class="row col-md-13">
 
-    <div class="row col-md-10">
+    <div class="row col-md-9">
     <div class="col-md-5" id="main_carousel_{{i.id}}">
   
       <div dir="ltr" id="owl-carousel_{{i.id}}" class="owl-carousel owl-theme">
@@ -325,16 +325,16 @@ Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, ve
 
 
 
-    <div class=" col-md-7">
-      <div class="card-body">
-        <small class="auction_id" >ID: 
+    <div class=" col-md-7 mt-5">
+      <div class="card-body card_body_custom">
+        <small class="auction_id mb-15" >ID: 
           <span id="current_auction_id">{{i.id}}</span>
         </small>
-        <h5 class="card-title auction_title">{{i.title}} 
+        <h5 class="auction_title mb-40">{{i.title}} 
           
 
         </h5>
-        <p class="auction_desc">{{i.description}}</p>
+        <p class="auction_desc mb-40">{{i.description}}</p>
         <p class="card-text">
           <small class="auction_start_price_pre mr-3" >Start price:<small class="auction_start_price"> <span class="">&#8362;</span> {{i.start_price}}  </small> 
           </small>
@@ -487,28 +487,66 @@ Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, ve
     </div>
   </div>
 
-<div class="col col-md-2">
+<div class="col col-md-3">
 
-  <div class="all_time_div">
-    <h5>Time left</h5>
+  <div class="all_time_div" >
+    <h5 >Time left</h5>
     <div id="timer_{{i.id}}" class="timer_div">
-      <span class="all_time_span">
+      <!-- <span class="all_time_span">
         <smal id="timer_min_{{i.id}}"></smal>
-        
-      <smal id="timer_sec_{{i.id}}"></smal>
+      </span> -->
+ 
 
-        </span>
-        <div class="all_time_desc">
-          <smal class="time_desc">minutes</smal>
-          <smal class="time_desc">seconds</smal>
-        </div>
+
+
+
+<div class="time_div_min " style="{% if LANGUAGE_BIDI %}
+float: left; margin: 0 0px 0 0;
+{% else %}
+float: left;
+{% endif %}">
+
+    <svg class="progress_ring" width="120" height="120">
+      <circle class="progress_ring_circle_min" stroke="#BF9D64" stroke-width="4" cx="60" cy="60"  r="52" fill="transparent"></circle> 
+    </svg>
+    <div class="all_time_desc">
+      
+      <smal id="timer_min_{{i.id}}">__</smal>
+      <smal class="time_desc">minutes</smal>
     </div>
-  </div>
+
 </div>
 
 
 
+<div class="time_div_sec" style="{% if LANGUAGE_BIDI %}
+float: left;
+{% else %}
+float: left;
+{% endif %}">
 
+    <svg class="progress_ring" width="120" height="120">
+      <circle class="progress_ring_circle_sec" stroke="#BF9D64" stroke-width="4" cx="60" cy="60"  r="52" fill="transparent"></circle> 
+    </svg>
+    <div class="all_time_desc">
+      
+      <smal id="timer_sec_{{i.id}}">__</smal>
+      <smal class="time_desc">seconds</smal>
+    </div>
+
+</div>
+
+
+        
+        <!-- <div class="all_time_desc1">
+          <smal class="time_desc">minutes</smal>
+          <smal class="time_desc">seconds</smal>
+        </div> -->
+    </div>
+  </div>
+</div>
+
+  
 
 
 
@@ -534,13 +572,23 @@ Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, ve
 <h3>Next 23 auctions</h3>
 
 
+
+
+
+
+
+
+
+
+
+
 <div class="row row-cols-1 row-cols-md-3">
 
 
 {% for schedule in auctions_tommorow_list %}
 
   
-  <div class="col mb-4 ">
+  <div class="col card_one">
 
 
 
@@ -549,6 +597,26 @@ Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, ve
 
 
       <div class="img_div relative">
+
+
+        <div class="time_start_div" 
+        style="{% if LANGUAGE_BIDI %}
+        left: 3%
+        {% else %}
+        right: 3%
+        {% endif %}
+         " >
+
+        <span class="time_start_span">
+          <small class="time_start_text">Start time at:</small>
+          <small class="time_start_text">{{schedule.active_date_time}}:00</small>
+        </span>
+
+
+
+      </div>
+
+
 
     <button type="button" class="get_notif" 
     style="{% if LANGUAGE_BIDI %}
@@ -562,11 +630,11 @@ Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, ve
         {% if notif.auction_id == schedule.auction.id and notif.subscriber_id == user.id%}
         disabled
         {% endif %}
-    {% endfor %}
->
+    {% endfor %}>
+
       <img class="noti-icon" src="{{ MEDIA_URL }}/file/notification.png" title="get notification about this lot" alt="">
     </button>
-      <img src="{{ MEDIA_URL }}{{ schedule.auction.main_img }}" class="card-img" alt="...">
+      <img src="{{ MEDIA_URL }}{{ schedule.auction.main_img }}" class="card-img card_img_custom" alt="...">
       </div>
 
       <div class="card-body">

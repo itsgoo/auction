@@ -348,15 +348,6 @@ function updateClock2() {
 
     let endDateSec = Math.round(endDate.getMinutes())
 
-    // console.log ( 'startDateSec' +startDateSec )
-    // console.log ( 'endDateSec' +endDateSec )
-
-    // console.log ( 'startDate' +startDate )
-    // console.log ( 'endDate' +endDate )
-
-
-
-    // 7947365000
 
 
 
@@ -384,7 +375,7 @@ function updateClock2() {
         const divTimer = document.getElementById('timer_' + currentAuctionId)
         const spanCurrentBuyer = document.getElementById('current_buyer_' + currentAuctionId)
 
-        const timeMsg = 'Auction was over. Winner is: ' + spanCurrentBuyer.textContent
+        const timeMsg = 'Auction was over'
         divTimer.innerHTML = timeMsg
 
         const bidForm = document.getElementById('add_form_' + currentAuctionId)
@@ -407,7 +398,8 @@ function updateClock2() {
     }
 
 
-
+    setProgressSec(secLeft)
+    setProgresMin(minLeft)
 
 
 
@@ -418,13 +410,31 @@ timer2 = setInterval(updateClock2, 1000);
 
 
 
+const circleSec = document.querySelector('.progress_ring_circle_sec')
+const radiusSec = circleSec.r.baseVal.value
+const curcumferenceSec = 2 * Math.PI * radiusSec
+
+circleSec.style.strokeDasharray = `$(curcumferenceSec) $(curcumferenceSec)`
+circleSec.style.strokeDasharray = curcumferenceSec
+
+function setProgressSec(percent){
+    const offset = curcumferenceSec - percent / -60 * curcumferenceSec
+    circleSec.style.strokeDashoffset = offset
+}
 
 
 
+const circleMin = document.querySelector('.progress_ring_circle_min')
+const radiusMin = circleMin.r.baseVal.value
+const curcumferenceMin = 2 * Math.PI * radiusMin
 
+circleMin.style.strokeDasharray = `$(curcumferenceMin) $(curcumferenceMin)`
+circleMin.style.strokeDasharray = curcumferenceMin
 
-
-
+function setProgresMin(percent){
+    const offset = curcumferenceMin - percent / -60 * curcumferenceMin
+    circleMin.style.strokeDashoffset = offset
+}
 
 
 
@@ -570,7 +580,7 @@ function getNotification(event, id){
 
 
 
-// home page
+// reports page
 if(queryStringMain == 'http://127.0.0.1:8000/reports' || queryStringMain == 'http://127.0.0.1:8000/en/reports'){
 
 const tableItems = document.getElementById('table_items')

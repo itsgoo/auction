@@ -36,7 +36,8 @@ from pytz import timezone as tze
 
 from itertools import chain
 
-from .tasks import sending_email_about_new_price, start_auction_notification, new_registration
+from .tasks import sending_email_about_new_price, start_auction_notification, new_registration, auction_in_schedule
+
 
 
 class userGroups:
@@ -61,6 +62,20 @@ class userGroups:
 
 
         return true_admin
+
+
+class Company(View):
+    def get(self, request):
+
+        return render(request, 'company.html')
+
+
+
+
+
+
+
+
 
 
 class UserReports(View):
@@ -499,7 +514,7 @@ class CreateAuction(View):
                 s.save()
                 print('schedule', s)
                 
-
+                # auction_in_schedule(s.id, start_auction, start_auction_time)
 
             return redirect ('index')
 

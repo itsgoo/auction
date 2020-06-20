@@ -228,11 +228,12 @@ line-height: 24px;
 
 .auction_title{
     font-size: 36px !important;
+    font-weight: 600;
 }
 
 .auction_id{
     font-weight: 600;
-    font-size: 16px;
+    font-size: 16px !important;
     line-height: 24px;
 }
 
@@ -301,13 +302,75 @@ width: 40px;
     min-height: 50px;
 }
 
-.all_time_div {
-    margin: 100% 0;
+
+@media only screen and (min-width: 1201px) {
+
+
+    .all_time_div {
+        margin: 50% 0;
+        overflow: hidden;
+    }
+
+
+    .card_one{
+        -ms-flex: 0 0 100%;
+        flex: 0 0 100%;
+        max-width: 100%;
+        margin-bottom: 20px !important;
+    }
+
+
 }
 
 
-.time_desc{
+
+
+@media only screen and (min-width: 768px)  and (max-width: 1200px) {
+
+
+    .all_time_div {
+        margin: 50% 0;
+        overflow: hidden;
+    }
+    .card_one{
+        flex: 0 0 50% !important;
+        max-width: 50% !important;
+        margin-bottom: 20px !important;
+    }
+
+}
+
+
+
+@media only screen and (max-width: 767px) and (min-width: 300px)  {
+
+
+    .all_time_div {
+        overflow: hidden;
+    }
+
+
+    .card_one{
+        -ms-flex: 0 0 100%;
+        flex: 0 0 100%;
+        max-width: 100%;
+        margin-bottom: 20px !important;
+    }
+
+
+}
+
+
+
+
+
+.time_desc {
     box-sizing: inherit;
+    position: absolute;
+    top: 38px;
+    left: -10px;
+    color: #727586;
+    font-weight: 400;
 }
 
 .all_time_desc{
@@ -325,5 +388,101 @@ width: 40px;
 }
 
 
+.progress_ring_circle_sec{
+    transform-origin: center;
+    transform: rotate(-90deg);
+    transition: stroke-dashoffset 0.5s;
+}
 
+
+.progress_ring_circle_min{
+    transform-origin: center;
+    transform: rotate(-90deg);
+    transition: stroke-dashoffset 0.5s;
+}
+
+
+
+.time_div_min {
+    position: relative;
+    
+    margin: 0 20px 0 0;
+
+}
+
+.time_div_sec {
+    position: relative;
+    
+}
+
+.progress_ring {
+
+}
+
+
+.all_time_desc {
+    position: absolute;
+    top: 75px;
+    left: 43px;
+    font-size: 30px;
+    font-weight: 600;
+}
+
+
+
+
+.owl-carousel .owl-item img {
+    margin: 0 auto;
+    /* width: auto !important; */
+}
+
+
+.card_img_custom {
+    width: auto !important;
+    border-radius: calc(.25rem - 1px);
+    max-height: 400px;
+    margin: 0 auto;
+    display: block;
+}
+
+.card_body_custom{
+    padding: 0 0 0 0 !important;
+}
+
+
+
+.time_start_div {
+    width: 121px;
+    height: 53px;
+    background: #0E0C22;
+    color: #fff;
+    text-align: center;
+    font-size: 16px;
+    border-radius: 3px;
+    line-height: 20px;
+    position: absolute;
+    top: 4%;
+}
+
+.time_start_text{
+    line-height: 20px;
+    font-size: 16px;
+}
+
+
+.time_start_span {
+    overflow: hidden;
+    padding: 6px 0 0 15px;
+    float: left;
+}
+
+
+.mb-40{
+    margin-bottom:40px;
+}
+
+
+.mb-15{
+    margin-bottom:15px;
+}
 
