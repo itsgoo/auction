@@ -47,6 +47,7 @@ for( i = 0; i < rad.length; i++) {
             console.log('prev == automatic ' + prev)
             formStartAuction.classList.remove('show_start_auction')
             document.getElementById('id_start_auction').value = '0001-01-01'
+            document.getElementById('id_start_auction').min = ''
 
         }else if(prev == 'manual'){
             console.log('prev == manual ' + prev)

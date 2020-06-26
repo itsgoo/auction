@@ -18,17 +18,6 @@ MEDIA_DIR = os.path.join(BASE_DIR, 'media')
 MEDIA_ROOT = MEDIA_DIR
 MEDIA_URL = '/media/'
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'ue_#vhs%9793v_cx2yrqa4ehun0_9f!%uhr-se!v@h1yc)+1fz'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -84,12 +73,6 @@ WSGI_APPLICATION = 'celery_proj.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
 
 
 # Password validation
@@ -137,12 +120,6 @@ LOCALE_PATHS = [
 STATIC_URL = '/static/'
 
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static')
-]
-
-
-
 
 
 
@@ -164,6 +141,8 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'kurdalin.hi@gmail.com'
 EMAIL_HOST_PASSWORD = 'kurdalin86high'
+# EMAIL_HOST_USER = '10bid.info@gmail.com'
+# EMAIL_HOST_PASSWORD = 'guyguy11'
 EMAIL_USE_TLS = True
 # EMAIL_USE_SSL = False
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -177,3 +156,7 @@ LANGUAGES = {
     ('he', gettext('Hebrew')),
 }
 
+try:
+    from .local_settings import *
+except ImportError :
+    from .prod_settings import *

@@ -22,7 +22,6 @@
       <div class="header_to_slide"> {% trans "The portal is your gate to the auction arena" %} 
         <span class="he_word2">_ </span> </span> <span class="he_word"> 10Bid</span>
       </div>
-      <p>bids when you wont life</p>
     </div>
     
     <img class="slider_img" src="/media/file/slider1.png" alt="">  </div>
@@ -45,6 +44,7 @@ $('.owl-carousel').owlCarousel({
 
 
 </script>
+
 
 
 
@@ -424,10 +424,22 @@ $('.owl-carousel').owlCarousel({
 
 
 
+
+
+
+
+
+
+
+
+
+
+
         <div class="price_block" >
           <!-- {{i.start_price}} -->
 
           {% for p in prices %}
+          
             {% if p.auction_id == i.id and p.winner == 1%}
             
             <p >{% trans 'Current price' %}: <span class="current_price_num">&#8362;</span>  <span id="actual_price_val_{{i.id}}" class="current_price_num">{{p.new_price}}</span></p>
@@ -437,35 +449,36 @@ $('.owl-carousel').owlCarousel({
               
 
             
-            {% if user.is_authenticated and user.id != i.seller_id %}
-  
+                {% if user.is_authenticated and user.id != i.seller_id %}
+      
 
-              {% if i.seller_id ==  p.buyer_id.id %}
-                
-                <span id="current_buyer_{{i.id}}">{% trans 'your bid will be first' %}</span>
-
-
+                      {% if i.seller_id ==  p.buyer_id.id %}
+                        
+                          <span id="current_buyer_{{i.id}}">{% trans 'your bid will be first' %}</span>
 
 
-              {% else %}
-                
 
-              {% trans 'Leader ' %}:
-                <span id="current_buyer_{{i.id}}">{{p.buyer_id.id}}</span>
 
-              {% endif %}
-            
-              {% else %}
+                      {% else %}
+                        
 
-                <span id="current_buyer_{{i.id}}">{% trans 'you need to wait until someone to bid' %}</span>
+                          {% trans 'Leader ' %}:
+                            <span id="current_buyer_{{i.id}}">{{p.buyer_id.id}}</span>
+
+                      {% endif %}
+                    
+                  {% else %}
+
+                  <span id="current_buyer_{{i.id}}">{% trans 'you need to wait until someone to bid' %}</span>
 
 
 
             {% endif %}
 
           </p>
-
+          
             {% endif %}
+            
           {% endfor %}
 
 

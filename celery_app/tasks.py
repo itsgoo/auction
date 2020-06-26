@@ -398,6 +398,7 @@ def auction_in_schedule(auction_id, active_time_auction, free_hour):
     auction = Auctions.objects.get(id = auction_id)
     email = auction.seller.email
     auction_name = auction.title
+    # text = 'ok'
     text = 'your auction: %s will in schedule at %s and %d hour' %(auction_name, active_time_auction, int(free_hour))
 
     send_mail(
@@ -487,6 +488,7 @@ def new_registration(email):
 @shared_task
 def start_auction_to_seller(seller_id):
     
+    print('notif start_auction_to_seller seller_id', seller_id)
     user = User.objects.get(id = seller_id)
 
     text = 'Your auction was start'
@@ -494,7 +496,7 @@ def start_auction_to_seller(seller_id):
     
     print('notif start_auction_to_seller', email)
     send_mail(
-        'Congratulation!',
+        'Congratulation!!!',
         text,
         'admin@onehourbid.com',
         [email],
@@ -519,6 +521,10 @@ def auction_to_schedule(email):
 
 @shared_task
 def notif_end_of_auciton(auction_id):
+
+    print('start func notif_end_of_auciton id', auction_id)
+
+
 
     auctions_width_no_bids = Prices.objects.filter(auction_id = auction_id).select_related('auction').prefetch_related('auction__seller').order_by('new_price_time')
 

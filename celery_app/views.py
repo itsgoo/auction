@@ -36,7 +36,7 @@ from pytz import timezone as tze
 
 from itertools import chain
 
-from .tasks import sending_email_about_new_price, start_auction_notification, new_registration, auction_in_schedule
+from .tasks import sending_email_about_new_price, start_auction_notification, new_registration, auction_in_schedule, start_auction_to_seller, notif_end_of_auciton
 
 
 
@@ -703,6 +703,15 @@ class Index(View):
 
     def get(self, request):
 
+        # delete past didnt work auctions
+        # auction_test = Auctions.objects.get(id = 111)
+        # auction_test.start_auction = '0001-01-01'
+        # sh_test = ScheduleAuction.objects.get(auction_id = 111)
+        # sh_test.delete()
+
+
+
+        # notif_end_of_auciton.delay(114)
 
 
         #get today date
@@ -749,7 +758,12 @@ class Index(View):
         auctions_today = Auctions.objects.filter(status=2).order_by('-start_auction')
         auctions_yesterday = Auctions.objects.filter(status=3).order_by('-start_auction')
 
-        prices = Prices.objects.filter()
+
+
+        
+
+
+        prices = Prices.objects.all()
 
         current_user = request.user
         auction_bids = Bids.objects.all()
