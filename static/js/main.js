@@ -234,6 +234,8 @@ const userStatus = document.getElementById('not_auth')
 
 
 
+console.log('userStatus' + userStatus.textContent)
+
 if(userStatus.textContent == 'someoneelse'){
     bidUpfunc()
 }

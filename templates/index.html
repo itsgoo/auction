@@ -269,12 +269,13 @@ $('.owl-carousel').owlCarousel({
 
   {% if user.id == i.seller_id%}
 
-  <span id="not_auth">sellerin</span>
+    <span id="not_auth">sellerin</span>
   {% elif user.id != i.seller_id%}
 
-  <span id="not_auth">someoneelse</span>
+    <span id="not_auth">someoneelse</span>
   {% endif %}
 
+  <span id="not_auth">user_auth</span>
 {% else %}
 <span id="not_auth">not_auth</span>
 {% endif %}
