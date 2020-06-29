@@ -1,7 +1,15 @@
 
 // create auction page
-const queryString = window.location
-if(queryString == 'http://127.0.0.1:8000/create' || queryString == 'http://127.0.0.1:8000/en/create'){
+let queryString = window.location
+queryString = String(queryString)
+let queryStringHost = window.location.origin
+queryStringHost = String(queryStringHost)
+queryStringHostCreate = queryStringHost + '/create'
+queryStringHostCreateEn = queryStringHost + '/en/create'
+
+
+
+if(queryString == queryStringHostCreate || queryString == queryStringHostCreateEn){
 
 
 
@@ -155,6 +163,11 @@ btnDateField.addEventListener('click', (event) => {
 
 })
 
+
+
+
+
+// end reports page
 }
 
 
@@ -177,9 +190,39 @@ function t(){
 
 window.scrollTo( 0, 1 );
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // home page
-const queryStringMain = window.location
-if(queryStringMain == 'http://127.0.0.1:8000/' || queryStringMain == 'http://127.0.0.1:8000/en/'){
+let queryStringMain = String(window.location)
+queryStringHostMain = queryStringHost + '/'
+queryStringHostMainEn = queryStringHost + '/en/'
+
+
+console.log(queryStringMain)
+console.log(queryStringHostMainEn)
+
+
+if(queryStringMain == queryStringHostMain || queryStringMain == queryStringHostMainEn){
 
 
 
@@ -581,14 +624,7 @@ function getNotification(event, id){
 
 
 
-
-
-
-
-
-
-
-
+// end home page
 }
 
 
@@ -598,8 +634,54 @@ function getNotification(event, id){
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // reports page
-if(queryStringMain == 'http://127.0.0.1:8000/reports' || queryStringMain == 'http://127.0.0.1:8000/en/reports'){
+
+queryStringHostReports = queryStringHost + '/reports'
+queryStringHostReportsEn = queryStringHost + '/en/reports'
+
+if(queryStringMain == queryStringHostReports || queryStringMain == queryStringHostReportsEn){
 
 const tableItems = document.getElementById('table_items')
 let colIndex = -1
@@ -685,6 +767,7 @@ tableItems.addEventListener('click', (event) => {
 
 
 
+// end reports page
 }
 
 
