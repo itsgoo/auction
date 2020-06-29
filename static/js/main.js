@@ -228,13 +228,15 @@ if(queryStringMain == queryStringHostMain || queryStringMain == queryStringHostM
 
 
 
+// check user status
 
 const userStatus = document.getElementById('not_auth')
 
 
+if (userStatus){
 
-// check user status
-console.log('userStatus' + userStatus.textContent)
+    console.log('userStatus' + userStatus.textContent)
+}
 
 if(userStatus.textContent == 'someoneelse'){
     bidUpfunc()
@@ -463,10 +465,12 @@ function updateClock2() {
     setProgresMin(minLeft)
 
 
-
+//end update clock
 }
 
 timer2 = setInterval(updateClock2, 1000);
+
+
 
 
 
@@ -497,7 +501,7 @@ function setProgresMin(percent){
     circleMin.style.strokeDashoffset = offset
 }
 
-
+//end clock and curcles
 
 
 
