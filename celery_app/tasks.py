@@ -406,6 +406,7 @@ def auction_in_schedule(auction_id, active_time_auction, free_hour):
         text,
         'admin@onehourbid.com',
         [email],
+        fail_silently = False
     )
     print('notif auction_in_schedule id', auction_id)
 
@@ -460,6 +461,7 @@ def start_auction_notification():
                 text,
                 'admin@onehourbid.com',
                 [notif.subscriber.email],
+                fail_silently = False
             )
             current_subscribers.remove(notif.subscriber.email)
     
@@ -480,6 +482,7 @@ def new_registration(email):
         text,
         'admin@onehourbid.com',
         [email],
+        fail_silently = False
     )
 
 
@@ -500,6 +503,7 @@ def start_auction_to_seller(seller_id):
         text,
         'admin@onehourbid.com',
         [email],
+        fail_silently = False
     )
 
 
@@ -515,6 +519,7 @@ def auction_to_schedule(email):
         text,
         'admin@onehourbid.com',
         [email],
+        fail_silently = False
     )
 
 
@@ -542,6 +547,7 @@ def notif_end_of_auciton(auction_id):
                     text,
                     'admin@onehourbid.com',
                     [email],
+                    fail_silently = False
                 )
 
                 break
@@ -560,6 +566,7 @@ def notif_end_of_auciton(auction_id):
                     text,
                     'admin@onehourbid.com',
                     [email],
+                    fail_silently = False
                 )
 
                 print('notif notif_end_of_auciton sold seller', price.auction.seller.email)
@@ -568,6 +575,7 @@ def notif_end_of_auciton(auction_id):
                     'your auction was sold for %d' %price.new_price,
                     'admin@onehourbid.com',
                     [price.auction.seller.email],
+                    fail_silently = False
                 )
 
                 # add athis email to players array
@@ -584,6 +592,7 @@ def notif_end_of_auciton(auction_id):
                         text,
                         'admin@onehourbid.com',
                         [email],
+                        fail_silently = False
                     )
 
                     players.append(price.buyer_id.email)
@@ -608,6 +617,7 @@ def sending_email_about_new_price(buyer_id, auction_title, bid, email):
         text,
         'admin@onehourbid.com',
         [email],
+        fail_silently = False
     )
 
 
