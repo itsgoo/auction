@@ -233,7 +233,7 @@ if(queryStringMain == queryStringHostMain || queryStringMain == queryStringHostM
 const userStatus = document.getElementById('not_auth')
 
 
-if (userStatus){
+if (userStatus !== Null){
 
     console.log('userStatus' + userStatus.textContent)
 }
