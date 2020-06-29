@@ -628,6 +628,26 @@ def sending_email_about_new_price(buyer_id, auction_title, bid, email):
 
 
 
+@shared_task
+def test_mail(email):
+    
+    #get today date
+    test_1 = date.today()
+    s_year = test_1.year
+    s_month = test_1.month
+    s_day = test_1.day
+    s_date_this_day = date(s_year, s_month, s_day)
+    title = 'test mail' , s_date_this_day, ' !'
+    text = 'test message'
+    
+    send_mail(
+        title,
+        text,
+        'admin@onehourbid.com',
+        [email],
+        fail_silently = False
+    )
+
 
 
 

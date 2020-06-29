@@ -36,7 +36,7 @@ from pytz import timezone as tze
 
 from itertools import chain
 
-from .tasks import sending_email_about_new_price, start_auction_notification, new_registration, auction_in_schedule, start_auction_to_seller, notif_end_of_auciton
+from .tasks import sending_email_about_new_price, start_auction_notification, new_registration, auction_in_schedule, start_auction_to_seller, notif_end_of_auciton, test_mail
 
 
 
@@ -66,7 +66,7 @@ class userGroups:
 
 class Company(View):
     def get(self, request):
-
+        test_mail.delay('moris.dmitry@gmail.com')
         return render(request, 'company.html')
 
 
