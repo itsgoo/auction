@@ -719,9 +719,7 @@ class Index(View):
         s_year = test_1.year
         s_month = test_1.month
         s_day_today = test_1.day
-        s_day = test_1.day + 1
         s_date_day_today = date(s_year, s_month, s_day_today)
-
 
         full_next_date = test_1 + timedelta(days=1)
         fnd_year = full_next_date.year
