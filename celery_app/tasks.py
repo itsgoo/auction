@@ -193,10 +193,14 @@ def everyDaySchedule():
 
     #get today date
     test_1 = date.today()
-    s_year = test_1.year
-    s_month = test_1.month
-    s_day = test_1.day + 1
-    s_date_next_day = date(s_year, s_month, s_day)
+
+    full_next_date = test_1 + timedelta(days=1)
+    fnd_year = full_next_date.year
+    fnd_month = full_next_date.month
+    fnd_day = full_next_date.day
+
+    s_date_next_day = date(fnd_year, fnd_month, fnd_day)
+
     print('new format active_date_time', s_date_next_day)
 
 
@@ -228,7 +232,7 @@ def everyDaySchedule():
 
     new_days = []
 
-    next_date = date(s_year, s_month, s_day)
+    next_date = date(fnd_year, fnd_month, fnd_day)
     end_date = busy_times_date[-1]
 
     while next_date <= end_date:
