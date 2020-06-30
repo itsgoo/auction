@@ -721,8 +721,16 @@ class Index(View):
         s_day_today = test_1.day
         s_day = test_1.day + 1
         s_date_day_today = date(s_year, s_month, s_day_today)
-        s_date_next_day = date(s_year, s_month, s_day)
-        print('new format active_date_time', s_date_next_day)
+
+
+        full_next_date = test_1 + timedelta(days=1)
+        fnd_year = full_next_date.year
+        fnd_month = full_next_date.month
+        fnd_day = full_next_date.day
+
+        s_date_next_day = date(fnd_year, fnd_month, fnd_day)
+        print('new format s_date_day_today', s_date_day_today)
+        print('new format s_date_next_day', s_date_next_day)
 
 
 
